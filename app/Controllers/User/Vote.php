@@ -27,6 +27,14 @@ class Vote extends UserController {
             return redirect()->to('user/home');
         }
 
+        $pemilihModel = model('App\Models\PemilihModel');
+
+        $pemilih = $pemilihModel->find($this->userLogin->getToken());
+        if (isset($pemilih)) {
+            $this->session->set('status', new Status('error', 'Anda tercatat sudah melakukan voting sebelumnya. Dengan demikian, anda hanya dapat memilih satu kali saja'));
+            return redirect()->to('user/home');
+        }
+
         $capresModel = model('App\Models\CapresModel');
         $calegModel = model('App\Models\CalegModel');
 
@@ -40,24 +48,17 @@ class Vote extends UserController {
             if ($idcaleg === '') { $idcaleg = NULL; }
 
             if (isset($idcapres) && ((!isset($idcaleg) && ($jmlCaleg == 0)) || (($jmlCaleg > 0) && isset($idcaleg)))) {
-                $pemilihModel = model('App\Models\PemilihModel');
+                $this->session->set('status', new Status('success', 'Pilihan berhasil disimpan. Terima kasih telah menggunakan hak pilih anda'));
 
-                $pemilih = $pemilihModel->find($this->userLogin->getToken());
-                if (!isset($pemilih)) {
-                    $this->session->set('status', new Status('success', 'Pilihan berhasil disimpan. Terima kasih telah menggunakan hak pilih anda'));
+                $pemilih = new Pemilih();
+                $pemilih->Token = $this->userLogin->getToken();
+                $pemilih->Secret = md5(base64_encode($_ENV['pemira.token.secret']));
+                $pemilih->IDProdi = $this->userLogin->IDProdi;
+                $pemilih->IDCapres = $idcapres;
+                $pemilih->IDCaleg = $idcaleg;
+                $pemilihModel->insert($pemilih);
 
-                    $pemilih = new Pemilih();
-                    $pemilih->Token = $this->userLogin->getToken();
-                    $pemilih->Secret = md5(base64_encode($_ENV['pemira.token.secret']));
-                    $pemilih->IDProdi = $this->userLogin->IDProdi;
-                    $pemilih->IDCapres = $idcapres;
-                    $pemilih->IDCaleg = $idcaleg;
-                    $pemilihModel->insert($pemilih);
-
-                    return redirect()->to('user/home');
-                } else {
-                    $this->session->set('status', new Status('error', 'Anda tercatat sudah melakukan voting sebelumnya. Dengan demikian, anda hanya dapat memilih satu kali saja'));
-                }
+                return redirect()->to('user/home');
             } else {
                 $this->session->set('status', new Status('error', 'Anda harus memilih capres dan caleg (jika ada)!'));
             }
