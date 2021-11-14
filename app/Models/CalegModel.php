@@ -11,17 +11,43 @@ class CalegModel extends Model {
 
     protected $returnType = 'App\Entities\Caleg';
 
-    public function viewTotalPemilih($id = NULL) {
+    protected $allowedFields = ['id', 'nama', 'idprodi', 'idfoto'];
+
+    public function findByProdi($idprodi) {
+        return $this->where('idprodi', $idprodi)->findAll();
+    }
+
+    public function viewTotalPemilih($idprodi) {
         $qb = $this->builder();
 
-        $qb->select('caleg.id, caleg.nama, IFNULL(COUNT(*), 0) AS jumlah', FALSE);
-        $qb->join('pemilih_caleg', 'pemilih_caleg.idcapres = caleg.id', 'LEFT', FALSE);
-        $qb->groupBy('caleg.id, caleg.nama');
+        $qb->select('caleg.id, caleg.nama, prodi.nama prodi, SUM(CASE WHEN pemilih.token IS NULL THEN 0 ELSE 1 END) jumlah', FALSE);
+        $qb->join('pemilih', 'pemilih.idcaleg = caleg.id', 'LEFT', FALSE);
+        $qb->join('prodi', 'prodi.id = caleg.idprodi', 'LEFT', FALSE);
+        $qb->where('prodi.id', $idprodi);
+        $qb->groupBy('caleg.id, caleg.nama', FALSE);
+        $qb->orderBy('jumlah', 'DESC');
 
-        if (isset($id)) {
-            return $qb->where('caleg.id', $id, FALSE)->get()->getRow();
-        }
         return $qb->get()->getResult();
+    }
+
+    public function fetch($draw, $start, $length, $search) {
+        $result = [];
+
+        $qb = $this->builder();
+
+        $qb->select('caleg.id, caleg.nama, prodi.nama prodi', FALSE);
+        $qb->join('prodi', 'prodi.id = caleg.idprodi', 'INNER', FALSE);
+        $result['recordsTotal'] = $qb->countAllResults(FALSE);
+
+        $qb->like('caleg.nama', $search);
+        $result['recordsFiltered'] = $qb->countAllResults(FALSE);
+
+        $qb->limit($length, $start);
+
+        $result['data'] = $qb->get()->getResult();
+        $result['draw'] = $draw;
+
+        return $result;
     }
 
 }

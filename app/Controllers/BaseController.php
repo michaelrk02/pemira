@@ -15,12 +15,16 @@ class BaseController extends Controller {
 
     protected $status;
 
+    protected $menus = [];
+
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger) {
         parent::initController($request, $response, $logger);
 
         $this->session = \Config\Services::session();
 
         $this->initStatus();
+
+        date_default_timezone_set('Asia/Jakarta');
     }
 
     protected function initStatus() {
@@ -31,6 +35,19 @@ class BaseController extends Controller {
             $this->status = $this->session->get('status');
             $this->session->remove('status');
         }
+    }
+
+    protected function viewHeader($title, $sidebarOnly = FALSE) {
+        return view('header', [
+            'title' => $title,
+            'menus' => $this->menus,
+            'status' => $this->status,
+            'sidebarOnly' => $sidebarOnly
+        ]);
+    }
+
+    protected function viewFooter() {
+        return view('footer');
     }
 }
 

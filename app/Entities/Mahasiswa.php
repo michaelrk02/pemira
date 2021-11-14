@@ -14,6 +14,9 @@ class Mahasiswa extends Entity {
         'SSO' => 'sso'
     ];
 
+    public $Prodi = '';
+    public $SudahVote = FALSE;
+
     public function getToken() {
         return md5(base64_encode($_ENV['pemira.token.secret']).':'.$this->NIM);
     }

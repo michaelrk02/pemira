@@ -13,7 +13,7 @@ class Home extends BaseController {
     }
 
     public function index() {
-        return redirect()->to(site_url('user/home'));
+        return redirect()->to('user/home');
     }
 
 }

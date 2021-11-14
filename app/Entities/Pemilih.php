@@ -4,10 +4,13 @@ namespace App\Entities;
 
 use CodeIgniter\Entity\Entity;
 
-class PemilihCaleg extends Entity {
+class Pemilih extends Entity {
 
     protected $datamap = [
         'Token' => 'token',
+        'Secret' => 'secret',
+        'IDProdi' => 'idprodi',
+        'IDCapres' => 'idcapres',
         'IDCaleg' => 'idcaleg'
     ];
 

@@ -1,6 +1,7 @@
-function showToast(id, html, classes) {
+function showToast(html, classes) {
     if (typeof(classes) === 'undefined') { classes = ''; }
 
+    var id = Math.ceil(Math.random() * 10000);
     M.toast({html: '<div>' + html + '</div><div><button type="button" data-dismiss=".toast-id-' + id + '" class="waves-effect waves-light btn-flat white-text toast-dismiss" onclick="dismissToast(this)"><i class="fa fa-times"></i></button></div>', classes: 'toast-id-' + id + ' ' + classes, displayLength: 15000});
 }
 
@@ -11,7 +12,9 @@ function dismissToast(el) {
 }
 
 window.addEventListener('load', function() {
-    $('.sidenav').sidenav();
+    M.AutoInit();
+
+    $('select').formSelect();
 
     var status = $('#status').html();
     if (status.length > 0) {
@@ -29,7 +32,7 @@ window.addEventListener('load', function() {
             break;
         }
 
-        showToast('status', '<b>' + status + '</b>', classes);
+        showToast('<b>' + status + '</b>', classes);
     }
 });
 

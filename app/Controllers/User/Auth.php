@@ -23,39 +23,37 @@ class Auth extends UserController {
     }
 
     public function login() {
-        if ($this->login !== NULL) {
-            return redirect()->to(site_url('user/home'));
+        if ($this->userLogin !== NULL) {
+            return redirect()->to('user/home');
         }
 
         if ($this->request->getPost('submit') == 1) {
-            $files = $this->request->getFiles();
+            $file = $this->request->getFile('idcard');
 
-            if ($files->hasFile('idcard')) {
-                $file = $files->getFile('idcard');
-                if ($file->isValid()) {
-                    $data = file_get_contents($file->getTempName());
-                    $data = @base64_decode($data);
-                    $data = @json_decode($data, TRUE);
+            if ($file->isValid()) {
+                $mahasiswaModel = model('App\Models\MahasiswaModel');
 
-                    $nim = @$data['nim'];
-                    $token = @$data['token'];
-                    if (!empty($nim) && ($token === md5($_ENV['pemira.token.secret'].$nim))) {
-                        $mahasiswaModel = model('App\Models\MahasiswaModel');
+                $data = file_get_contents($file->getTempName());
+                $data = @base64_decode($data);
+                $data = @json_decode($data, TRUE);
 
-                        $mhs = $mahasiswaModel->find($nim);
-                        if (isset($mhs)) {
-                            $this->session->set('login', $mhs);
-                            $this->session->set('status', new Status('success', 'Selamat datang, '.esc($mhs->Nama).'!'));
-                            return redirect()->to(site_url('user/auth/home'));
-                        } else {
-                            $this->session->set('status', new Status('error', 'Mahasiswa tidak ditemukan'));
-                        }
+                $nim = @$data['nim'];
+                $token = @$data['token'];
+
+                $mhs = $mahasiswaModel->find($nim);
+                if (isset($mhs)) {
+                    if (!empty($nim) && ($mhs->SSO !== NULL) && ($token === $mhs->getToken())) {
+                        $this->session->set('user_login', $nim);
+                        $this->session->set('status', new Status('success', 'Selamat datang, '.esc($mhs->Nama).'!'));
+                        return redirect()->to('user/home');
                     } else {
-                        $this->session->set('status', new Status('error', 'Kartu akses tidak valid'));
+                        $this->session->set('status', new Status('error', 'Kartu akses tidak valid. Silakan untuk melakukan aktivasi sesuai identitas anda'));
                     }
                 } else {
-                    $this->session->set('status', new Status('error', 'Gagal mengunggah kartu akses'));
+                    $this->session->set('status', new Status('error', 'Mahasiswa tidak ditemukan'));
                 }
+            } else {
+                $this->session->set('status', new Status('error', 'Gagal mengunggah kartu akses'));
             }
         } else if ($this->request->getPost('submit') == 2) {
             $mahasiswaModel = model('App\Models\MahasiswaModel');
@@ -76,38 +74,35 @@ class Auth extends UserController {
                     $email = \Config\Services::email();
                     $email->setFrom($_ENV['pemira.mail.sender']);
                     $email->setTo($sso.'@'.$_ENV['pemira.mail.host']);
-                    $email->setSubject('Aktivasi Akun - PEMIRA FMIPA UNS 2021');
+                    $email->setSubject('Aktivasi Akun - '.$_ENV['pemira.info.title']);
                     $email->setMessage($message->getFullHTML());
                     $email->send();
 
                     $status = new Status('success', 'Link aktivasi NIM '.esc($nim).' ('.censor($mhsByNIM->Nama).') telah dikirim ke '.esc($sso.'@'.$_ENV['pemira.mail.host']).'. Silakan cek pada inbox + spam email SSO tersebut');
                 }
                 $this->session->set('status', $status);
+                if ($status->severity === 'success') {
+                    return redirect()->to('user/auth/login');
+                }
             } else {
                 $this->session->set('status', new Status('error', 'Harap untuk menginput username SSO terlebih dahulu'));
             }
         }
         $this->initStatus();
 
-        echo view('header', [
-            'title' => 'Masuk',
-            'menus' => $this->menus,
-            'status' => $this->status
-        ]);
+        echo $this->viewHeader('Masuk');
         echo view('user/auth/login');
-        echo view('footer');
+        echo $this->viewFooter();
     }
 
     public function logout() {
-        if ($this->login !== NULL) {
-            $this->session->remove('user_login');
-        }
-        return $home_redirect;
+        $this->session->remove('user_login');
+        return redirect()->to('user/home');
     }
 
     public function activate() {
-        if ($this->login !== NULL) {
-            return $this->home_redirect;
+        if ($this->userLogin !== NULL) {
+            return redirect()->to('user/home');
         }
 
         $token = WebToken::fromString($this->request->getGet('token') ?? '');
@@ -127,16 +122,12 @@ class Auth extends UserController {
                     $mahasiswaModel->update($nim, $mhsByNIM);
                 }
 
-                echo view('header', [
-                    'title' => 'Aktivasi Akun',
-                    'menus' => $this->menus,
-                    'status' => $this->status
-                ]);
+                echo $this->viewHeader('Aktivasi Akun');
                 echo view('user/auth/activate', [
                     'mhs' => $mahasiswaModel->viewFull($nim),
                     'accessCard' => site_url('user/auth/accesscard').'?token='.urlencode($token->toString())
                 ]);
-                echo view('footer');
+                echo $this->viewFooter();
                 return;
             } else {
                 $this->session->set('status', $status);
@@ -145,7 +136,7 @@ class Auth extends UserController {
             $this->session->set('status', new Status('error', 'Maaf! Token pada URL tidak valid'));
         }
 
-        return redirect()->to(site_url('user/auth/login'));
+        return redirect()->to('user/auth/login');
     }
 
     public function checkStatus() {
@@ -165,14 +156,23 @@ class Auth extends UserController {
 
         $token = WebToken::fromString($this->request->getGet('token') ?? '');
         if (isset($token)) {
-            $data = [
-                'nim' => $token->payload['nim'],
-                'token' => md5($_ENV['pemira.token.secret'].$token->payload['nim'])
-            ];
-            $data = json_encode($data);
-            $data = base64_encode($data);
-            $this->response->setStatusCode(200);
-            return $this->response->download('IDPEMIRA_'.$token->payload['nim'].'.idc', $data);
+            $mahasiswaModel = model('App\Models\MahasiswaModel');
+
+            $mhs = $mahasiswaModel->find($token->payload['nim']);
+            if (isset($mhs)) {
+                $this->response->setStatusCode(200);
+
+                $data = [
+                    'nim' => $token->payload['nim'],
+                    'token' => $mhs->getToken()
+                ];
+                $data = json_encode($data);
+                $data = base64_encode($data);
+
+                return $this->response->download('IDPEMIRA_'.$token->payload['nim'].'.idc', $data);
+            } else {
+                return $this->response->setStatusCode(404, 'Mahasiswa tidak ditemukan');
+            }
         } else {
             return $this->response->setStatusCode(403, 'Token pada URL tidak valid');
         }

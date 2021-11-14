@@ -11,7 +11,7 @@
                             <input type="file" id="input0_access_card" name="idcard">
                         </div>
                         <div class="file-path-wrapper">
-                            <input class="file-path validate" type="text">
+                            <input class="file-path validate" type="text" placeholder="Masukkan kartu akses di sini">
                         </div>
                         <span class="helper-text">Upload file kartu akses berformat <b>*.idc</b> yang telah anda download saat melakukan aktivasi</span>
                     </div>
@@ -52,7 +52,7 @@
 $(document).ready(function() {
     $('#check-activation-status').on('click', function() {
         $.get('checkstatus', {nim: $('#f1-nim').val(), sso: $('#f1-sso').val()}, function(data) {
-            showToast('checkstatus', data);
+            showToast(data);
         });
     });
 });

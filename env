@@ -128,6 +128,17 @@ app.sessionCookieName = 'pemira_session'
 # PEMIRA
 #--------------------------------------------------------------------
 
+pemira.admin.password = 'KopiNikmatNyamanDiLambung'
+
+pemira.info.title = 'PEMIRA FMIPA UNS 2021'
+pemira.info.year = 2021
+pemira.info.host = 'Fakultas MIPA Universitas Sebelas Maret'
+pemira.info.email = 'kprfmipauns21@gmail.com'
+pemira.info.ig = 'pemirafmipauns'
+pemira.info.cpno = '628123456789'
+pemira.info.cpname = 'Joker'
+pemira.info.copyright = 'KPR FMIPA UNS'
+
 pemira.mail.host = 'student.uns.ac.id'
 pemira.mail.sender = 'noreply@pemirafmipauns21.com'
 
