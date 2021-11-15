@@ -186,10 +186,18 @@ class Auth extends UserController {
                 if ($mhsByNIM->NIM === $mhsBySSO->NIM) {
                     return new Status('success', 'Mahasiswa dengan NIM '.esc($nim).' ('.censor($mhsByNIM->Nama).') sudah melakukan aktivasi akun menggunakan username SSO tersebut. Silakan untuk masuk menggunakan kartu akses yang sudah dikirim atau klik pada AKTIVASI lagi apabila kartu akses hilang');
                 } else {
-                    return new Status('error', 'Mahasiswa dengan NIM '.esc($nim).' ('.censor($mhsByNIM->Nama).') telah melakukan aktivasi dengan username SSO lain ('.esc(censor($mhsByNIM->SSO).'@'.$_ENV['pemira.mail.host']).'). Silakan untuk melapor ke contact person apabila hal ini merupakan kejanggalan');
+                    if (($mhsByNIM->SSO === NULL) || ($mhsByNIM->SSO === '')) {
+                        return new Status('error', 'Username SSO tersebut telah terpakai oleh mahasiswa lain ('.censor($mhsBySSO->Nama).'). Silakan untuk melapor ke contact person apabila hal ini merupakan kejanggalan');
+                    } else {
+                        return new Status('error', 'Mahasiswa dengan NIM '.esc($nim).' ('.censor($mhsByNIM->Nama).') telah melakukan aktivasi dengan username SSO lain ('.esc(censor($mhsByNIM->SSO).'@'.$_ENV['pemira.mail.host']).'). Silakan untuk melapor ke contact person apabila hal ini merupakan kejanggalan');
+                    }
                 }
             } else {
-                return new Status('success', 'Mahasiswa dengan NIM '.esc($nim).' ('.censor($mhsByNIM->Nama).') belum melakukan aktivasi akun. Silakan untuk melakukan aktivasi menggunakan username SSO yang anda inputkan jika benar');
+                if (($mhsByNIM->SSO !== NULL) && ($mhsByNIM->SSO !== '')) {
+                    return new Status('error', 'Mahasiswa dengan NIM '.esc($nim).' ('.censor($mhsByNIM->Nama).') telah melakukan aktivasi dengan username SSO lain ('.esc(censor($mhsByNIM->SSO).'@'.$_ENV['pemira.mail.host']).'). Silakan untuk melapor ke contact person apabila hal ini merupakan kejanggalan');
+                } else {
+                    return new Status('success', 'Mahasiswa dengan NIM '.esc($nim).' ('.censor($mhsByNIM->Nama).') belum melakukan aktivasi akun. Silakan untuk melakukan aktivasi menggunakan username SSO yang anda inputkan jika benar');
+                }
             }
         } else {
             return new Status('error', 'Mahasiswa dengan NIM tersebut tidak ditemukan');
