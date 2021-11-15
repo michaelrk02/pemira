@@ -182,12 +182,14 @@ class Auth extends UserController {
     protected function getActivationStatus($mhsByNIM, $mhsBySSO) {
         if (isset($mhsByNIM)) {
             $nim = $mhsByNIM->NIM;
-            if (isset($mhsBySSO) && ($mhsByNIM->NIM === $mhsBySSO->NIM)) {
-                return new Status('success', 'Mahasiswa dengan NIM '.esc($nim).' ('.censor($mhsByNIM->Nama).') sudah melakukan aktivasi akun menggunakan username SSO tersebut. Silakan untuk masuk menggunakan kartu akses yang sudah dikirim atau klik pada AKTIVASI lagi apabila kartu akses hilang');
-            } else if (!isset($mhsBySSO) && (($mhsByNIM->SSO === NULL) || ($mhsByNIM->SSO === ''))) {
+            if (isset($mhsBySSO)) {
+                if ($mhsByNIM->NIM === $mhsBySSO->NIM) {
+                    return new Status('success', 'Mahasiswa dengan NIM '.esc($nim).' ('.censor($mhsByNIM->Nama).') sudah melakukan aktivasi akun menggunakan username SSO tersebut. Silakan untuk masuk menggunakan kartu akses yang sudah dikirim atau klik pada AKTIVASI lagi apabila kartu akses hilang');
+                } else {
+                    return new Status('error', 'Mahasiswa dengan NIM '.esc($nim).' ('.censor($mhsByNIM->Nama).') telah melakukan aktivasi dengan username SSO lain ('.esc(censor($mhsByNIM->SSO).'@'.$_ENV['pemira.mail.host']).'). Silakan untuk melapor ke contact person apabila hal ini merupakan kejanggalan');
+                }
+            } else {
                 return new Status('success', 'Mahasiswa dengan NIM '.esc($nim).' ('.censor($mhsByNIM->Nama).') belum melakukan aktivasi akun. Silakan untuk melakukan aktivasi menggunakan username SSO yang anda inputkan jika benar');
-            } else if (isset($mhsBySSO) && ($mhsByNIM->SSO !== NULL) && ($mhsByNIM->SSO !== '')) {
-                return new Status('error', 'Mahasiswa dengan NIM '.esc($nim).' ('.censor($mhsByNIM->Nama).') telah melakukan aktivasi dengan username SSO lain ('.esc(censor($mhsByNIM->SSO).'@'.$_ENV['pemira.mail.host']).'). Silakan untuk melapor ke contact person apabila hal ini merupakan kejanggalan');
             }
         } else {
             return new Status('error', 'Mahasiswa dengan NIM tersebut tidak ditemukan');
