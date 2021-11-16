@@ -15,8 +15,8 @@
             <hr>
             <div>
                 <div class="row">
-                    <div class="col"><img width="96" height="96" src="<?php echo base_url('public/pemira/img/ttd-kpr.png'); ?>"></div>
                     <div class="col"><img width="96" height="96" src="<?php echo base_url('public/pemira/img/logo-kpr.png'); ?>"></div>
+                    <div class="col"><img width="96" height="96" src="<?php echo base_url('public/pemira/img/ttd-kpr.png'); ?>"></div>
                 </div>
                 <p><i>Tertanda, <?php echo esc($_ENV['pemira.info.copyright']); ?></i></p>
             </div>
