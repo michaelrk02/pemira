@@ -16,9 +16,8 @@ class ProdiModel extends Model {
     public function viewSesi($id = NULL) {
         $qb = $this->builder();
 
-        $qb->select('prodi.id, prodi.nama, sesi.id sesi_id, sesi.nama sesi_nama, sesi.waktu_buka sesi_waktu_buka, sesi.waktu_tutup sesi_waktu_tutup', FALSE);
-        $qb->join('sesi_prodi', 'sesi_prodi.idprodi = prodi.id', 'INNER', FALSE);
-        $qb->join('sesi', 'sesi.id = sesi_prodi.idsesi', 'INNER', FALSE);
+        $qb->select('v.id, v.nama, v.sesi_id, v.sesi_nama, v.sesi_waktu_buka, v.sesi_waktu_tutup', FALSE);
+        $qb->join('v_prodi_listsesi v', 'v.id = prodi.id', 'INNER', FALSE);
 
         if (isset($id)) {
             $qb->where('prodi.id', $id, FALSE);
@@ -29,24 +28,19 @@ class ProdiModel extends Model {
     public function canVote($id) {
         $qb = $this->builder();
 
-        $qb->select('COUNT(*) memenuhi', FALSE);
-        $qb->join('sesi_prodi', 'sesi_prodi.idprodi = prodi.id', 'LEFT', FALSE);
-        $qb->join('sesi', 'sesi.id = sesi_prodi.idsesi', 'LEFT', FALSE);
-        $qb->where('prodi.id', $id, FALSE);
-        $qb->where('sesi.waktu_buka <= UNIX_TIMESTAMP(NOW())', NULL, FALSE);
-        $qb->where('UNIX_TIMESTAMP(NOW()) < sesi.waktu_tutup', NULL, FALSE);
+        $qb->select('v.canvote');
+        $qb->join('v_prodi_canvote v', 'v.id = prodi.id', 'INNER', FALSE);
+        $qb->where('prodi.id', $id);
         $row = $qb->get()->getRow();
 
-        return $row->memenuhi > 0;
+        return !empty($row->canvote);
     }
 
-    public function viewPemilih() {
+    public function viewStatistik() {
         $qb = $this->builder();
 
-        $qb->select('prodi.id, prodi.nama, v_kuotaprodi.kuota, SUM(CASE WHEN pemilih.token IS NULL THEN 0 ELSE 1 END) jumlah', FALSE);
-        $qb->join('v_kuotaprodi', 'v_kuotaprodi.id = prodi.id', 'LEFT', FALSE);
-        $qb->join('pemilih', 'pemilih.idprodi = prodi.id', 'LEFT', FALSE);
-        $qb->groupBy('prodi.id, prodi.nama', FALSE);
+        $qb->select('v.id, v.nama, v.pemilih, v.useraktif, v.kuota', FALSE);
+        $qb->join('v_prodi_statistik v', 'v.id = prodi.id', 'INNER', FALSE);
 
         return $qb->get()->getResult();
     }
@@ -54,8 +48,8 @@ class ProdiModel extends Model {
     public function getTotalKuota() {
         $qb = $this->builder();
 
-        $qb->select('SUM(v_kuotaprodi.kuota) jumlah', FALSE);
-        $qb->join('v_kuotaprodi', 'v_kuotaprodi.id = prodi.id', 'INNER', FALSE);
+        $qb->select('SUM(v.jumlah) jumlah', FALSE);
+        $qb->join('v_prodi_kuota v', 'v.id = prodi.id', 'INNER', FALSE);
 
         return $qb->get()->getRow()->jumlah;
     }

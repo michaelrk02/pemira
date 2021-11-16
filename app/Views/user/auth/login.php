@@ -1,9 +1,15 @@
 <div class="container" style="margin-top: 4rem; margin-bottom: 4rem">
+    <h3>Masuk</h3>
     <div class="row">
         <div class="col s12 m6">
             <h5 class="center-align">Sudah Memiliki Kartu Akses?</h5>
             <div class="divider"></div>
             <form method="post" enctype="multipart/form-data" style="margin-top: 1rem">
+                <div class="row">
+                    <div class="col">
+                        Silakan untuk mengunggah file kartu akses yang telah anda download apabila sudah memilikinya
+                    </div>
+                </div>
                 <div class="row">
                     <div class="file-field input-field col s12">
                         <div class="btn blue">
@@ -28,6 +34,11 @@
             <div class="divider"></div>
             <form method="post" style="margin-top: 1rem">
                 <div class="row">
+                    <div class="row">
+                        <div class="col">
+                            Jika belum memiliki kartu akses (atau file kartu akses hilang), masukkan NIM dan username SSO anda di bawah kemudian klik tombol <b>AKTIVASI</b> untuk mendapatkan kartu akses
+                        </div>
+                    </div>
                     <div class="input-field col s12">
                         <input id="f1-nim" name="nim" type="text" class="validate" value="<?php echo set_value('nim'); ?>">
                         <label for="f1-nim">NIM</label>

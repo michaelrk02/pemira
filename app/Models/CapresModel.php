@@ -16,9 +16,8 @@ class CapresModel extends Model {
     public function viewTotalPemilih() {
         $qb = $this->builder();
 
-        $qb->select('capres.id, capres.nama, capres.idfoto, SUM(CASE WHEN pemilih.token IS NULL THEN 0 ELSE 1 END) jumlah', FALSE);
-        $qb->join('pemilih', 'pemilih.idcapres = capres.id', 'LEFT', FALSE);
-        $qb->groupBy('capres.id, capres.nama, capres.idfoto', FALSE);
+        $qb->select('v.id, v.nama, v.idfoto, v.jumlah', FALSE);
+        $qb->join('v_capres_pemilih v', 'v.id = capres.id', 'INNER', FALSE);
 
         return $qb->get()->getResult();
     }

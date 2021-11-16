@@ -23,6 +23,9 @@
         <!-- Lodash -->
         <script src="<?php echo base_url('public/lodash/js/lodash.min.js'); ?>"></script>
 
+        <!-- Chart.js -->
+        <script src="<?php echo base_url('public/chart/js/chart.min.js'); ?>"></script>
+
         <!-- PEMIRA -->
         <script src="<?php echo base_url('public/pemira/js/pemira.js'); ?>"></script>
 

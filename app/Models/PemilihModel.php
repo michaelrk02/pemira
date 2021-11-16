@@ -16,9 +16,18 @@ class PemilihModel extends Model {
     public function getTotalPemilih() {
         $qb = $this->builder();
 
-        $qb->select('COUNT(*) jumlah');
+        $qb->select('COUNT(*) jumlah', FALSE);
 
         return $qb->get()->getRow()->jumlah;
+    }
+
+    public function isValid() {
+        $qb = $this->builder();
+
+        $qb->select('COUNT(*) jumlah', FALSE);
+        $qb->where('secret !=', md5(base64_encode($_ENV['pemira.token.secret'])));
+
+        return $qb->get()->getRow()->jumlah == 0;
     }
 
     public function fetch($draw, $start, $length, $idcapres, $idcaleg) {

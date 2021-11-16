@@ -9,7 +9,7 @@
                         <?php else: ?>
                             <img src="<?php echo base_url('public/pemira/img/foto-default.png'); ?>">
                         <?php endif; ?>
-                        <div class="card-title" style="width: 100%; background-image: linear-gradient(to top, rgba(40, 40, 40, 255), rgba(40, 40, 40, 0))">Suara: <span class="recap" data-count="<?php echo /*$capres->jumlah*/ rand(100, 1000); ?>">0</span></div>
+                        <div class="card-title" style="width: 100%; background-image: linear-gradient(to top, rgba(40, 40, 40, 255), rgba(40, 40, 40, 0))">Suara: <span class="recap" data-count="<?php echo $capres->jumlah; ?>">0</span></div>
                     </div>
                     <div class="card-content">
                         <p>No Urut: <b><?php echo esc($capres->id); ?></b></p>

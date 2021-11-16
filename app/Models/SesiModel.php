@@ -16,9 +16,8 @@ class SesiModel extends Model {
     public function viewProdi($id = NULL) {
         $qb = $this->builder();
 
-        $qb->select('sesi.id, sesi.nama, sesi.waktu_buka, sesi.waktu_tutup, prodi.id prodi_id, prodi.nama prodi_nama', FALSE);
-        $qb->join('sesi_prodi', 'sesi_prodi.idsesi = sesi.id', 'INNER', FALSE);
-        $qb->join('prodi', 'prodi.id = sesi_prodi.idprodi', 'INNER', FALSE);
+        $qb->select('v.id, v.nama, v.waktu_buka, v.waktu_tutup, v.prodi_id, v.prodi_nama', FALSE);
+        $qb->join('v_sesi_listprodi v', 'v.id = sesi.id', 'INNER', FALSE);
 
         if (isset($id)) {
             $qb->where('sesi.id', $id);

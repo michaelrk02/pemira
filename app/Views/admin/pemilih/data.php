@@ -12,6 +12,10 @@
             </div>
             <div><button type="submit" class="btn">GO</button></div>
         </form>
+        <div style="margin: 1rem">
+            <p>Token Secret Hash: <b><?php echo $tokenSecretHash; ?></b> <a class="tooltipped" data-location="top" data-tooltip="Apa maksudnya ini?" href="#!" onclick="showTokenSecretHashUsage(event)"><i class="fa fa-info-circle"></i></a></p>
+            <p>Status hasil rekapitulasi: <?php echo $valid ? '<b class="green white-text" style="padding: 4px">DAPAT DIPERCAYA</b>' : '<b class="red white-text" style="padding: 4px">TIDAK DAPAT DIPERCAYA</b>'; ?></p>
+        </div>
         <div class="z-depth-3" style="margin: 1rem">
             <div style="padding: 1rem">
                 <table id="data-pemilih" class="striped highlight display nowrap" style="width: 100%"></table>
@@ -20,6 +24,11 @@
     </div>
 </div>
 <script>
+function showTokenSecretHashUsage(e) {
+    e.preventDefault();
+    showToast('\'Token Secret Hash\' digunakan untuk mengecek validitas suatu token. Jika ditemukan suatu token yang tidak valid, sangat disarankan untuk menghapus entri tersebut melalui database secara langsung');
+}
+
 $(document).ready(function() {
     $('#data-pemilih').DataTable({
         serverSide: true,

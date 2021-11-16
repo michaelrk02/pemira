@@ -36,8 +36,67 @@
     </div>
 </div>
 <div class="container" style="margin-bottom: 4rem">
-    <h3 class="center-align">Live Count</h3>
-    <div class="center-align" id="live-count"></div>
+    <div style="margin: 4rem 1rem">
+        <h3 class="center-align">Tata Cara E-Voting</h3>
+        <ol type="a">
+            <li>
+                <span>Aktivasi email SSO terlebih dahulu:</span>
+                <ol type="1">
+                    <li>Klik pada tombol <b>MASUK</b> di atas</li>
+                    <li>Masukkan NIM dan username SSO anda pada bagian <b>Belum Memiliki Kartu Akses?</b></li>
+                    <li>Kemudian klik tombol <b>AKTIVASI</b></li>
+                    <li>Setelah itu, cek pada <b>inbox atau spam</b> email SSO UNS anda untuk mendapatkan link aktivasi</li>
+                    <li>Jika sudah mendapatkan e-mail yang berisi link aktivasi, klik link tersebut</li>
+                    <li>Setelah itu, anda dapat mengunduh kartu akses yang tertera pada webpage tersebut</li>
+                </ol>
+            </li>
+            <li>
+                <span>Pelaksanaan pemilihan pada hari-H:</span>
+                <ol type="1">
+                    <li>Klik pada tombol <b>MASUK</b> di atas</li>
+                    <li>Masukkan kartu akses yang telah anda download pada bagian <b>Sudah Memiliki Kartu Akses?</b></li>
+                    <li>Kemudian klik tombol <b>MASUK</b> pada halaman tersebut</li>
+                    <li>Jika sudah merupakan jadwal prodi anda, silakan untuk melakukan voting dengan mengklik tombol <b>VOTE SEKARANG</b></li>
+                    <li>Pilih pasangan capres dan cawapres, beserta caleg (jika ada)</li>
+                    <li>Setelah itu, lakukan konfirmasi pemilihan dan klik pada tombol <b>KIRIM</b> jika sudah sesuai</li>
+                    <li>Suara anda telah masuk ke dalam sistem</li>
+                </ol>
+            </li>
+        </ol>
+    </div>
+    <div style="margin: 4rem 1rem">
+        <h3 class="center-align">Jadwal</h3>
+        <table class="striped highlight responsive-table">
+            <thead>
+                <tr>
+                    <th>Sesi</th>
+                    <th>Waktu Buka</th>
+                    <th>Waktu Tutup</th>
+                    <th>Prodi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($listJadwal as $jadwal): ?>
+                    <tr>
+                        <td><?php echo esc($jadwal['sesi']->Nama); ?></td>
+                        <td><?php echo $jadwal['sesi']->getWaktuBukaString(); ?></td>
+                        <td><?php echo $jadwal['sesi']->getWaktuTutupString(); ?></td>
+                        <td>
+                            <ul class="browser-default">
+                                <?php foreach ($jadwal['listProdi'] as $prodi): ?>
+                                    <li><?php echo esc($prodi->prodi_nama); ?></li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <div style="margin: 4rem 1rem">
+        <h3 class="center-align">Live Count</h3>
+        <div class="center-align" id="live-count"></div>
+    </div>
 </div>
 <script>
 

@@ -151,7 +151,7 @@ class Mahasiswa extends AdminController {
 
         $mahasiswaModel = model('App\Models\MahasiswaModel');
 
-        $mahasiswaModel->reset();
+        //$mahasiswaModel->reset();
         if ($mahasiswaModel->error()['code'] == 0) {
             $this->session->set('status', new Status('success', 'Berhasil mereset mahasiswa'));
             return redirect()->to('admin/mahasiswa/view');

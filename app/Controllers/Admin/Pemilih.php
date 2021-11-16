@@ -12,8 +12,12 @@ use App\Libraries\Status;
 
 class Pemilih extends AdminController {
 
+    protected $tokenSecretHash;
+
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger) {
         parent::initController($request, $response, $logger);
+
+        $this->tokenSecretHash = md5(base64_encode($_ENV['pemira.token.secret']));
     }
 
     public function index() {
@@ -25,8 +29,12 @@ class Pemilih extends AdminController {
             return redirect()->to('admin/auth/login');
         }
 
+        $pemilihModel = model('App\Models\PemilihModel');
+
         echo $this->viewHeader('Data Pemilih', TRUE);
         echo view('admin/pemilih/data', [
+            'tokenSecretHash' => $this->tokenSecretHash,
+            'valid' => $pemilihModel->isValid(),
             'idcapres' => $this->request->getGet('idcapres'),
             'idcaleg' => $this->request->getGet('idcaleg')
         ]);
@@ -51,7 +59,7 @@ class Pemilih extends AdminController {
             $obj = $data;
             $arr = [
                 'token' => $obj->token,
-                'valid' => ($obj->secret === md5(base64_encode($_ENV['pemira.token.secret'])) ? '<i class="fa fa-check green-text"></i>' : '<i class="fa fa-times red-text"></i>'),
+                'valid' => ($obj->secret === $this->tokenSecretHash ? '<i class="fa fa-check green-text"></i>' : '<i class="fa fa-times red-text"></i>'),
                 'prodi' => $obj->prodi,
                 'idcapres' => $obj->idcapres,
                 'idcaleg' => $obj->idcaleg

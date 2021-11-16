@@ -20,12 +20,10 @@ class CalegModel extends Model {
     public function viewTotalPemilih($idprodi) {
         $qb = $this->builder();
 
-        $qb->select('caleg.id, caleg.nama, prodi.nama prodi, SUM(CASE WHEN pemilih.token IS NULL THEN 0 ELSE 1 END) jumlah', FALSE);
-        $qb->join('pemilih', 'pemilih.idcaleg = caleg.id', 'LEFT', FALSE);
-        $qb->join('prodi', 'prodi.id = caleg.idprodi', 'LEFT', FALSE);
-        $qb->where('prodi.id', $idprodi);
-        $qb->groupBy('caleg.id, caleg.nama', FALSE);
-        $qb->orderBy('jumlah', 'DESC');
+        $qb->select('v.id, v.nama, v.prodi_id, v.prodi_nama, v.jumlah');
+        $qb->join('v_caleg_pemilih v', 'v.id = caleg.id', 'INNER', FALSE);
+        $qb->where('caleg.idprodi', $idprodi);
+        $qb->orderBy('v.jumlah', 'DESC');
 
         return $qb->get()->getResult();
     }

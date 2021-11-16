@@ -22,8 +22,8 @@ class MahasiswaModel extends Model {
 
         $qb = $this->builder();
 
-        $qb->select('mahasiswa.nim, mahasiswa.nama, prodi.nama prodi, mahasiswa.angkatan, mahasiswa.sso', FALSE);
-        $qb->join('prodi', 'prodi.id = mahasiswa.idprodi', 'INNER', FALSE);
+        $qb->select('v.nim, v.nama,  v.prodi, v.angkatan, v.sso', FALSE);
+        $qb->join('v_mahasiswa_full v', 'v.nim = mahasiswa.nim', 'INNER', FALSE);
         $qb->where('mahasiswa.nim', $nim);
 
         return $qb->get()->getRow();

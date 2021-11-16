@@ -16,10 +16,21 @@ class Home extends UserController {
 
     public function index() {
         $prodiModel = model('App\Models\ProdiModel');
+        $sesiModel = model('App\Models\SesiModel');
+
+        $listJadwal = [];
+        $listSesi = $sesiModel->findAll();
+        foreach ($listSesi as $sesi) {
+            $jadwal = [];
+            $jadwal['sesi'] = $sesi;
+            $jadwal['listProdi'] = $sesiModel->viewProdi($sesi->ID);
+            $listJadwal[] = $jadwal;
+        }
 
         echo $this->viewHeader('Home');
         echo view('user/home/index', [
             'login' => $this->userLogin,
+            'listJadwal' => $listJadwal,
             'canVote' => isset($this->userLogin) ? $prodiModel->canVote($this->userLogin->IDProdi) : FALSE,
             'listSesi' => isset($this->userLogin) ? $prodiModel->viewSesi($this->userLogin->IDProdi) : NULL
         ]);
@@ -41,19 +52,23 @@ class Home extends UserController {
     }
 
     public function getLiveCount() {
-        $prodiModel = model('App\Models\ProdiModel');
         $pemilihModel = model('App\Models\PemilihModel');
+        if ($pemilihModel->isValid()) {
+            $prodiModel = model('App\Models\ProdiModel');
 
-        $totalPemilih = $pemilihModel->getTotalPemilih();
-        $totalKuota = $prodiModel->getTotalKuota();
+            $totalPemilih = $pemilihModel->getTotalPemilih();
+            $totalKuota = $prodiModel->getTotalKuota();
 
-        $sebaranPemilih = $prodiModel->viewPemilih();
+            $sebaranPemilih = $prodiModel->viewStatistik();
 
-        echo view('user/home/get_live_count', [
-            'totalPemilih' => $totalPemilih,
-            'totalKuota' => $totalKuota,
-            'sebaranPemilih' => $sebaranPemilih
-        ]);
+            echo view('user/home/get_live_count', [
+                'totalPemilih' => $totalPemilih,
+                'totalKuota' => $totalKuota,
+                'sebaranPemilih' => $sebaranPemilih
+            ]);
+        } else {
+            echo '<p class="center-align">Tidak menampilkan live count dikarenakan terdapat suara yang tidak valid</p>';
+        }
     }
 
 }

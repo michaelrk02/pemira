@@ -13,9 +13,9 @@
             <?php foreach ($sebaranPemilih as $pemilihProdi): ?>
                 <tr>
                     <td><?php echo esc($pemilihProdi->nama); ?></td>
-                    <td><?php echo $pemilihProdi->jumlah; ?></td>
+                    <td><?php echo $pemilihProdi->pemilih; ?></td>
                     <td><?php echo $pemilihProdi->kuota; ?></td>
-                    <td><?php echo ($pemilihProdi->kuota == 0) ? 0 : round((double)$pemilihProdi->jumlah / $pemilihProdi->kuota * 100.0, 2); ?>%</td>
+                    <td><?php echo ($pemilihProdi->kuota == 0) ? 0 : round((double)$pemilihProdi->pemilih / $pemilihProdi->kuota * 100.0, 2); ?>%</td>
                 </tr>
             <?php endforeach; ?>
         </tbody>

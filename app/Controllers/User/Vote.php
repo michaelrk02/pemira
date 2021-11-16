@@ -74,5 +74,31 @@ class Vote extends UserController {
         echo $this->viewFooter();
     }
 
+    public function getDetailCapres() {
+        $this->response->setContentType('application/json');
+
+        $id = $this->request->getGet('id');
+
+        if (isset($id)) {
+            $capresModel = model('App\Models\CapresModel');
+
+            $capres = $capresModel->find($id);
+            if (isset($capres)) {
+                $data = [];
+                $data['id'] = $capres->ID;
+                $data['nama'] = $capres->Nama;
+                $data['visi'] = $capres->Visi;
+                $data['misi'] = $capres->Misi;
+                return $this->response->setStatusCode(200)->setBody(json_encode($data));
+            } else {
+                return $this->response->setStatusCode(404);
+            }
+        } else {
+            return $this->response->setStatusCode(400);
+        }
+
+        return $this->response->setStatusCode(500);
+    }
+
 }
 
