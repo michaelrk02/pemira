@@ -48,11 +48,12 @@ class Vote extends UserController {
             if ($idcaleg === '') { $idcaleg = NULL; }
 
             if (isset($idcapres) && ((!isset($idcaleg) && ($jmlCaleg == 0)) || (($jmlCaleg > 0) && isset($idcaleg)))) {
-                $this->session->set('status', new Status('success', 'Pilihan berhasil disimpan. Terima kasih telah menggunakan hak pilih anda'));
+                $this->session->set('status', new Status('success', 'Pilihan berhasil disimpan. Terima kasih telah menggunakan hak pilih anda. Anda juga dapat mengunduh bukti pemilihan anda apabila diperlukan'));
 
                 $pemilih = new Pemilih();
                 $pemilih->Token = $this->userLogin->getToken();
                 $pemilih->Secret = md5(base64_encode($_ENV['pemira.token.secret']));
+                $pemilih->Signature = md5($pemilih->Token.':'.$idcapres.':'.$idcaleg.':'.base64_encode($_ENV['pemira.token.secret']));
                 $pemilih->IDProdi = $this->userLogin->IDProdi;
                 $pemilih->IDCapres = $idcapres;
                 $pemilih->IDCaleg = $idcaleg;
@@ -72,6 +73,47 @@ class Vote extends UserController {
             'listCaleg' => $calegModel->findByProdi($this->userLogin->IDProdi)
         ]);
         echo $this->viewFooter();
+    }
+
+    public function downloadBukti() {
+        if ($this->userLogin === NULL) {
+            return redirect()->to('user/auth/login');
+        }
+
+        $pemilihModel = model('App\Models\PemilihModel');
+
+        $pemilih = $pemilihModel->find($this->userLogin->getToken());
+        if (isset($pemilih)) {
+            $capresModel = model('App\Models\CapresModel');
+            $calegModel = model('App\Models\CalegModel');
+
+            $nim = $this->userLogin->NIM;
+            $idcapres = $pemilih->IDCapres;
+            $idcaleg = $pemilih->IDCaleg;
+            $signature = md5($nim.':'.$idcapres.':'.$idcaleg.':'.$_ENV['pemira.token.secret']);
+
+            $file = '';
+            $file .= 'Simpan file ini sebagai bukti bahwa anda telah melakukan pemilihan yang valid'."\r\n";
+            $file .= "\r\n";
+            $file .= 'Demi menjamin asas kerahasiaan PEMIRA, letakkan file ini di lokasi yang aman sehingga tidak ada seorangpun yang bisa melihat pilihan anda'."\r\n";
+            $file .= "\r\n";
+            $file .= '### DETAIL PILIHAN ###'."\r\n";
+            $file .= "\r\n";
+            $file .= 'NIM : '.$nim."\r\n";
+            $file .= 'ID Capres : '.$idcapres.' ('.$capresModel->find($idcapres)->Nama.')'."\r\n";
+            if (($idcaleg !== NULL) && ($idcaleg !== '')) {
+                $file .= 'ID Caleg : '.$idcaleg.' ('.$calegModel->find($idcaleg)->Nama.')'."\r\n";
+            }
+            $file .= "\r\n";
+            $file .= '### Tanda Tangan Digital: '.$signature.' ###'."\r\n";
+            $file .= "\r\n";
+
+            return $this->response->setStatusCode(200)->setContentType('text/plain')->download('BUKTIPEMIRA_'.$nim.'.txt', $file);
+        } else {
+            $this->session->set('status', new Status('error', 'Anda belum melakukan voting'));
+        }
+
+        return redirect()->to('user/home');
     }
 
     public function getDetailCapres() {

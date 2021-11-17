@@ -34,7 +34,7 @@ class Pemilih extends AdminController {
         echo $this->viewHeader('Data Pemilih', TRUE);
         echo view('admin/pemilih/data', [
             'tokenSecretHash' => $this->tokenSecretHash,
-            'valid' => $pemilihModel->isValid(),
+            'normal' => $pemilihModel->isNormal(),
             'idcapres' => $this->request->getGet('idcapres'),
             'idcaleg' => $this->request->getGet('idcaleg')
         ]);
@@ -59,7 +59,8 @@ class Pemilih extends AdminController {
             $obj = $data;
             $arr = [
                 'token' => $obj->token,
-                'valid' => ($obj->secret === $this->tokenSecretHash ? '<i class="fa fa-check green-text"></i>' : '<i class="fa fa-times red-text"></i>'),
+                'normal' => ($obj->secret === $this->tokenSecretHash ? '<i class="fa fa-check green-text"></i>' : '<i class="fa fa-times red-text"></i>'),
+                'valid' => ($obj->signature === md5($obj->token.':'.$obj->idcapres.':'.$obj->idcaleg.':'.base64_encode($_ENV['pemira.token.secret'])) ? '<i class="fa fa-check green-text"></i>' : '<i class="fa fa-times red-text"></i>'),
                 'prodi' => $obj->prodi,
                 'idcapres' => $obj->idcapres,
                 'idcaleg' => $obj->idcaleg

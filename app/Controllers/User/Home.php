@@ -53,7 +53,7 @@ class Home extends UserController {
 
     public function getLiveCount() {
         $pemilihModel = model('App\Models\PemilihModel');
-        if ($pemilihModel->isValid()) {
+        if ($pemilihModel->isNormal()) {
             $prodiModel = model('App\Models\ProdiModel');
 
             $totalPemilih = $pemilihModel->getTotalPemilih();
@@ -67,7 +67,7 @@ class Home extends UserController {
                 'sebaranPemilih' => $sebaranPemilih
             ]);
         } else {
-            echo '<p class="center-align">Tidak menampilkan live count dikarenakan terdapat suara yang tidak valid</p>';
+            echo '<p class="center-align">Tidak menampilkan live count dikarenakan terdapat suara yang tidak normal</p>';
         }
     }
 

@@ -33,6 +33,7 @@ class AdminController extends BaseController {
             $this->menus[] = ['name' => 'Resources', 'site' => 'admin/resource/view'];
             $this->menus[] = ['name' => 'Data Pemilih', 'site' => 'admin/pemilih/view'];
             $this->menus[] = ['name' => 'Rekapitulasi', 'site' => 'admin/rekapitulasi'];
+            $this->menus[] = ['name' => 'Layanan Sengketa', 'site' => 'admin/sengketa'];
             $this->menus[] = ['name' => 'Keluar', 'site' => 'admin/auth/logout'];
         } else {
             $this->menus[] = ['name' => 'Masuk', 'site' => 'admin/auth/login'];

@@ -24,6 +24,9 @@
                                 </li>
                                 <li class="collection-item">
                                     <p><?php echo $login->SudahVote ? '<b class="green white-text" style="padding: 4px">SUDAH VOTING</b>' : '<b class="red white-text" style="padding: 4px">BELUM VOTING</b>'; ?></p>
+                                    <?php if ($login->SudahVote): ?>
+                                        <p><a href="<?php echo site_url('user/vote/downloadbukti'); ?>">Unduh bukti</a></p>
+                                    <?php endif; ?>
                                     <p><a class="green btn-large <?php echo $login->SudahVote ? 'disabled' : ''; ?>" href="<?php echo site_url('user/vote'); ?>"><i class="fa fa-vote-yea left"></i> <b>VOTE SEKARANG</b></a></p>
                                 </li>
                             </ul>

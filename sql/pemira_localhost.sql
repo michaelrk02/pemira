@@ -48,6 +48,7 @@ DROP TABLE IF EXISTS `pemilih`;
 CREATE TABLE `pemilih` (
   `token` char(32) NOT NULL,
   `secret` char(32) DEFAULT NULL,
+  `signature` char(32) DEFAULT NULL,
   `idprodi` int(11) DEFAULT NULL,
   `idcapres` int(11) DEFAULT NULL,
   `idcaleg` int(11) DEFAULT NULL,
@@ -160,4 +161,4 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `v_prodi_useraktif` AS sele
 DROP TABLE IF EXISTS `v_sesi_listprodi`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `v_sesi_listprodi` AS select `sesi`.`id` AS `id`,`sesi`.`nama` AS `nama`,`sesi`.`waktu_buka` AS `waktu_buka`,`sesi`.`waktu_tutup` AS `waktu_tutup`,`prodi`.`id` AS `prodi_id`,`prodi`.`nama` AS `prodi_nama` from ((`sesi` join `sesi_prodi` on(`sesi_prodi`.`idsesi` = `sesi`.`id`)) join `prodi` on(`prodi`.`id` = `sesi_prodi`.`idprodi`));
 
--- 2021-11-16 15:08:19
+-- 2021-11-17 17:16:14

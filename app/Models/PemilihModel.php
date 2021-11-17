@@ -11,7 +11,7 @@ class PemilihModel extends Model {
 
     protected $returnType = 'App\Entities\Pemilih';
 
-    protected $allowedFields = ['token', 'secret', 'idprodi', 'idcapres', 'idcaleg'];
+    protected $allowedFields = ['token', 'secret', 'signature', 'idprodi', 'idcapres', 'idcaleg'];
 
     public function getTotalPemilih() {
         $qb = $this->builder();
@@ -21,7 +21,7 @@ class PemilihModel extends Model {
         return $qb->get()->getRow()->jumlah;
     }
 
-    public function isValid() {
+    public function isNormal() {
         $qb = $this->builder();
 
         $qb->select('COUNT(*) jumlah', FALSE);
@@ -35,7 +35,7 @@ class PemilihModel extends Model {
 
         $qb = $this->builder();
 
-        $qb->select('pemilih.token, pemilih.secret, prodi.nama prodi, pemilih.idcapres, pemilih.idcaleg', FALSE);
+        $qb->select('pemilih.token, pemilih.secret, pemilih.signature, prodi.nama prodi, pemilih.idcapres, pemilih.idcaleg', FALSE);
         $qb->join('prodi', 'prodi.id = pemilih.idprodi', 'INNER', FALSE);
 
         if (isset($idcapres) && ($idcapres !== '')) { $qb->where('pemilih.idcapres', $idcapres); }
