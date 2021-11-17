@@ -48,7 +48,7 @@
         <div style="display: none" data-severity="<?php echo $status->severity; ?>" id="status"><?php echo $status->message; ?></div>
         <div style="flex: 1 0 auto">
             <header>
-                <nav>
+                <nav class="pushpin" style="z-index: 100">
                     <div class="nav-wrapper container">
                         <a href="<?php echo site_url(); ?>" class="brand-logo">PEMIRA</a>
                         <a href="#!" data-target="nav-mobile" class="sidenav-trigger"><i class="fa fa-bars"></i></a>
@@ -68,4 +68,4 @@
                     <?php endforeach; ?>
                 </ul>
             </header>
-            <main>
+            <main style="margin-top: 100px">
