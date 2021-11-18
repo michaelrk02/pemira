@@ -90,7 +90,7 @@ class Vote extends UserController {
             $nim = $this->userLogin->NIM;
             $idcapres = $pemilih->IDCapres;
             $idcaleg = $pemilih->IDCaleg;
-            $signature = md5($nim.':'.$idcapres.':'.$idcaleg.':'.$_ENV['pemira.token.secret']);
+            $signature = md5($nim.':'.$idcapres.':'.$idcaleg.':'.base64_encode($_ENV['pemira.token.secret']));
 
             $file = '';
             $file .= 'Simpan file ini sebagai bukti bahwa anda telah melakukan pemilihan yang valid'."\r\n";
