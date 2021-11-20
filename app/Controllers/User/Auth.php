@@ -33,24 +33,28 @@ class Auth extends UserController {
             if ($file->isValid()) {
                 $mahasiswaModel = model('App\Models\MahasiswaModel');
 
-                $data = file_get_contents($file->getTempName());
-                $data = @base64_decode($data);
-                $data = @json_decode($data, TRUE);
+                $data = file_get_contents($file->getTempName()) ?? '';
+                $data = WebToken::fromString($data);
 
-                $nim = @$data['nim'];
-                $token = @$data['token'];
+                if (isset($data)) {
+                    $nim = $data->payload['nim'];
+                    $token = $data->payload['token'];
+                    $sso = $data->payload['sso'];
 
-                $mhs = $mahasiswaModel->find($nim);
-                if (isset($mhs)) {
-                    if (!empty($nim) && ($mhs->SSO !== NULL) && ($token === $mhs->getToken())) {
-                        $this->session->set('user_login', $nim);
-                        $this->session->set('status', new Status('success', 'Selamat datang, '.esc($mhs->Nama).'!'));
-                        return redirect()->to('user/home');
+                    $mhs = $mahasiswaModel->find($nim);
+                    if (isset($mhs)) {
+                        if ($mhs->SSO === $sso) {
+                            $this->session->set('user_login', $nim);
+                            $this->session->set('status', new Status('success', 'Selamat datang, '.esc($mhs->Nama).'!'));
+                            return redirect()->to('user/home');
+                        } else {
+                            $this->session->set('status', new Status('error', 'SSO pada kartu akses tidak cocok dengan sistem'));
+                        }
                     } else {
-                        $this->session->set('status', new Status('error', 'Kartu akses tidak valid. Silakan untuk melakukan aktivasi sesuai identitas anda'));
+                        $this->session->set('status', new Status('error', 'Mahasiswa tidak ditemukan'));
                     }
                 } else {
-                    $this->session->set('status', new Status('error', 'Mahasiswa tidak ditemukan'));
+                    $this->session->set('status', new Status('error', 'Kartu akses tidak valid. Silakan untuk melakukan aktivasi sesuai identitas anda'));
                 }
             } else {
                 $this->session->set('status', new Status('error', 'Gagal mengunggah kartu akses'));
@@ -162,12 +166,11 @@ class Auth extends UserController {
             if (isset($mhs)) {
                 $this->response->setStatusCode(200);
 
-                $data = [
+                $data = WebToken::fromData([], [
                     'nim' => $token->payload['nim'],
-                    'token' => $mhs->getToken()
-                ];
-                $data = json_encode($data);
-                $data = base64_encode($data);
+                    'token' => $mhs->getToken(),
+                    'sso' => $mhs->SSO
+                ])->toString();
 
                 return $this->response->download('IDPEMIRA_'.$token->payload['nim'].'.idc', $data);
             } else {

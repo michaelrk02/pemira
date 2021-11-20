@@ -32,7 +32,7 @@
         <div class="col s12 m6">
             <h5 class="center-align">Belum Memiliki Kartu Akses?</h5>
             <div class="divider"></div>
-            <form method="post" style="margin-top: 1rem">
+            <form method="post" style="margin-top: 1rem" onsubmit="return confirm('Apakah anda yakin?')">
                 <div class="row">
                     <div class="row">
                         <div class="col">
@@ -47,7 +47,7 @@
                     <div class="input-field col s12">
                         <input id="f1-sso" name="sso" type="text" class="validate" value="<?php echo set_value('sso'); ?>">
                         <label for="f1-sso">Username SSO</label>
-                        <span class="helper-text">Masukkan username SSO anda (tanpa <b>@student.uns.ac.id</b>)</span>
+                        <span class="helper-text">Masukkan username SSO anda (tanpa <b>@<?php echo $_ENV['pemira.mail.host'] ?></b>)</span>
                     </div>
                     <div class="col s12">
                         <button type="submit" class="btn" name="submit" value="2"><i class="fa fa-user-check left"></i> <b>AKTIVASI</b></button>
