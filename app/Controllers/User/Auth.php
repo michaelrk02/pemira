@@ -72,7 +72,7 @@ class Auth extends UserController {
                     $message = new ActivationMessage($nim, censor($mhsByNIM->Nama), $sso, $token->toString());
 
                     $email = \Config\Services::email();
-                    $email->setFrom($_ENV['pemira.mail.sender']);
+                    $email->setFrom($_ENV['pemira.mail.sender'], $_ENV['pemira.info.title']);
                     $email->setTo($sso.'@'.$_ENV['pemira.mail.host']);
                     $email->setSubject('Aktivasi Akun - '.$_ENV['pemira.info.title']);
                     $email->setMessage($message->getFullHTML());
