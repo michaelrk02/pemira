@@ -28,7 +28,7 @@ $(document).ready(function() {
         ],
         rowCallback: function(row) {
             $(row).find('.btn.viewProdi').off('click').on('click', function(e) {
-                $.get('viewprodi', {id: $(e.target).data('id')}, function(data) {
+                $.get('viewprodi', {id: $(e.currentTarget).data('id')}, function(data) {
                     showToast(data);
                 });
             });

@@ -118,7 +118,7 @@ $(document).ready(function() {
             $(row).find('.btn.listSesi').off('click').on('click', function(e) {
                 $.ajax({
                     url: 'listsesi',
-                    data: {id: $(e.target).data('id')},
+                    data: {id: $(e.currentTarget).data('id')},
                     success: function(data) {
                         var listSesi = [];
                         data.forEach(function(sesi) {
@@ -134,11 +134,11 @@ $(document).ready(function() {
             });
 
             $(row).find('.btn.addSesi').off('click').on('click', function(e) {
-                manageSesi('add', $(e.target).data('id'));
+                manageSesi('add', $(e.currentTarget).data('id'));
             });
 
             $(row).find('.btn.delSesi').off('click').on('click', function(e) {
-                manageSesi('del', $(e.target).data('id'));
+                manageSesi('del', $(e.currentTarget).data('id'));
             });
         }
     });
