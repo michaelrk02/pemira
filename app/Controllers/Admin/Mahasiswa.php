@@ -162,10 +162,11 @@ class Mahasiswa extends AdminController {
 
     public function fetch() {
         if (!$this->adminLogin) {
-            return redirect()->to('admin/auth/login');
+            return $this->response->setStatusCode(403);
         }
 
         $mahasiswaModel = model('App\Models\MahasiswaModel');
+        $pemilihModel = model('App\Models\PemilihModel');
 
         $draw = $this->request->getGet('draw');
         $start = $this->request->getGet('start');
@@ -176,6 +177,13 @@ class Mahasiswa extends AdminController {
         foreach ($result['data'] as &$data) {
             $obj = $data;
 
+            $mhs = new MahasiswaEntity();
+            $mhs->NIM = $obj->nim;
+            $mhs->Nama = $obj->nama;
+            $mhs->IDProdi = $obj->idprodi;
+            $mhs->Angkatan = $obj->angkatan;
+            $mhs->SSO = $obj->sso;
+
             $actEdit = '<a class="btn" href="'.site_url('admin/mahasiswa/edit').'?nim='.$obj->nim.'"><i class="fa fa-edit left"></i> EDIT</a>';
             $actDelete = '<a class="btn red" href="'.site_url('admin/mahasiswa/delete').'?nim='.$obj->nim.'" onclick="return confirm(\'Apakah anda yakin?\')"><i class="fa fa-trash left"></i> DELETE</a>';
 
@@ -184,6 +192,8 @@ class Mahasiswa extends AdminController {
                 'nama' => $obj->nama,
                 'prodi' => $obj->prodi,
                 'angkatan' => $obj->angkatan,
+                'sso_aktif' => (($obj->sso !== NULL) && ($obj->sso !== '')) ? '<i class="fa fa-check green-text"></i>' : '<i class="fa fa-times red-text"></i>',
+                'sudah_memilih' => ($pemilihModel->find($mhs->getToken()) !== NULL) ? '<i class="fa fa-check green-text"></i>' : '<i class="fa fa-times red-text"></i>',
                 'tindakan' => implode(' ', [$actEdit, $actDelete])
             ];
 

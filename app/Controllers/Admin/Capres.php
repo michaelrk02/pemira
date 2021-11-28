@@ -75,7 +75,7 @@ class Capres extends AdminController {
 
     public function fetch() {
         if (!$this->adminLogin) {
-            return redirect()->to('admin/auth/login');
+            return $this->response->setStatusCode(403);
         }
 
         $capresModel = model('App\Models\CapresModel');

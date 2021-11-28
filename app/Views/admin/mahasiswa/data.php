@@ -26,6 +26,8 @@ $(document).ready(function() {
             {name: 'nama', data: 'nama', title: 'Nama'},
             {name: 'prodi', data: 'prodi', title: 'Prodi'},
             {name: 'angkatan', data: 'angkatan', title: 'Angkatan'},
+            {name: 'sso_aktif', data: 'sso_aktif', title: 'SSO Aktif'},
+            {name: 'sudah_memilih', data: 'sudah_memilih', title: 'Sudah Memilih'},
             {name: 'tindakan', data: 'tindakan', title: 'Tindakan'}
         ]
     });

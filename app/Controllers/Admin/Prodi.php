@@ -75,7 +75,7 @@ class Prodi extends AdminController {
 
     public function fetch() {
         if (!$this->adminLogin) {
-            return redirect()->to('admin/auth/login');
+            return $this->response->setStatusCode(403);
         }
 
         $prodiModel = model('App\Models\ProdiModel');

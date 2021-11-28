@@ -43,7 +43,7 @@ class Pemilih extends AdminController {
 
     public function fetch() {
         if (!$this->adminLogin) {
-            return redirect()->to('admin/auth/login');
+            return $this->response->setStatusCode(403);
         }
 
         $pemilihModel = model('App\Models\PemilihModel');
@@ -71,6 +71,57 @@ class Pemilih extends AdminController {
         $this->response->setStatusCode(200);
         $this->response->setContentType('application/json');
         return $this->response->setBody(json_encode($result));
+    }
+
+    public function cekStatistik() {
+        if (!$this->adminLogin) {
+            return $this->response->setStatusCode(403);
+        }
+
+        $mahasiswaModel = model('App\Models\MahasiswaModel');
+        $pemilihModel = model('App\Models\PemilihModel');
+
+        $mhsArray = $mahasiswaModel->findAll();
+
+        $tokenCount = $pemilihModel->builder()->countAll();
+        $suaraCount = 0;
+        foreach ($mhsArray as $mhs) {
+            if ($pemilihModel->find($mhs->getToken()) !== NULL) {
+                $suaraCount++;
+            }
+        }
+
+        $data = [
+            'tokenCount' => $tokenCount,
+            'suaraCount' => $suaraCount
+        ];
+
+        $this->response->setStatusCode(200);
+        $this->response->setContentType('application/json');
+        return $this->response->setBody(json_encode($data));
+    }
+
+    public function cekTokenIlegal() {
+        if (!$this->adminLogin) {
+            return redirect()->to('admin/auth/login');
+        }
+
+        $mahasiswaModel = model('App\Models\MahasiswaModel');
+        $pemilihModel = model('App\Models\PemilihModel');
+
+        $mhsArray = $mahasiswaModel->findAll();
+
+        $suaraArray = [];
+        foreach ($mhsArray as $mhs) {
+            if ($pemilihModel->find($mhs->getToken()) !== NULL) {
+                $suaraArray[] = '\''.$mhs->getToken().'\'';
+            }
+        }
+        $suaraArray = '('.implode(',', $suaraArray).')';
+
+        $tokenIlegal = $pemilihModel->builder()->where('token NOT IN '.$suaraArray, NULL, FALSE)->get()->getResult();
+
+        echo view('admin/pemilih/token_ilegal', ['tokenIlegal' => $tokenIlegal]);
     }
 
 }

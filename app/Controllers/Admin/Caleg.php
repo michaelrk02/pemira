@@ -75,7 +75,7 @@ class Caleg extends AdminController {
 
     public function fetch() {
         if (!$this->adminLogin) {
-            return redirect()->to('admin/auth/login');
+            return $this->response->setStatusCode(403);
         }
 
         $calegModel = model('App\Models\CalegModel');

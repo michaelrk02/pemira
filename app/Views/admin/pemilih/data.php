@@ -1,6 +1,10 @@
 <div class="container">
     <h3>Data Pemilih</h3>
     <div style="margin-top: 4rem; margin-bottom: 4rem">
+        <div style="margin: 1rem">
+            <button type="button" class="btn" onclick="cekStatistik(this)">CEK STATISTIK</button>
+            <a target="_blank" class="btn" href="<?php echo site_url('admin/pemilih/cektokenilegal'); ?>">CEK TOKEN ILEGAL</a>
+        </div>
         <form method="get" style="margin: 1rem">
             <div class="input-field">
                 <input id="input-idcapres" type="number" name="idcapres" value="<?php echo $idcapres ?? ''; ?>">
@@ -21,10 +25,18 @@
                 <table id="data-pemilih" class="striped highlight display nowrap" style="width: 100%"></table>
             </div>
         </div>
-        <p>(*) Kolom ini bekerja dengan cara mengecek validitas <a target="_blank" href="https://en.wikipedia.org/wiki/Digital_signature">tanda tangan digital (digital signature)</a> yang terpasang pada setiap token. Dengan demikian, hal ini dapat mengantisipasi adanya kemungkinan manipulasi dari luar</p>
+        <p>(*) Kolom ini bekerja dengan cara mengecek validitas <a target="_blank" href="https://en.wikipedia.org/wiki/Digital_signature">tanda tangan digital (digital signature)</a> yang terpasang pada setiap token. Dengan demikian, hal ini dapat mengantisipasi adanya kemungkinan manipulasi dari luar. Apabila terdapat banyak token yang tidak valid, sangat disarankan juga untuk dihapus secara manual melalui database dan dapat dilakukan pemilihan ulang lagi (hanya bagi DPT yang tokennya terpengaruh)</p>
     </div>
 </div>
 <script>
+function cekStatistik(self) {
+    $(self).attr('disabled', 'disabled');
+    $.get('cekstatistik', null, function(data) {
+        showToast('<p>Jumlah suara: ' + data.suaraCount + '</p><p>Jumlah token: ' + data.tokenCount + '</p>');
+        $(self).attr('disabled', null);
+    });
+}
+
 function showTokenSecretHashUsage(e) {
     e.preventDefault();
     showToast('\'Token Secret Hash\' digunakan untuk mengecek kenormalan suatu token. Jika ditemukan suatu token yang tidak normal, sangat disarankan untuk menghapus entri tersebut melalui database secara langsung');

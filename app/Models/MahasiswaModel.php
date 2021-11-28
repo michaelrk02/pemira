@@ -34,11 +34,12 @@ class MahasiswaModel extends Model {
 
         $qb = $this->builder();
 
-        $qb->select('mahasiswa.nim, mahasiswa.nama, prodi.nama prodi, mahasiswa.angkatan', FALSE);
+        $qb->select('mahasiswa.nim, mahasiswa.nama, mahasiswa.idprodi, prodi.nama prodi, mahasiswa.angkatan, mahasiswa.sso', FALSE);
         $qb->join('prodi', 'prodi.id = mahasiswa.idprodi', 'INNER', FALSE);
         $result['recordsTotal'] = $qb->countAllResults(FALSE);
 
-        $qb->like('mahasiswa.nama', $search);
+        $qb->orLike('mahasiswa.nim', $search);
+        $qb->orLike('mahasiswa.nama', $search);
         $result['recordsFiltered'] = $qb->countAllResults(FALSE);
 
         $qb->limit($length, $start);
