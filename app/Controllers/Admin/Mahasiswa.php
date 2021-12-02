@@ -283,7 +283,7 @@ class Mahasiswa extends AdminController {
         $this->initStatus();
 
         $action = $createMode ? 'Add' : 'Edit';
-        echo $this->viewHeader($action.' Mahasiswa');
+        echo $this->viewHeader($action.' Mahasiswa', TRUE);
         echo view('admin/mahasiswa/editor', [
             'mahasiswa' => $mahasiswa,
             'createMode' => $createMode,

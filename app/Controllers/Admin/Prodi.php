@@ -242,7 +242,7 @@ class Prodi extends AdminController {
         $this->initStatus();
 
         $action = $createMode ? 'Add' : 'Edit';
-        echo $this->viewHeader($action.' Prodi');
+        echo $this->viewHeader($action.' Prodi', TRUE);
         echo view('admin/prodi/editor', [
             'prodi' => $prodi,
             'createMode' => $createMode,

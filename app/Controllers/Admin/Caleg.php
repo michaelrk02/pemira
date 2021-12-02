@@ -182,7 +182,7 @@ class Caleg extends AdminController {
         $this->initStatus();
 
         $action = $createMode ? 'Add' : 'Edit';
-        echo $this->viewHeader($action.' Caleg');
+        echo $this->viewHeader($action.' Caleg', TRUE);
         echo view('admin/caleg/editor', [
             'caleg' => $caleg,
             'createMode' => $createMode,

@@ -117,9 +117,12 @@ class Pemilih extends AdminController {
                 $suaraArray[] = '\''.$mhs->getToken().'\'';
             }
         }
-        $suaraArray = '('.implode(',', $suaraArray).')';
 
-        $tokenIlegal = $pemilihModel->builder()->where('token NOT IN '.$suaraArray, NULL, FALSE)->get()->getResult();
+        $tokenIlegal = [];
+        if (count($suaraArray) > 0) {
+            $suaraArray = '('.implode(',', $suaraArray).')';
+            $tokenIlegal = $pemilihModel->builder()->where('token NOT IN '.$suaraArray, NULL, FALSE)->get()->getResult();
+        }
 
         echo view('admin/pemilih/token_ilegal', ['tokenIlegal' => $tokenIlegal]);
     }

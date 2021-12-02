@@ -183,7 +183,7 @@ class Capres extends AdminController {
         $this->initStatus();
 
         $action = $createMode ? 'Add' : 'Edit';
-        echo $this->viewHeader($action.' Capres');
+        echo $this->viewHeader($action.' Capres', TRUE);
         echo view('admin/capres/editor', [
             'capres' => $capres,
             'createMode' => $createMode,

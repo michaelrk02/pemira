@@ -204,7 +204,7 @@ class Sesi extends AdminController {
         $this->initStatus();
 
         $action = $createMode ? 'Add' : 'Edit';
-        echo $this->viewHeader($action.' Sesi');
+        echo $this->viewHeader($action.' Sesi', TRUE);
         echo view('admin/sesi/editor', [
             'sesi' => $sesi,
             'createMode' => $createMode,
