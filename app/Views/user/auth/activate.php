@@ -9,11 +9,14 @@
                 <p>Prodi : <b><?php echo esc($mhs->prodi); ?></b></p>
                 <p>Angkatan : <b><?php echo esc($mhs->angkatan); ?></b></p>
             </div>
-            <p>
+            <p style="margin-bottom: 1rem">
                 Silakan untuk mengunduh kartu akses dengan mengklik tombol di bawah.
                 Kartu akses digunakan untuk masuk ke dalam sistem e-voting pada saat hari pemungutan suara.
                 <b>Dilarang membagikan kartu akses ke siapapun bahkan oleh pihak yang mengaku sebagai panitia!</b>
                 Kartu akses masih bisa diunduh selama link aktivasi ini masih aktif.
+            </p>
+            <p>
+                <b>NOTE:</b> file kartu akses hanya merupakan file biasa yang hanya dapat dibaca dan dikenali oleh sistem e-voting sehingga file tersebut tidak perlu dibuka menggunakan aplikasi apapun
             </p>
         </div>
         <div class="card-action">
