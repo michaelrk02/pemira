@@ -35,8 +35,9 @@
             <form method="post" style="margin-top: 1rem" onsubmit="return confirm('Apakah anda yakin?')">
                 <div class="row">
                     <div class="row">
-                        <div class="col">
-                            Jika belum memiliki kartu akses (atau file kartu akses hilang), masukkan NIM dan username SSO anda di bawah kemudian klik tombol <b>AKTIVASI</b> untuk mendapatkan kartu akses
+                        <div class="col s12">
+                            <p>Jika belum memiliki kartu akses (atau file kartu akses hilang), masukkan NIM dan username SSO anda di bawah kemudian klik tombol <b>AKTIVASI</b> untuk mendapatkan kartu akses</p>
+                            <p><b>PERHATIAN:</b> Tuliskan <b>tanpa</b> @<?php echo $_ENV['pemira.mail.host']; ?>. Sebagai contoh, jika email SSO anda adalah <b>alice@<?php echo $_ENV['pemira.mail.host']; ?></b>, maka anda cukup menginputkan <b>alice</b> saja pada kolom <i>Username SSO</i></p>
                         </div>
                     </div>
                     <div class="input-field col s12">
@@ -46,8 +47,8 @@
                     </div>
                     <div class="input-field col s12">
                         <input id="f1-sso" name="sso" type="text" class="validate" value="<?php echo set_value('sso'); ?>">
-                        <label for="f1-sso">Username SSO</label>
-                        <span class="helper-text">Masukkan username SSO anda (tanpa <b>@<?php echo $_ENV['pemira.mail.host'] ?></b>)</span>
+                        <label for="f1-sso">Username SSO (tanpa @<?php echo $_ENV['pemira.mail.host']; ?>)</label>
+                        <span class="helper-text">Masukkan username SSO anda (tanpa <b>@<?php echo $_ENV['pemira.mail.host']; ?></b>)</span>
                     </div>
                     <div class="col s12">
                         <button type="submit" class="btn" name="submit" value="2"><i class="fa fa-user-check left"></i> <b>AKTIVASI</b></button>
