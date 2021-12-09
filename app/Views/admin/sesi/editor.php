@@ -30,7 +30,7 @@
 </div>
 <script>
 $(document).ready(function() {
-    $('.datepicker').datepicker({format: 'yyyy-mm-dd'});
+    $('.datepicker').datepicker({format: 'yyyy-mm-dd', setDefaultDate: true});
     $('.timepicker').timepicker({twelveHour: false});
 });
 </script>
