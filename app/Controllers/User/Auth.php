@@ -54,7 +54,7 @@ class Auth extends UserController {
                         $this->session->set('status', new Status('error', 'Mahasiswa tidak ditemukan'));
                     }
                 } else {
-                    $this->session->set('status', new Status('error', 'Kartu akses tidak valid. Silakan untuk melakukan aktivasi sesuai identitas anda'));
+                    $this->session->set('status', new Status('error', 'Kartu akses yang anda upload sudah tidak berlaku atau tidak valid. Silakan untuk melakukan aktivasi sesuai identitas anda atau aktivasi ulang jika sudah aktivasi sebelumnya'));
                 }
             } else {
                 $this->session->set('status', new Status('error', 'Gagal mengunggah kartu akses'));
