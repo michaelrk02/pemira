@@ -16,7 +16,7 @@
                 Kartu akses masih bisa diunduh selama link aktivasi ini masih aktif.
             </p>
             <p>
-                <b>NOTE:</b> file kartu akses hanya merupakan file biasa yang hanya dapat dibaca dan dikenali oleh sistem e-voting sehingga file tersebut tidak perlu dibuka menggunakan aplikasi apapun
+                <b>NOTE.</b> File kartu akses hanya merupakan file biasa yang hanya dapat dibaca dan dikenali oleh sistem e-voting sehingga file tersebut tidak perlu dibuka menggunakan aplikasi apapun
             </p>
         </div>
         <div class="card-action">

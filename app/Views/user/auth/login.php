@@ -36,8 +36,8 @@
                 <div class="row">
                     <div class="row">
                         <div class="col s12">
-                            <p>Jika belum memiliki kartu akses (atau file kartu akses hilang), masukkan NIM dan username SSO anda di bawah kemudian klik tombol <b>AKTIVASI</b> untuk mendapatkan kartu akses</p>
-                            <p><b>PERHATIAN:</b> Tuliskan <b>tanpa</b> @<?php echo $_ENV['pemira.mail.host']; ?>. Sebagai contoh, jika email SSO anda adalah <b>alice@<?php echo $_ENV['pemira.mail.host']; ?></b>, maka anda cukup menginputkan <b>alice</b> saja pada kolom <i>Username SSO</i></p>
+                            <p>Jika belum memiliki kartu akses (atau file kartu akses hilang, atau ingin melakukan aktivasi ulang), masukkan NIM dan username SSO anda di bawah kemudian klik tombol <b>AKTIVASI</b> untuk mendapatkan kartu akses yang valid</p>
+                            <p><b>PERHATIAN.</b> Tuliskan <b>tanpa</b> @<?php echo $_ENV['pemira.mail.host']; ?>. Sebagai contoh, jika email SSO anda adalah <b>alice@<?php echo $_ENV['pemira.mail.host']; ?></b>, maka anda cukup menginputkan <b>alice</b> saja pada kolom <i>Username SSO</i></p>
                         </div>
                     </div>
                     <div class="input-field col s12">
