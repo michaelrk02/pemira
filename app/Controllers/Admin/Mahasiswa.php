@@ -192,8 +192,8 @@ class Mahasiswa extends AdminController {
                 'nama' => $obj->nama,
                 'prodi' => $obj->prodi,
                 'angkatan' => $obj->angkatan,
-                'sso_aktif' => (($obj->sso !== NULL) && ($obj->sso !== '')) ? '<i class="fa fa-check green-text"></i>' : '<i class="fa fa-times red-text"></i>',
-                'sudah_memilih' => ($pemilihModel->find($mhs->getToken()) !== NULL) ? '<i class="fa fa-check green-text"></i>' : '<i class="fa fa-times red-text"></i>',
+                'sso_aktif' => (($obj->sso !== NULL) && ($obj->sso !== '')) ? '<span><i class="fa fa-check green-text"></i> Yes</span>' : '<span><i class="fa fa-times red-text"></i> No</span>',
+                'sudah_memilih' => ($pemilihModel->find($mhs->getToken()) !== NULL) ? '<span><i class="fa fa-check green-text"></i> Yes</span>' : '<span><i class="fa fa-times red-text"></i> No</span>',
                 'tindakan' => implode(' ', [$actEdit, $actDelete])
             ];
 

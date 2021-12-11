@@ -10,12 +10,16 @@
             <div style="padding: 1rem">
                 <table id="data-mahasiswa" class="striped highlight display nowrap" style="width: 100%"></table>
             </div>
+            <div style="padding: 1rem">
+                <div id="table-buttons"></div>
+            </div>
         </div>
     </div>
 </div>
 <script>
 $(document).ready(function() {
-    $('#data-mahasiswa').DataTable({
+    var table = $('#data-mahasiswa').DataTable({
+        aLengthMenu: [10, 25, 50, 100, 250, 500, 1000],
         serverSide: true,
         ajax: 'fetch',
         scrollX: true,
@@ -29,7 +33,9 @@ $(document).ready(function() {
             {name: 'sso_aktif', data: 'sso_aktif', title: 'SSO Aktif'},
             {name: 'sudah_memilih', data: 'sudah_memilih', title: 'Sudah Memilih'},
             {name: 'tindakan', data: 'tindakan', title: 'Tindakan'}
-        ]
+        ],
+        dom: 'lftirpB',
+        buttons: ['csv']
     });
 });
 </script>
