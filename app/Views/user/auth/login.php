@@ -32,7 +32,7 @@
         <div class="col s12 m6">
             <h5 class="center-align">Belum Memiliki Kartu Akses?</h5>
             <div class="divider"></div>
-            <form method="post" style="margin-top: 1rem" onsubmit="return confirm('Apakah anda yakin?')">
+            <form method="post" style="margin-top: 1rem" onsubmit="return activateSubmit()">
                 <div class="row">
                     <div class="row">
                         <div class="col s12">
@@ -60,6 +60,19 @@
     </div>
 </div>
 <script>
+
+function activateSubmit() {
+    var mailHost = '<?php echo $_ENV['pemira.mail.host']; ?>';
+    var nim = $('#f1-nim').val();
+    var sso = $('#f1-sso').val();
+
+    if (sso.endsWith('@' + mailHost)) {
+        alert('Mohon cek penulisan username SSO lagi. Anda tidak perlu memasukkan @' + mailHost);
+        return false;
+    }
+
+    return confirm('NIM: ' + nim + ', E-mail SSO: ' + sso + '@' + mailHost + '. Apakah informasi tersebut sudah benar?');
+}
 
 $(document).ready(function() {
     $('#check-activation-status').on('click', function() {
