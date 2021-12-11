@@ -28,7 +28,7 @@ class ActivationMessage {
         $text .= '<p>NIM: <b>'.esc($this->nim).'</b></p>';
         $text .= '<p>Nama: <b>'.esc($this->nama).'</b></p>';
         $text .= '<p>SSO: <b>'.esc($this->sso).'@'.$_ENV['pemira.mail.host'].'</b></p>';
-        $text .= '<p>Jika keterangan di atas benar-benar merupakan identitas anda, silakan klik link di bawah untuk melakukan aktivasi akun dan mendapatkan kartu akses. Namun jika tidak, abaikan saja pesan ini untuk menghindari tindakan penyalahgunaan</p>';
+        $text .= '<p>Jika keterangan di atas benar-benar merupakan identitas anda, silakan klik link di bawah untuk melakukan aktivasi akun dan mendapatkan kartu akses. Namun jika tidak, abaikan saja pesan ini untuk menghindari tindakan penyalahgunaan. <b>Dilarang membagikan link aktivasi kepada siapapun bahkan kepada pihak yang mengaku sebagai panitia</b></p>';
         $text .= '<p>Link aktivasi (akan kadaluarsa dalam '.$expirationHours.' jam): <a href="'.$this->getLink().'">'.$this->getLink().'</a></p>';
         $text .= '<p>Copyright &copy; '.$_ENV['pemira.info.year'].', '.$_ENV['pemira.info.copyright'].'</p>';
 
