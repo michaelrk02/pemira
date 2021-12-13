@@ -44,6 +44,7 @@ class PemilihModel extends Model {
         $result['recordsTotal'] = $qb->countAllResults(FALSE);
         $result['recordsFiltered'] = $qb->countAllResults(FALSE);
 
+        $qb->orderBy('token', 'ASC');
         $qb->limit($length, $start);
 
         $result['data'] = $qb->get()->getResult();
