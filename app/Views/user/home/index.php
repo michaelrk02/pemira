@@ -1,47 +1,41 @@
-<div style="padding-top: 2rem; padding-bottom: 4rem; min-height: 100vh; background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(<?php echo base_url('public/pemira/img/hero-bg.jpg'); ?>); background-size: cover; background-position: center" class="grey lighten-3">
-    <div class="container">
-        <div style="margin-top: 2rem" class="center-align">
-            <?php if (isset($login)): ?>
-                <div style="margin-top: 10vh">
-                    <h1 class="center-align white-text"><?php echo esc($_ENV['pemira.info.event']); ?></h1>
-                    <h4 class="center-align white-text"><?php echo esc($_ENV['pemira.info.host']); ?></h4>
-                    <div class="row">
-                        <div class="col s12 m3"></div>
-                        <div class="col s12 m6">
-                            <ul class="collection z-depth-3">
-                                <li class="collection-item"><b>Nama:</b> <?php echo esc($login->Nama); ?></li>
-                                <li class="collection-item"><b>NIM:</b> <?php echo esc($login->NIM); ?></li>
-                                <li class="collection-item"><b>Prodi:</b> <?php echo esc($login->Prodi); ?></li>
-                                <li class="collection-item"><b>Angkatan:</b> <?php echo esc($login->Angkatan); ?></li>
-                                <li class="collection-item"><b>SSO:</b> <?php echo esc($login->SSO.'@'.$_ENV['pemira.mail.host']); ?></li>
-                                <li class="collection-item">
-                                    <div><b>Jadwal:</b></div>
-                                    <ul>
-                                        <?php foreach ($listSesi as $sesi): ?>
-                                            <li>- <?php echo esc($sesi->sesi_nama); ?> <a href="#!" class="tooltipped" data-position="top" data-tooltip="Informasi" onclick="showInfoSesi(event, <?php echo $sesi->sesi_id; ?>)"><i class="fa fa-info-circle"></i></a></li>
-                                        <?php endforeach; ?>
-                                    </ul>
-                                </li>
-                                <li class="collection-item">
-                                    <p><?php echo $login->SudahVote ? '<b class="green white-text" style="padding: 4px">SUDAH VOTING</b>' : '<b class="red white-text" style="padding: 4px">BELUM VOTING</b>'; ?></p>
-                                    <?php if ($login->SudahVote): ?>
-                                        <p><a href="<?php echo site_url('user/vote/downloadbukti'); ?>">Unduh bukti</a></p>
-                                    <?php endif; ?>
-                                    <p><a class="green btn-large <?php echo $login->SudahVote ? 'disabled' : ''; ?>" href="<?php echo site_url('user/vote'); ?>"><i class="fa fa-vote-yea left"></i> <b>VOTE SEKARANG</b></a></p>
-                                </li>
+<div style="display: flex; min-height: 100vh; background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(<?php echo base_url('public/pemira/img/hero-bg.jpg'); ?>); background-size: cover; background-position: center" class="grey lighten-3">
+    <div class="container center-align" style="margin: auto">
+        <?php if (isset($login)): ?>
+            <h1 class="white-text"><?php echo esc($_ENV['pemira.info.event']); ?></h1>
+            <h4 class="white-text"><?php echo esc($_ENV['pemira.info.host']); ?></h4>
+            <div class="row">
+                <div class="col s12 m3"></div>
+                <div class="col s12 m6">
+                    <ul class="collection z-depth-3">
+                        <li class="collection-item"><b>Nama:</b> <?php echo esc($login->Nama); ?></li>
+                        <li class="collection-item"><b>NIM:</b> <?php echo esc($login->NIM); ?></li>
+                        <li class="collection-item"><b>Prodi:</b> <?php echo esc($login->Prodi); ?></li>
+                        <li class="collection-item"><b>Angkatan:</b> <?php echo esc($login->Angkatan); ?></li>
+                        <li class="collection-item"><b>SSO:</b> <?php echo esc($login->SSO.'@'.$_ENV['pemira.mail.host']); ?></li>
+                        <li class="collection-item">
+                            <div><b>Jadwal:</b></div>
+                            <ul>
+                                <?php foreach ($listSesi as $sesi): ?>
+                                    <li>- <?php echo esc($sesi->sesi_nama); ?> <a href="#!" class="tooltipped" data-position="top" data-tooltip="Informasi" onclick="showInfoSesi(event, <?php echo $sesi->sesi_id; ?>)"><i class="fa fa-info-circle"></i></a></li>
+                                <?php endforeach; ?>
                             </ul>
-                        </div>
-                        <div class="col s12 m3"></div>
-                    </div>
+                        </li>
+                        <li class="collection-item">
+                            <p><?php echo $login->SudahVote ? '<b class="green white-text" style="padding: 4px">SUDAH VOTING</b>' : '<b class="red white-text" style="padding: 4px">BELUM VOTING</b>'; ?></p>
+                            <?php if ($login->SudahVote): ?>
+                                <p><a href="<?php echo site_url('user/vote/downloadbukti'); ?>">Unduh bukti</a></p>
+                            <?php endif; ?>
+                            <p><a class="green btn-large <?php echo $login->SudahVote ? 'disabled' : ''; ?>" href="<?php echo site_url('user/vote'); ?>"><i class="fa fa-vote-yea left"></i> <b>VOTE SEKARANG</b></a></p>
+                        </li>
+                    </ul>
                 </div>
-            <?php else: ?>
-                <div style="margin-top: 30vh">
-                    <h1 class="center-align white-text" style="font-weight: bold"><?php echo esc($_ENV['pemira.info.event']); ?></h1>
-                    <h4 class="center-align white-text"><?php echo esc($_ENV['pemira.info.host']); ?></h4>
-                    <a style="margin-top: 2rem" class="btn-large" href="<?php echo site_url('user/auth/login'); ?>"><i class="fa fa-sign-in-alt left"></i> <b>MASUK</b></a>
-                </div>
-            <?php endif; ?>
-        </div>
+                <div class="col s12 m3"></div>
+            </div>
+        <?php else: ?>
+            <h1 class="white-text" style="font-weight: bold"><?php echo esc($_ENV['pemira.info.event']); ?></h1>
+            <h4 class="white-text"><?php echo esc($_ENV['pemira.info.host']); ?></h4>
+            <a style="margin-top: 2rem" class="btn-large" href="<?php echo site_url('user/auth/login'); ?>"><i class="fa fa-sign-in-alt left"></i> <b>MASUK</b></a>
+        <?php endif; ?>
     </div>
 </div>
 <div class="container" style="margin-bottom: 4rem">
