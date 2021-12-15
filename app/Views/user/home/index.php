@@ -69,7 +69,7 @@
     </div>
     <div style="margin: 4rem 1rem">
         <h3 class="center-align">Jadwal</h3>
-        <table class="striped highlight responsive-table">
+        <table class="striped responsive-table">
             <thead>
                 <tr>
                     <th>Sesi</th>

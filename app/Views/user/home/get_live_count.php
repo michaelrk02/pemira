@@ -2,7 +2,7 @@
     <h4><?php echo $totalPemilih; ?> suara dari total <?php echo $totalKuota; ?> DPT telah masuk (<?php echo ($totalKuota == 0) ? 0 : round((double)$totalPemilih / $totalKuota * 100.0, 2); ?>%)</h4>
 </div>
 <div>
-    <table class="striped">
+    <table class="striped responsive-table">
         <thead>
             <th>Program Studi</th>
             <th>Suara Masuk</th>
