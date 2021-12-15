@@ -18,13 +18,13 @@
                     </div>
                     <div class="col s12 m6">
                         <p>Website resmi <?php echo $_ENV['pemira.info.title']; ?></p>
-                        <p>Dikembangkan dan dipelihara oleh Komisi Operasional dan Publikasi KPR FMIPA UNS</p>
+                        <p>Dikembangkan dan dipelihara oleh Komisi Operasional dan Publikasi KPR FMIPA UNS 2021</p>
                     </div>
                 </div>
             </div>
             <div class="footer-copyright">
                 <div class="container">
-                    <div class="center-align">Copyright &copy; <?php echo $_ENV['pemira.info.year']; ?>, <?php echo $_ENV['pemira.info.copyright']; ?></div>
+                    <div class="center-align">Copyright &copy; <?php echo $_ENV['pemira.info.copyright']; ?></div>
                 </div>
             </div>
         </footer>

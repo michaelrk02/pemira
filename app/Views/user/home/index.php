@@ -3,7 +3,7 @@
         <div style="margin-top: 2rem" class="center-align">
             <?php if (isset($login)): ?>
                 <div style="margin-top: 10vh">
-                    <h1 class="center-align white-text">Pemilihan Raya <?php echo $_ENV['pemira.info.year']; ?></h1>
+                    <h1 class="center-align white-text"><?php echo esc($_ENV['pemira.info.event']); ?></h1>
                     <h4 class="center-align white-text"><?php echo esc($_ENV['pemira.info.host']); ?></h4>
                     <div class="row">
                         <div class="col s12 m3"></div>
@@ -36,7 +36,7 @@
                 </div>
             <?php else: ?>
                 <div style="margin-top: 30vh">
-                    <h1 class="center-align white-text" style="font-weight: bold">PEMILIHAN RAYA <?php echo $_ENV['pemira.info.year']; ?></h1>
+                    <h1 class="center-align white-text" style="font-weight: bold"><?php echo esc($_ENV['pemira.info.event']); ?></h1>
                     <h4 class="center-align white-text"><?php echo esc($_ENV['pemira.info.host']); ?></h4>
                     <a style="margin-top: 2rem" class="btn-large" href="<?php echo site_url('user/auth/login'); ?>"><i class="fa fa-sign-in-alt left"></i> <b>MASUK</b></a>
                 </div>
