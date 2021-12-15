@@ -58,7 +58,7 @@
                 <div class="navbar-fixed">
                     <nav>
                         <div class="nav-wrapper container">
-                            <a href="<?php echo site_url(); ?>" class="brand-logo">PEMIRA</a>
+                            <a href="<?php echo site_url(); ?>" class="brand-logo"><?php echo $_ENV['pemira.info.appname']; ?></a>
                             <a href="#!" data-target="nav-mobile" class="sidenav-trigger"><i class="fa fa-bars"></i></a>
                             <?php if (!$sidebarOnly): ?>
                                 <ul class="right hide-on-med-and-down">
