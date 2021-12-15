@@ -49,7 +49,7 @@
         <div style="flex: 1 0 auto">
             <header>
                 <?php if ($_ENV['CI_ENVIRONMENT'] === 'development'): ?>
-                    <div style="position: relative; height: 32px">
+                    <div style="position: relative; height: 32px; z-index: 100">
                         <div class="orange white-text" style="position: fixed; width: 100%; height: 32px; display: flex">
                             <b style="margin: auto">WARNING: Situs ini hanya dapat digunakan untuk keperluan uji coba saja</b>
                         </div>
@@ -71,7 +71,7 @@
                     </nav>
                 </div>
                 <ul class="sidenav <?php echo $sidebarOnly ? 'sidenav-fixed' : ''; ?>" id="nav-mobile">
-                    <li><a class="subheader">PEMIRA</a></li>
+                    <li><a class="subheader"><?php echo $_ENV['pemira.info.appname']; ?></a></li>
                     <?php foreach ($menus as $menu): ?>
                         <li <?php echo uri_string() === $menu['site'] ? 'class="active"' : ''; ?>><a href="<?php echo site_url($menu['site']); ?>"><?php echo $menu['name']; ?></a></li>
                     <?php endforeach; ?>

@@ -1,7 +1,7 @@
 <div style="display: flex; min-height: 100vh; background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(<?php echo base_url('public/pemira/img/hero-bg.jpg'); ?>); background-size: cover; background-position: center" class="grey lighten-3">
     <div class="container center-align" style="margin: auto">
         <?php if (isset($login)): ?>
-            <h1 class="white-text"><?php echo esc($_ENV['pemira.info.event']); ?></h1>
+            <h1 class="white-text" style="font-weight: bold"><?php echo esc($_ENV['pemira.info.event']); ?></h1>
             <h4 class="white-text"><?php echo esc($_ENV['pemira.info.host']); ?></h4>
             <div class="row">
                 <div class="col s12 m3"></div>
