@@ -50,11 +50,5 @@ class MahasiswaModel extends Model {
         return $result;
     }
 
-    public function reset() {
-        $qb = $this->builder();
-
-        $qb->emptyTable();
-    }
-
 }
 

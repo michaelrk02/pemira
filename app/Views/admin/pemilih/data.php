@@ -4,6 +4,7 @@
         <div style="margin: 1rem">
             <button type="button" class="btn" onclick="cekStatistik(this)">CEK STATISTIK</button>
             <a target="_blank" class="btn" href="<?php echo site_url('admin/pemilih/cektokenilegal'); ?>">CEK TOKEN ILEGAL</a>
+            <a class="btn red" href="<?php echo site_url('admin/pemilih/reset').'?token='.urlencode($resetToken); ?>" onclick="return confirm('Apakah anda yakin?') && (prompt('Seluruh data pemilih atau suara terhapus dan anda harus melaksanakan pemilihan ulang. Ketik `saya mengetahui hal tersebut` apabila ingin dilanjut') === 'saya mengetahui hal tersebut')"><i class="fa fa-redo left"></i> RESET PEMILIH</a>
         </div>
         <form method="get" style="margin: 1rem">
             <div class="input-field">

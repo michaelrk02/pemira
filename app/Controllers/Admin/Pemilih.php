@@ -9,6 +9,7 @@ use Psr\Log\LoggerInterface;
 use App\Controllers\AdminController;
 use App\Entities\Pemilih as PemilihEntity;
 use App\Libraries\Status;
+use App\Libraries\WebToken;
 
 class Pemilih extends AdminController {
 
@@ -29,6 +30,7 @@ class Pemilih extends AdminController {
             return redirect()->to('admin/auth/login');
         }
 
+        $resetToken = WebToken::fromData(['expired' => time() + 1800], [])->toString();
         $pemilihModel = model('App\Models\PemilihModel');
 
         echo $this->viewHeader('Data Pemilih', TRUE);
@@ -36,7 +38,8 @@ class Pemilih extends AdminController {
             'tokenSecretHash' => $this->tokenSecretHash,
             'normal' => $pemilihModel->isNormal(),
             'idcapres' => $this->request->getGet('idcapres'),
-            'idcaleg' => $this->request->getGet('idcaleg')
+            'idcaleg' => $this->request->getGet('idcaleg'),
+            'resetToken' => $resetToken
         ]);
         echo $this->viewFooter();
     }
@@ -125,6 +128,22 @@ class Pemilih extends AdminController {
         }
 
         echo view('admin/pemilih/token_ilegal', ['tokenIlegal' => $tokenIlegal]);
+    }
+
+    public function reset() {
+        if (!$this->adminLogin) {
+            return redirect()->to('admin/auth/login');
+        }
+
+        $token = WebToken::fromString($this->request->getGet('token'));
+        if (isset($token)) {
+            $pemilihModel = model('App\Models\PemilihModel');
+            $pemilihModel->builder()->emptyTable();
+            $this->session->set('status', new Status('success', 'Berhasil reset seluruh data pemilih'));
+        } else {
+            $this->session->set('status', new Status('error', 'Token reset tidak valid. Silakan refresh halaman ini kemudian lakukan reset lagi'));
+        }
+        return redirect()->to('admin/pemilih/view');
     }
 
 }

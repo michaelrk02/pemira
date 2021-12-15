@@ -4,7 +4,7 @@
         <div style="margin: 1rem">
             <a class="btn" href="<?php echo site_url('admin/mahasiswa/add'); ?>"><i class="fa fa-plus left"></i> TAMBAH MAHASISWA</a>
             <a class="btn" href="<?php echo site_url('admin/mahasiswa/import'); ?>"><i class="fa fa-file-import left"></i> IMPORT MAHASISWA</a>
-            <a class="btn red" href="<?php echo site_url('admin/mahasiswa/reset'); ?>" onclick="return confirm('Apakah anda yakin?') && (prompt('Seluruh data mahasiswa akan terhapus dan anda harus melakukan import ulang lagi dengan username SSO yang belum terisi semua. Ketik `saya mengetahui hal tersebut` apabila ingin dilanjut') === 'saya mengetahui hal tersebut')"><i class="fa fa-redo left"></i> RESET MAHASISWA</a>
+            <a class="btn red" href="<?php echo site_url('admin/mahasiswa/reset').'?token='.urlencode($resetToken); ?>" onclick="return confirm('Apakah anda yakin?') && (prompt('Seluruh data mahasiswa akan terhapus dan anda harus melakukan import ulang lagi dengan username SSO yang belum terisi semua. Ketik `saya mengetahui hal tersebut` apabila ingin dilanjut') === 'saya mengetahui hal tersebut')"><i class="fa fa-redo left"></i> RESET MAHASISWA</a>
         </div>
         <div class="z-depth-3" style="margin: 1rem">
             <div style="padding: 1rem">

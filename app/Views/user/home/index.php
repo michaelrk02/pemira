@@ -1,4 +1,4 @@
-<div style="margin-top: -100px; padding-top: 2rem; padding-bottom: 4rem; min-height: 100vh; background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(<?php echo base_url('public/pemira/img/hero-bg.jpg'); ?>); background-size: cover; background-position: center" class="grey lighten-3">
+<div style="padding-top: 2rem; padding-bottom: 4rem; min-height: 100vh; background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(<?php echo base_url('public/pemira/img/hero-bg.jpg'); ?>); background-size: cover; background-position: center" class="grey lighten-3">
     <div class="container">
         <div style="margin-top: 2rem" class="center-align">
             <?php if (isset($login)): ?>

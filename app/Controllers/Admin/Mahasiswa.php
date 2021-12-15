@@ -9,6 +9,7 @@ use Psr\Log\LoggerInterface;
 use App\Controllers\AdminController;
 use App\Entities\Mahasiswa as MahasiswaEntity;
 use App\Libraries\Status;
+use App\Libraries\WebToken;
 
 class Mahasiswa extends AdminController {
 
@@ -25,8 +26,10 @@ class Mahasiswa extends AdminController {
             return redirect()->to('admin/auth/login');
         }
 
+        $resetToken = WebToken::fromData(['expired' => time() + 1800], [])->toString();
+
         echo $this->viewHeader('Data Mahasiswa', TRUE);
-        echo view('admin/mahasiswa/data');
+        echo view('admin/mahasiswa/data', ['resetToken' => $resetToken]);
         echo $this->viewFooter();
     }
 
@@ -149,15 +152,15 @@ class Mahasiswa extends AdminController {
             return redirect()->to('admin/auth/login');
         }
 
-        $mahasiswaModel = model('App\Models\MahasiswaModel');
-
-        //$mahasiswaModel->reset();
-        if ($mahasiswaModel->error()['code'] == 0) {
+        $token = WebToken::fromString($this->request->getGet('token'));
+        if (isset($token)) {
+            $mahasiswaModel = model('App\Models\MahasiswaModel');
+            $mahasiswaModel->builder()->emptyTable();
             $this->session->set('status', new Status('success', 'Berhasil mereset mahasiswa'));
-            return redirect()->to('admin/mahasiswa/view');
         } else {
-            $this->session->set('status', new Status('error', 'Gagal mereset mahasiswa'));
+            $this->session->set('status', new Status('error', 'Token reset tidak valid. Silakan refresh halaman ini kemudian lakukan reset lagi'));
         }
+        return redirect()->to('admin/mahasiswa/view');
     }
 
     public function fetch() {

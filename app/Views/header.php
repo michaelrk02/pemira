@@ -48,19 +48,28 @@
         <div style="display: none" data-severity="<?php echo $status->severity; ?>" id="status"><?php echo $status->message; ?></div>
         <div style="flex: 1 0 auto">
             <header>
-                <nav class="pushpin" style="z-index: 100">
-                    <div class="nav-wrapper container">
-                        <a href="<?php echo site_url(); ?>" class="brand-logo">PEMIRA</a>
-                        <a href="#!" data-target="nav-mobile" class="sidenav-trigger"><i class="fa fa-bars"></i></a>
-                        <?php if (!$sidebarOnly): ?>
-                            <ul class="right hide-on-med-and-down">
-                                <?php foreach ($menus as $menu): ?>
-                                    <li <?php echo uri_string() === $menu['site'] ? 'class="active"' : ''; ?>><a href="<?php echo site_url($menu['site']); ?>"><?php echo $menu['name']; ?></a></li>
-                                <?php endforeach; ?>
-                            </ul>
-                        <?php endif; ?>
+                <?php if ($_ENV['CI_ENVIRONMENT'] === 'development'): ?>
+                    <div style="position: relative; height: 32px">
+                        <div class="orange white-text" style="position: fixed; width: 100%; height: 32px; display: flex">
+                            <b style="margin: auto">WARNING: Situs ini hanya dapat digunakan untuk keperluan uji coba saja</b>
+                        </div>
                     </div>
-                </nav>
+                <?php endif; ?>
+                <div class="navbar-fixed">
+                    <nav>
+                        <div class="nav-wrapper container">
+                            <a href="<?php echo site_url(); ?>" class="brand-logo">PEMIRA</a>
+                            <a href="#!" data-target="nav-mobile" class="sidenav-trigger"><i class="fa fa-bars"></i></a>
+                            <?php if (!$sidebarOnly): ?>
+                                <ul class="right hide-on-med-and-down">
+                                    <?php foreach ($menus as $menu): ?>
+                                        <li <?php echo uri_string() === $menu['site'] ? 'class="active"' : ''; ?>><a href="<?php echo site_url($menu['site']); ?>"><?php echo $menu['name']; ?></a></li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            <?php endif; ?>
+                        </div>
+                    </nav>
+                </div>
                 <ul class="sidenav <?php echo $sidebarOnly ? 'sidenav-fixed' : ''; ?>" id="nav-mobile">
                     <li><a class="subheader">PEMIRA</a></li>
                     <?php foreach ($menus as $menu): ?>
@@ -68,4 +77,4 @@
                     <?php endforeach; ?>
                 </ul>
             </header>
-            <main style="margin-top: 100px">
+            <main>
