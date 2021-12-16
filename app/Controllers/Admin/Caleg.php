@@ -64,7 +64,7 @@ class Caleg extends AdminController {
                 if ($calegModel->error()['code'] == 0) {
                     $this->session->set('status', new Status('success', 'Berhasil menghapus caleg'));
                 } else {
-                    $this->session->set('status', new Status('error', 'Gagal menghapus caleg'));
+                    $this->session->set('status', new Status('error', 'Gagal menghapus caleg, kemungkinan masih terdapat data pemilih atau suara yang terkait dengan caleg tersebut'));
                 }
             } else {
                 $this->session->set('status', new Status('error', 'Caleg tidak ditemukan'));

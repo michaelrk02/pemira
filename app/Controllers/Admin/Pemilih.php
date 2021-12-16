@@ -125,9 +125,33 @@ class Pemilih extends AdminController {
         if (count($suaraArray) > 0) {
             $suaraArray = '('.implode(',', $suaraArray).')';
             $tokenIlegal = $pemilihModel->builder()->where('token NOT IN '.$suaraArray, NULL, FALSE)->get()->getResult();
+        } else {
+            $tokenIlegal = $pemilihModel->builder()->get()->getResult();
         }
 
-        echo view('admin/pemilih/token_ilegal', ['tokenIlegal' => $tokenIlegal]);
+        $capresIlegal = [];
+        $calegIlegal = [];
+
+        foreach ($tokenIlegal as $token) {
+            if (isset($capresIlegal[$token->idcapres])) {
+                $capresIlegal[$token->idcapres]++;
+            } else {
+                $capresIlegal[$token->idcapres] = 1;
+            }
+            if (($token->idcaleg !== NULL) && ($token->idcaleg !== '')) {
+                if (isset($calegIlegal[$token->idcaleg])) {
+                    $calegIlegal[$token->idcaleg]++;
+                } else {
+                    $calegIlegal[$token->idcaleg] = 1;
+                }
+            }
+        }
+
+        echo view('admin/pemilih/token_ilegal', [
+            'tokenIlegal' => $tokenIlegal,
+            'capresIlegal' => $capresIlegal,
+            'calegIlegal' => $calegIlegal
+        ]);
     }
 
     public function reset() {

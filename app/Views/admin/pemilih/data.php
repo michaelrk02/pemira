@@ -2,6 +2,9 @@
     <h3>Data Pemilih</h3>
     <div style="margin-top: 4rem; margin-bottom: 4rem">
         <div style="margin: 1rem">
+            <div>Pastikan <b>jumlah suara sesungguhnya</b> yang masuk sama dengan jumlah token. Hal ini untuk mengantisipasi adanya token fiktif atau ilegal (terdapat token yang sekilas valid namun tidak merepresentasikan DPT)</div>
+        </div>
+        <div style="margin: 1rem">
             <button type="button" class="btn" onclick="cekStatistik(this)">CEK STATISTIK</button>
             <a target="_blank" class="btn" href="<?php echo site_url('admin/pemilih/cektokenilegal'); ?>">CEK TOKEN ILEGAL</a>
             <a class="btn red" href="<?php echo site_url('admin/pemilih/reset').'?token='.urlencode($resetToken); ?>" onclick="return confirm('Apakah anda yakin?') && (prompt('Seluruh data pemilih atau suara terhapus dan anda harus melaksanakan pemilihan ulang. Ketik `saya mengetahui hal tersebut` apabila ingin dilanjut') === 'saya mengetahui hal tersebut')"><i class="fa fa-redo left"></i> RESET PEMILIH</a>
@@ -40,7 +43,7 @@ function cekStatistik(self) {
 
 function showTokenSecretHashUsage(e) {
     e.preventDefault();
-    showToast('\'Token Secret Hash\' digunakan untuk mengecek kenormalan suatu token. Jika ditemukan suatu token yang tidak normal, sangat disarankan untuk menghapus entri tersebut melalui database secara langsung');
+    showToast('\'Token Secret Hash\' digunakan untuk mengecek kenormalan suatu token. Jika ditemukan suatu token yang tidak normal, sangat disarankan untuk menghapus entri tersebut melalui database secara langsung. Hal ini juga menandakan kesiapan internal website dalam hal operasionalnya. Anda sebagai operator umumnya tidak perlu mengkhawatirkan hal ini');
 }
 
 $(document).ready(function() {

@@ -25,7 +25,7 @@ class Auth extends AdminController {
 
             if ($password === $_ENV['pemira.admin.password']) {
                 $this->session->set('admin_login', TRUE);
-                $this->session->set('status', new Status('success', 'Login berhasil! Selamat datang di admin dashboard'));
+                $this->session->set('status', new Status('success', 'Login berhasil! Selamat datang di admin dashboard. Anda juga dapat melihat panduan di menu kiri'));
                 return $this->dashboardRedirect;
             } else {
                 $this->session->set('status', new Status('error', 'Password tidak valid'));

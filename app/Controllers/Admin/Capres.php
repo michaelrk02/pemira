@@ -64,7 +64,7 @@ class Capres extends AdminController {
                 if ($capresModel->error()['code'] == 0) {
                     $this->session->set('status', new Status('success', 'Berhasil menghapus capres'));
                 } else {
-                    $this->session->set('status', new Status('error', 'Gagal menghapus capres'));
+                    $this->session->set('status', new Status('error', 'Gagal menghapus capres, kemungkinan masih terdapat data pemilih atau suara yang terkait dengan capres tersebut'));
                 }
             } else {
                 $this->session->set('status', new Status('error', 'Capres tidak ditemukan'));

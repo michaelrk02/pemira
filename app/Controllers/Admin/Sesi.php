@@ -64,7 +64,7 @@ class Sesi extends AdminController {
                 if ($sesiModel->error()['code'] == 0) {
                     $this->session->set('status', new Status('success', 'Berhasil menghapus sesi'));
                 } else {
-                    $this->session->set('status', new Status('error', 'Gagal menghapus sesi'));
+                    $this->session->set('status', new Status('error', 'Gagal menghapus sesi. Pastikan terlebih dahulu supaya tidak ada prodi yang menempati sesi tersebut'));
                 }
             } else {
                 $this->session->set('status', new Status('error', 'Sesi tidak ditemukan'));

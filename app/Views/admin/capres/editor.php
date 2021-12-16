@@ -4,6 +4,7 @@
         <div class="input-field">
             <input id="input-ID" type="number" name="ID" value="<?php echo esc($capres->ID); ?>">
             <label for="input-ID">ID <?php echo !$createMode ? '(sebelumnya: '.$oldID.')' : ''; ?></label>
+            <span class="helper-text">Masukkan nomor urut capres di sini</span>
         </div>
         <div class="input-field">
             <input id="input-Nama" type="text" name="Nama" value="<?php echo esc($capres->Nama); ?>">

@@ -23,6 +23,7 @@
             <div class="file-path-wrapper">
                 <input class="file-path" type="text" placeholder="Upload resource file">
             </div>
+            <span class="helper-text">Max size: <b><?php echo ini_get('upload_max_filesize'); ?>B</b></span>
         </div>
         <div><button type="submit" class="btn green" name="submit" value="1"><i class="fa fa-plus left"></i> CREATE</button></div>
     </form>
