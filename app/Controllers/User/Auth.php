@@ -172,7 +172,7 @@ class Auth extends UserController {
                     'sso' => $mhs->SSO
                 ])->toString();
 
-                return $this->response->download('IDPEMIRA_'.$token->payload['nim'].'.idc', $data);
+                return $this->response->download('Kartu Akses '.$token->payload['nim'].' - '.$_ENV['pemira.info.title'].'.idc', $data);
             } else {
                 return $this->response->setStatusCode(404, 'Mahasiswa tidak ditemukan');
             }
