@@ -95,7 +95,8 @@ class Vote extends UserController {
             $nim = $this->userLogin->NIM;
             $idcapres = $pemilih->IDCapres;
             $idcaleg = $pemilih->IDCaleg;
-            $signature = md5($nim.':'.$idcapres.':'.$idcaleg.':'.base64_encode($_ENV['pemira.token.secret']));
+            $timestamp = time();
+            $signature = md5($nim.':'.$idcapres.':'.$idcaleg.':'.$timestamp.':'.base64_encode($_ENV['pemira.token.secret']));
 
             $file = '';
             $file .= 'Simpan file ini sebagai bukti bahwa anda telah melakukan pemilihan yang valid'."\r\n";
@@ -109,6 +110,7 @@ class Vote extends UserController {
             if (($idcaleg !== NULL) && ($idcaleg !== '')) {
                 $file .= 'ID Caleg : '.$idcaleg.' ('.$calegModel->find($idcaleg)->Nama.')'."\r\n";
             }
+            $file .= 'Timestamp : '.$timestamp."\r\n";
             $file .= "\r\n";
             $file .= '### Tanda Tangan Digital: '.$signature.' ###'."\r\n";
             $file .= "\r\n";

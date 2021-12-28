@@ -30,21 +30,6 @@
         </div>
     </div>
     <div style="margin: 1rem">
-        <!-
-Dugaan: penggelembungan suara dgn memanfaatkan DPT yang nonaktif (umumnya mhs angkatan tua)
-Klarifikasi: cek status aktivasi SSO DPT tersebut terlebih dahulu. Setelah itu minta SSO yg valid kepada DPT yang bersangkutan (dicocokkan dgn cara mengirimkan suatu pesan ke SSO beliau kemudian beliau membacakan pesan yg telah dikirim). Apabila DPT ybs bisa menerima dan membaca pesan tsb, maka cek data mahasiswa dengan mencocokan email SSO tsb, jika data SSO sama dgn yang diberikan tadi maka DPT terbukti berbohong dan mengada2 (implikasi: DPT nonaktif tsb mengklik link aktivasi dan membagikan kartu akses ke pihak yg melakukan kecurangan, atau pihak tsb mendapat akses ke email SSO DPT, atau melakukan voting sendiri), jika data SSO berbeda dari yang disampaikan maka suara tidak valid dan dihapus saja dr database (implikasi: menggunakan SSO milik fakultas lain). Kemudian apabila DPT ybs tdk bisa menerima pesan tsb, maka SSO yg diberikan pasti tidak valid, coba untuk dimintai keterangan lagi.
-
-Dugaan: manipulasi suara dgn mengganti pilihan oleh hacker
-Klarifikasi: sistem sudah diusahakan aman dari serangan hacker. Cek pada bagian "Data Pemilih" pada penjelasan kolom "Valid". Mengganti pilihan capres dan caleg saja tidak cukup, melainkan juga butuh untuk mengganti signature pada tiap token yang diganti yang mana proses pembuatan signaturenya dirahasiakan oleh pengembang web.
-
-Dugaan: manipulasi suara dgn mengganti pilihan oleh pengembang web
-Klarifikasi: pengembang web sendiri tidak mungkin melakukan manipulasi karena sudah disumpah pada saat pelantikan perangkat PEMIRA. Namun jika masih ragu2 dapat membuka kesempatan bagi seluruh mahasiswa fmipa utk mengunduh bukti pemilihan dan mengecek lagi. Apabila terdapat perbedaan dgn bukti sebelumnya (+ mengirimkan bukti pemilihan yg terdahulu), segera laporkan saja supaya dapat melakukan pemilihan lagi.
-
-Dugaan: penghapusan suara oleh hacker atau pengembang web
-Klarifikasi: kurang lebih sama seperti di atas perihal disclaimer hacker dan pengembang webnya. Utk prosedurnya, buka kesempatan bagi seluruh mhs fmipa yg telah memilih untuk login kembali. Apabila statusnya berubah menjadi belum voting (+ terbukti sudah memilih dengan mengirimkan bukti pemilihan), maka mhs tsb berhak melakukan pemilihan lagi.
-
-N.B. gunakan fitur layanan sengketa pada admin page untuk membantu cek validitas bukti pemilihan-
-        -->
         <h5>Sengketa</h5>
         <div>
             <table class="striped responsive-table">
@@ -73,7 +58,7 @@ N.B. gunakan fitur layanan sengketa pada admin page untuk membantu cek validitas
                             Mengganti pilihan capres dan caleg saja tidak cukup, melainkan juga butuh untuk mengganti signature pada tiap token yang diganti yang mana proses pembuatan signaturenya dirahasiakan oleh pengembang web.
                             Untuk pengembang web sendiri tidak mungkin melakukan manipulasi karena sudah disumpah pada saat pelantikan perangkat PEMIRA dan juga bekerja secara profesional.
                             Namun jika masih ragu-ragu dapat membuka kesempatan bagi seluruh mahasiswa yang berpartisipasi untuk mengunduh bukti pemilihan dan mengecek lagi.
-                            Apabila terdapat perbedaan dengan bukti sebelumnya, segera laporkan saja supaya dapat melakukan pemilihan lagi.
+                            Apabila terdapat perbedaan dengan bukti sebelumnya, segera laporkan saja supaya panitia menganggap bukti pertama yang valid (nilai timestamp lebih kecil).
                         </td>
                     </tr>
                     <tr>

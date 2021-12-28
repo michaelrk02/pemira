@@ -116,8 +116,13 @@ class Pemilih extends AdminController {
 
         $suaraArray = [];
         foreach ($mhsArray as $mhs) {
-            if ($pemilihModel->find($mhs->getToken()) !== NULL) {
-                $suaraArray[] = '\''.$mhs->getToken().'\'';
+            $suara = $pemilihModel->find($mhs->getToken());
+            if (isset($suara)) {
+                if ($suara->Secret === md5(base64_encode($_ENV['pemira.token.secret']))) {
+                    if ($suara->Signature === md5($suara->Token.':'.$suara->IDCapres.':'.$suara->IDCaleg.':'.base64_encode($_ENV['pemira.token.secret']))) {
+                        $suaraArray[] = '\''.$mhs->getToken().'\'';
+                    }
+                }
             }
         }
 

@@ -2,7 +2,7 @@
     <h3>Data Pemilih</h3>
     <div style="margin-top: 4rem; margin-bottom: 4rem">
         <div style="margin: 1rem">
-            <div>Pastikan <b>jumlah suara sesungguhnya</b> yang masuk sama dengan jumlah token. Hal ini untuk mengantisipasi adanya token fiktif atau ilegal (terdapat token yang sekilas valid namun tidak merepresentasikan DPT)</div>
+            <div>Pastikan <b>jumlah suara sesungguhnya</b> yang masuk sama dengan jumlah token. Hal ini untuk mengantisipasi adanya token fiktif (terdapat token yang sekilas valid namun tidak merepresentasikan DPT)</div>
         </div>
         <div style="margin: 1rem">
             <button type="button" class="btn" onclick="cekStatistik(this)">CEK STATISTIK</button>
