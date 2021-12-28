@@ -53,6 +53,12 @@ class Rekapitulasi extends AdminController {
 
         $listProdiCaleg = [];
         $listProdi = $prodiModel->findAll();
+
+        $listProdiCaleg[] = [
+            'prodi_id' => 0,
+            'prodi_nama' => '(umum)',
+            'ranking' => $calegModel->viewTotalPemilih(NULL)
+        ];
         foreach ($listProdi as $prodi) {
             $prodiCaleg = [];
             $prodiCaleg['prodi_id'] = $prodi->ID;
@@ -61,7 +67,7 @@ class Rekapitulasi extends AdminController {
             $listProdiCaleg[] = $prodiCaleg;
         }
 
-        echo $this->viewHeader('Rekapitulasi Capres', TRUE);
+        echo $this->viewHeader('Rekapitulasi Caleg', TRUE);
         echo view('admin/rekapitulasi/tabs');
         echo view('admin/rekapitulasi/caleg', [
             'listProdiCaleg' => $listProdiCaleg

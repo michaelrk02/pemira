@@ -44,7 +44,7 @@
                                 <button type="button" class="btn-floating halfway-fab waves-effect waves-light red tooltipped btnDetailCapres" data-position="top" data-tooltip="Lihat detail" data-idcapres="<?php echo $capres->ID; ?>"><i class="fa fa-eye"></i></button>
                             </div>
                             <div class="card-content">
-                                <h6 class="nama-capres" data-idcapres="<?php echo $capres->ID; ?>"><?php echo esc($capres->Nama); ?></h6>
+                                <h6 class="nama-capres" style="font-weight: bold" data-idcapres="<?php echo $capres->ID; ?>"><?php echo esc($capres->Nama); ?></h6>
                             </div>
                             <div class="card-action"><button type="button" class="waves-effect waves-light btn btn-pilih-capres" data-idcapres="<?php echo $capres->ID; ?>" onclick="pilihCapres(<?php echo $capres->ID; ?>)"><i class="fa fa-check left"></i> <span class="pilihbtn"></span></button></div>
                         </div>
@@ -65,9 +65,12 @@
                                         <?php else: ?>
                                             <img src="<?php echo base_url('public/pemira/img/foto-default.png'); ?>">
                                         <?php endif; ?>
-                                        <div class="card-title" style="width: 100%; background-image: linear-gradient(to top, rgba(40, 40, 40, 255), rgba(40, 40, 40, 0))">Nomor <?php echo $caleg->ID - $login->IDProdi * 1000; ?></div>
+                                        <div class="card-title" style="width: 100%; background-image: linear-gradient(to top, rgba(40, 40, 40, 255), rgba(40, 40, 40, 0))">Nomor <?php echo $caleg->ID - (int)$caleg->IDProdi * 1000; ?></div>
                                     </div>
-                                    <div class="card-content"><span class="nama-caleg" data-idcaleg="<?php echo $caleg->ID; ?>"><?php echo esc($caleg->Nama); ?></span></div>
+                                    <div class="card-content">
+                                        <div class="nama-caleg" data-idcaleg="<?php echo $caleg->ID; ?>"><b><?php echo esc($caleg->Nama); ?></b></div>
+                                        <div>ID Caleg: <?php echo $caleg->ID; ?></div>
+                                    </div>
                                     <div class="card-action"><button type="button" class="waves-effect waves-light btn btn-pilih-caleg" data-idcaleg="<?php echo $caleg->ID; ?>" onclick="pilihCaleg(<?php echo $caleg->ID; ?>)"><i class="fa fa-check left"></i> <span class="pilihbtn"></span></button></div>
                                 </div>
                             </div>
@@ -141,7 +144,7 @@ function pilihCaleg(id) {
     updatePilihCalegButtons();
 
     $('#pilihan-idcaleg').val(id);
-    $('#pilihan-caleg').text((id - idProdi * 1000) + ' - ' + $('.nama-caleg[data-idcaleg="' + id + '"]').text());
+    $('#pilihan-caleg').text('ID ' + id + ' - ' + $('.nama-caleg[data-idcaleg="' + id + '"]').text());
 }
 
 </script>

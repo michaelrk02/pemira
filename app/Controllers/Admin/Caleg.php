@@ -95,7 +95,7 @@ class Caleg extends AdminController {
             $arr = [
                 'id' => $obj->id,
                 'nama' => $obj->nama,
-                'prodi' => $obj->prodi,
+                'prodi' => ($obj->prodi === NULL) || ($obj->prodi === '') ? '(umum)' : $obj->prodi,
                 'tindakan' => implode(' ', [$actEdit, $actDelete])
             ];
 
@@ -142,6 +142,7 @@ class Caleg extends AdminController {
             $caleg->ID = $this->request->getPost('ID');
             $caleg->Nama = $this->request->getPost('Nama');
             $caleg->IDProdi = $this->request->getPost('IDProdi');
+            $caleg->IDProdi = $caleg->IDProdi == 0 ? NULL : $caleg->IDProdi;
             $caleg->IDFoto = $this->request->getPost('IDFoto');
             $newID = $caleg->ID;
 

@@ -91,9 +91,9 @@ class Prodi extends AdminController {
 
             $actEdit = '<a class="btn" href="'.site_url('admin/prodi/edit').'?id='.$obj->id.'"><i class="fa fa-edit left"></i> EDIT</a>';
             $actDelete = '<a class="btn red" href="'.site_url('admin/prodi/delete').'?id='.$obj->id.'" onclick="return confirm(\'Apakah anda yakin?\')"><i class="fa fa-trash left"></i> DELETE</a>';
-            $actViewSesi = '<button type="button" class="waves-effect waves-light btn listSesi" data-id="'.$obj->id.'"><i class="fa fa-calendar left"></i> LIHAT SESI</button>';
-            $actAddSesi = '<button type="button" class="waves-effect waves-light btn addSesi" data-id="'.$obj->id.'"><i class="fa fa-calendar-plus left"></i> TAMBAH SESI</button>';
-            $actDelSesi = '<button type="button" class="waves-effect waves-light btn delSesi" data-id="'.$obj->id.'"><i class="fa fa-calendar-minus"></i> HAPUS SESI</button>';
+            $actViewSesi = '<button type="button" class="waves-effect waves-light btn listSesi" data-id="'.$obj->id.'"><i class="fa fa-calendar left"></i> LIHAT JADWAL</button>';
+            $actAddSesi = '<button type="button" class="waves-effect waves-light btn addSesi" data-id="'.$obj->id.'"><i class="fa fa-calendar-plus left"></i> TAMBAH JADWAL</button>';
+            $actDelSesi = '<button type="button" class="waves-effect waves-light btn delSesi" data-id="'.$obj->id.'"><i class="fa fa-calendar-minus"></i> HAPUS JADWAL</button>';
 
             $arr = [
                 'id' => $obj->id,
@@ -197,7 +197,7 @@ class Prodi extends AdminController {
         if ($this->request->getPost('submit') == 1) {
             $rules = [];
 
-            $rules['ID'] = 'required';
+            $rules['ID'] = 'required|greater_than[0]';
             $rules['Nama'] = 'required|max_length[50]';
 
             $oldID = $prodi->ID;

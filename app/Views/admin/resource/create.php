@@ -4,6 +4,7 @@
         <div class="input-field">
             <input id="input-id" type="text" name="id" value="<?php echo esc($input['id']); ?>">
             <label for="input-id">ID</label>
+            <span class="helper-text">For example: <b>foto_capres_no1</b></span>
         </div>
         <div class="input-field">
             <input id="input-mime" type="text" name="mime" value="<?php echo esc($input['mime']); ?>">

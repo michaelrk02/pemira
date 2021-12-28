@@ -48,18 +48,23 @@ class Vote extends UserController {
             if ($idcaleg === '') { $idcaleg = NULL; }
 
             if (isset($idcapres) && ((!isset($idcaleg) && ($jmlCaleg == 0)) || (($jmlCaleg > 0) && isset($idcaleg)))) {
-                $this->session->set('status', new Status('success', 'Pilihan berhasil disimpan. Terima kasih telah menggunakan hak pilih anda. Anda juga dapat mengunduh bukti pemilihan anda apabila diperlukan'));
+                $caleg = $calegModel->find($idcaleg);
+                if ((($caleg->IDProdi === NULL) || ($caleg->IDProdi === '')) || ($caleg->IDProdi == $this->userLogin->IDProdi)) {
+                    $this->session->set('status', new Status('success', 'Pilihan berhasil disimpan. Terima kasih telah menggunakan hak pilih anda. Anda juga dapat mengunduh bukti pemilihan anda apabila diperlukan'));
 
-                $pemilih = new Pemilih();
-                $pemilih->Token = $this->userLogin->getToken();
-                $pemilih->Secret = md5(base64_encode($_ENV['pemira.token.secret']));
-                $pemilih->Signature = md5($pemilih->Token.':'.$idcapres.':'.$idcaleg.':'.base64_encode($_ENV['pemira.token.secret']));
-                $pemilih->IDProdi = $this->userLogin->IDProdi;
-                $pemilih->IDCapres = $idcapres;
-                $pemilih->IDCaleg = $idcaleg;
-                $pemilihModel->insert($pemilih);
+                    $pemilih = new Pemilih();
+                    $pemilih->Token = $this->userLogin->getToken();
+                    $pemilih->Secret = md5(base64_encode($_ENV['pemira.token.secret']));
+                    $pemilih->Signature = md5($pemilih->Token.':'.$idcapres.':'.$idcaleg.':'.base64_encode($_ENV['pemira.token.secret']));
+                    $pemilih->IDProdi = $this->userLogin->IDProdi;
+                    $pemilih->IDCapres = $idcapres;
+                    $pemilih->IDCaleg = $idcaleg;
+                    $pemilihModel->insert($pemilih);
 
-                return redirect()->to('user/home');
+                    return redirect()->to('user/home');
+                } else {
+                    $this->session->set('status', new Status('error', 'Anda tidak bisa memilih caleg di luar yang tersedia untuk prodi anda!'));
+                }
             } else {
                 $this->session->set('status', new Status('error', 'Anda harus memilih capres dan caleg (jika ada)!'));
             }
@@ -95,7 +100,7 @@ class Vote extends UserController {
             $file = '';
             $file .= 'Simpan file ini sebagai bukti bahwa anda telah melakukan pemilihan yang valid'."\r\n";
             $file .= "\r\n";
-            $file .= 'Demi menjamin asas kerahasiaan PEMIRA, letakkan file ini di lokasi yang aman sehingga tidak ada seorangpun yang bisa melihat pilihan anda'."\r\n";
+            $file .= 'Demi menjamin asas kerahasiaan pemilu pada umumnya, letakkan file ini di lokasi yang aman sehingga tidak ada seorangpun yang bisa melihat pilihan anda'."\r\n";
             $file .= "\r\n";
             $file .= '### DETAIL PILIHAN ###'."\r\n";
             $file .= "\r\n";
@@ -108,7 +113,7 @@ class Vote extends UserController {
             $file .= '### Tanda Tangan Digital: '.$signature.' ###'."\r\n";
             $file .= "\r\n";
 
-            return $this->response->setStatusCode(200)->setContentType('text/plain')->download('BUKTIPEMIRA_'.$nim.'.txt', $file);
+            return $this->response->setStatusCode(200)->setContentType('text/plain')->download('Bukti Pemilihan '.$_ENV['pemira.info.title'].' - '.$nim.'.txt', $file);
         } else {
             $this->session->set('status', new Status('error', 'Anda belum melakukan voting'));
         }

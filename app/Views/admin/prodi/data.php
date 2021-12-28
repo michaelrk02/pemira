@@ -13,7 +13,7 @@
 </div>
 <div id="sesiModal" class="modal">
     <div class="modal-content">
-        <h4>Manage Sesi</h4>
+        <h4>Manage Jadwal</h4>
         <div>
             <h6 id="manageSesi_title"></h6>
             <div>
@@ -21,7 +21,7 @@
                 <input id="manageSesi_idProdi" type="number" readonly class="browser-default">
             </div>
             <div>
-                <label>Sesi:</label>
+                <label>Jadwal:</label>
                 <select id="manageSesi_listSesi" class="browser-default">
                     <option value="" disabled selected>Pilih sesi</option>
                 </select>
@@ -43,10 +43,10 @@ function manageSesi(action, idProdi) {
     $('#manageSesi_listSesi').val('');
     if (action === 'add') {
         url = 'addsesi';
-        $('#manageSesi_title').text('Tambah Sesi');
+        $('#manageSesi_title').text('Tambah Jadwal');
     } else if (action === 'del') {
         url = 'delsesi';
-        $('#manageSesi_title').text('Hapus Sesi');
+        $('#manageSesi_title').text('Hapus Jadwal');
     }
 
     var reqData = null;
@@ -125,7 +125,7 @@ $(document).ready(function() {
                             listSesi.push('<li>' + _.escape(sesi.sesi_nama) + '</li>');
                         });
                         listSesi = listSesi.join('');
-                        showToast('<p>Daftar Sesi:</p><ul class="browser-default">' + listSesi + '</ul>');
+                        showToast('<p>Jadwal:</p><ul class="browser-default">' + listSesi + '</ul>');
                     },
                     error: function(xhr) {
                         showToast(xhr.statusText, 'red white-text');

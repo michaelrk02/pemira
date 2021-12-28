@@ -14,7 +14,7 @@ class CalegModel extends Model {
     protected $allowedFields = ['id', 'nama', 'idprodi', 'idfoto'];
 
     public function findByProdi($idprodi) {
-        return $this->where('idprodi', $idprodi)->findAll();
+        return $this->where('idprodi', $idprodi)->orWhere('idprodi', NULL)->findAll();
     }
 
     public function viewTotalPemilih($idprodi) {
@@ -34,7 +34,7 @@ class CalegModel extends Model {
         $qb = $this->builder();
 
         $qb->select('caleg.id, caleg.nama, prodi.nama prodi', FALSE);
-        $qb->join('prodi', 'prodi.id = caleg.idprodi', 'INNER', FALSE);
+        $qb->join('prodi', 'prodi.id = caleg.idprodi', 'LEFT', FALSE);
         $result['recordsTotal'] = $qb->countAllResults(FALSE);
 
         $qb->like('caleg.nama', $search);

@@ -64,7 +64,7 @@ class Sesi extends AdminController {
                 if ($sesiModel->error()['code'] == 0) {
                     $this->session->set('status', new Status('success', 'Berhasil menghapus sesi'));
                 } else {
-                    $this->session->set('status', new Status('error', 'Gagal menghapus sesi. Pastikan terlebih dahulu supaya tidak ada prodi yang menempati sesi tersebut'));
+                    $this->session->set('status', new Status('error', 'Gagal menghapus sesi'));
                 }
             } else {
                 $this->session->set('status', new Status('error', 'Sesi tidak ditemukan'));
@@ -91,7 +91,7 @@ class Sesi extends AdminController {
 
             $actEdit = '<a class="btn" href="'.site_url('admin/sesi/edit').'?id='.$obj->id.'"><i class="fa fa-edit left"></i> EDIT</a>';
             $actDelete = '<a class="btn red" href="'.site_url('admin/sesi/delete').'?id='.$obj->id.'" onclick="return confirm(\'Apakah anda yakin?\')"><i class="fa fa-trash left"></i> DELETE</a>';
-            $actViewProdi = '<button type="button" class="waves-effect waves-light btn viewProdi" data-id="'.$obj->id.'"><i class="fa fa-list left"></i> LIHAT PRODI</button>';
+            $actViewProdi = '<button type="button" class="waves-effect waves-light btn viewProdi" data-id="'.$obj->id.'"><i class="fa fa-list left"></i> LIHAT JADWAL</button>';
 
             $arr = [
                 'id' => $obj->id,
@@ -116,7 +116,7 @@ class Sesi extends AdminController {
         if (isset($id)) {
             $viewProdi = $sesiModel->viewProdi($id);
 
-            echo '<p>Daftar Prodi:</p>';
+            echo '<p>Prodi yang terjadwal:</p>';
             echo '<ul class="browser-default">';
             foreach ($viewProdi as $prodi) {
                 echo ' <li>'.htmlspecialchars($prodi->prodi_nama).'</li>';

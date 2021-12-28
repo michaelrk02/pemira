@@ -21,6 +21,7 @@
         <div class="input-field">
             <input id="input-IDFoto" type="text" name="IDFoto" value="<?php echo esc($capres->IDFoto); ?>">
             <label for="input-IDFoto">ID Foto (resource)</label>
+            <span class="helper-text">Gunakan salah satu ID resource pada <a target="_blank" href="<?php echo site_url('admin/resource/view'); ?>">halaman ini</a> atau klik <b>CREATE RESOURCE</b> terlebih dahulu apabila belum mengupload foto calon</span>
         </div>
         <div><button type="submit" class="btn green" name="submit" value="1"><i class="fa fa-paper-plane left"></i> KIRIM</button></div>
     </form>
