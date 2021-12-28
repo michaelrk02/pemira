@@ -117,6 +117,7 @@ class Capres extends AdminController {
         $capres->Visi = '';
         $capres->Misi = '';
         $capres->IDFoto = '';
+        $capres->Metadata = '';
         if (!$createMode) {
             if ($this->request->getGet('id') === NULL) {
                 return FALSE;
@@ -144,6 +145,7 @@ class Capres extends AdminController {
             $capres->Visi = $this->request->getPost('Visi');
             $capres->Misi = $this->request->getPost('Misi');
             $capres->IDFoto = $this->request->getPost('IDFoto');
+            $capres->Metadata = $this->request->getPost('Metadata');
             $newID = $capres->ID;
 
             if ($this->validate($rules)) {

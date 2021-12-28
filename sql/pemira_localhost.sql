@@ -13,6 +13,7 @@ CREATE TABLE `caleg` (
   `nama` varchar(100) DEFAULT NULL,
   `idprodi` int(11) DEFAULT NULL,
   `idfoto` char(255) DEFAULT NULL,
+  `metadata` text DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `idprodi` (`idprodi`),
   CONSTRAINT `caleg_ibfk_2` FOREIGN KEY (`idprodi`) REFERENCES `prodi` (`id`) ON UPDATE CASCADE
@@ -26,6 +27,7 @@ CREATE TABLE `capres` (
   `visi` text DEFAULT NULL,
   `misi` text DEFAULT NULL,
   `idfoto` char(255) DEFAULT NULL,
+  `metadata` text DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -86,8 +88,8 @@ CREATE TABLE `sesi_prodi` (
   `idsesi` int(11) NOT NULL,
   PRIMARY KEY (`idprodi`,`idsesi`),
   KEY `idsesi` (`idsesi`),
-  CONSTRAINT `sesi_prodi_ibfk_3` FOREIGN KEY (`idprodi`) REFERENCES `prodi` (`id`) ON UPDATE CASCADE,
-  CONSTRAINT `sesi_prodi_ibfk_4` FOREIGN KEY (`idsesi`) REFERENCES `sesi` (`id`) ON UPDATE CASCADE
+  CONSTRAINT `sesi_prodi_ibfk_5` FOREIGN KEY (`idprodi`) REFERENCES `prodi` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `sesi_prodi_ibfk_6` FOREIGN KEY (`idsesi`) REFERENCES `sesi` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -161,4 +163,4 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `v_prodi_useraktif` AS sele
 DROP TABLE IF EXISTS `v_sesi_listprodi`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `v_sesi_listprodi` AS select `sesi`.`id` AS `id`,`sesi`.`nama` AS `nama`,`sesi`.`waktu_buka` AS `waktu_buka`,`sesi`.`waktu_tutup` AS `waktu_tutup`,`prodi`.`id` AS `prodi_id`,`prodi`.`nama` AS `prodi_nama` from ((`sesi` join `sesi_prodi` on(`sesi_prodi`.`idsesi` = `sesi`.`id`)) join `prodi` on(`prodi`.`id` = `sesi_prodi`.`idprodi`));
 
--- 2021-11-17 17:16:14
+-- 2021-12-28 14:32:34

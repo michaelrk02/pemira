@@ -64,7 +64,7 @@ class Prodi extends AdminController {
                 if ($prodiModel->error()['code'] == 0) {
                     $this->session->set('status', new Status('success', 'Berhasil menghapus prodi'));
                 } else {
-                    $this->session->set('status', new Status('error', 'Gagal menghapus prodi. Pastikan terlebih dahulu supaya tidak ada sesi yang ditempati prodi tersebut'));
+                    $this->session->set('status', new Status('error', 'Gagal menghapus prodi. Pastikan terlebih dahulu supaya tidak ada mahasiswa, caleg, dan suara yang berada dalam dari prodi ini'));
                 }
             } else {
                 $this->session->set('status', new Status('error', 'Prodi tidak ditemukan'));

@@ -138,6 +138,7 @@ class Vote extends UserController {
                 $data['nama'] = $capres->Nama;
                 $data['visi'] = $capres->Visi;
                 $data['misi'] = $capres->Misi;
+                $data['metadata'] = $capres->Metadata;
                 return $this->response->setStatusCode(200)->setBody(json_encode($data));
             } else {
                 return $this->response->setStatusCode(404);

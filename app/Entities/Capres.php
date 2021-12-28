@@ -14,7 +14,8 @@ class Capres extends Entity {
         'Nama' => 'nama',
         'Visi' => 'visi',
         'Misi' => 'misi',
-        'IDFoto' => 'idfoto'
+        'IDFoto' => 'idfoto',
+        'Metadata' => 'metadata'
     ];
 
     public function photoExists() {

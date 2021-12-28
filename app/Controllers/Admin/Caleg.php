@@ -118,6 +118,7 @@ class Caleg extends AdminController {
         $caleg->Nama = '';
         $caleg->IDProdi = '';
         $caleg->IDFoto = '';
+        $caleg->Metadata = '';
         if (!$createMode) {
             if ($this->request->getGet('id') === NULL) {
                 return FALSE;
@@ -144,6 +145,7 @@ class Caleg extends AdminController {
             $caleg->IDProdi = $this->request->getPost('IDProdi');
             $caleg->IDProdi = $caleg->IDProdi == 0 ? NULL : $caleg->IDProdi;
             $caleg->IDFoto = $this->request->getPost('IDFoto');
+            $caleg->Metadata = $this->request->getPost('Metadata');
             $newID = $caleg->ID;
 
             if ($this->validate($rules)) {

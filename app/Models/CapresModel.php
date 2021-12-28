@@ -11,7 +11,7 @@ class CapresModel extends Model {
 
     protected $returnType = 'App\Entities\Capres';
 
-    protected $allowedFields = ['id', 'nama', 'visi', 'misi', 'idfoto'];
+    protected $allowedFields = ['id', 'nama', 'visi', 'misi', 'idfoto', 'metadata'];
 
     public function viewTotalPemilih() {
         $qb = $this->builder();

@@ -25,6 +25,11 @@
             <label for="input-IDFoto">ID Foto (resource)</label>
             <span class="helper-text">Gunakan salah satu ID resource pada <a target="_blank" href="<?php echo site_url('admin/resource/view'); ?>">halaman ini</a> atau klik <b>CREATE RESOURCE</b> terlebih dahulu apabila belum mengupload foto calon</span>
         </div>
+        <div class="input-field">
+            <textarea id="input-Metadata" name="Metadata" class="materialize-textarea" style="max-height: 8rem; overflow-y: scroll"><?php echo esc($caleg->Metadata); ?></textarea>
+            <label for="input-Metadata">Metadata</label>
+            <span class="helper-text">Tuliskan deskripsi singkat kandidat ini</span>
+        </div>
         <div><button type="submit" class="btn green" name="submit" value="1"><i class="fa fa-paper-plane left"></i> KIRIM</button></div>
     </form>
 </div>

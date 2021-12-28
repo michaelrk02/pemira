@@ -11,7 +11,7 @@ class CalegModel extends Model {
 
     protected $returnType = 'App\Entities\Caleg';
 
-    protected $allowedFields = ['id', 'nama', 'idprodi', 'idfoto'];
+    protected $allowedFields = ['id', 'nama', 'idprodi', 'idfoto', 'metadata'];
 
     public function findByProdi($idprodi) {
         return $this->where('idprodi', $idprodi)->orWhere('idprodi', NULL)->findAll();

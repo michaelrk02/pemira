@@ -4,6 +4,7 @@
         <div>
             <p>No Urut: <b id="detailCapres_noUrut"></b></p>
             <p>Nama: <b id="detailCapres_nama"></b></p>
+            <div id="detailCapres_metadata"></div>
             <div>
                 <h5>Visi:</h5>
                 <div id="detailCapres_visi"></div>
@@ -45,6 +46,7 @@
                             </div>
                             <div class="card-content">
                                 <h6 class="nama-capres" style="font-weight: bold" data-idcapres="<?php echo $capres->ID; ?>"><?php echo esc($capres->Nama); ?></h6>
+                                <div class="metadata-capres"><?php echo esc($capres->Metadata); ?></div>
                             </div>
                             <div class="card-action"><button type="button" class="waves-effect waves-light btn btn-pilih-capres" data-idcapres="<?php echo $capres->ID; ?>" onclick="pilihCapres(<?php echo $capres->ID; ?>)"><i class="fa fa-check left"></i> <span class="pilihbtn"></span></button></div>
                         </div>
@@ -70,6 +72,7 @@
                                     <div class="card-content">
                                         <div class="nama-caleg" data-idcaleg="<?php echo $caleg->ID; ?>"><b><?php echo esc($caleg->Nama); ?></b></div>
                                         <div>ID Caleg: <?php echo $caleg->ID; ?></div>
+                                        <div class="metadata-caleg"><?php echo esc($caleg->Metadata); ?></div>
                                     </div>
                                     <div class="card-action"><button type="button" class="waves-effect waves-light btn btn-pilih-caleg" data-idcaleg="<?php echo $caleg->ID; ?>" onclick="pilihCaleg(<?php echo $caleg->ID; ?>)"><i class="fa fa-check left"></i> <span class="pilihbtn"></span></button></div>
                                 </div>
@@ -99,6 +102,13 @@
 var idProdi = <?php echo $login->IDProdi; ?>;
 
 $(document).ready(function() {
+    $('.metadata-capres').html(function(index, metadata) {
+        return marked(metadata);
+    });
+    $('.metadata-caleg').html(function(index, metadata) {
+        return marked(metadata);
+    });
+
     updatePilihCapresButtons();
     updatePilihCalegButtons();
 
@@ -106,6 +116,7 @@ $(document).ready(function() {
         $.get('vote/getdetailcapres', {id: $(e.currentTarget).data('idcapres')}, function(data) {
             $('#detailCapres_noUrut').text(data.id);
             $('#detailCapres_nama').text(data.nama);
+            $('#detailCapres_metadata').html(marked(data.metadata));
             $('#detailCapres_visi').html(marked(data.visi));
             $('#detailCapres_misi').html(marked(data.misi));
             M.Modal.getInstance(document.getElementById('detailCapres')).open();

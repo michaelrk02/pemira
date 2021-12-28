@@ -13,7 +13,8 @@ class Caleg extends Entity {
         'ID' => 'id',
         'Nama' => 'nama',
         'IDProdi' => 'idprodi',
-        'IDFoto' => 'idfoto'
+        'IDFoto' => 'idfoto',
+        'Metadata' => 'metadata'
     ];
 
     public function photoExists() {
