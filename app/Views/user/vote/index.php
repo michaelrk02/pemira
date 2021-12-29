@@ -31,10 +31,10 @@
     <form method="post" onsubmit="return confirm('Apakah anda yakin?')">
         <div>
             <h3>Pilih Capres</h3>
-            <div class="row">
+            <div class="row" style="display: flex; flex-wrap: wrap">
                 <?php foreach ($listCapres as $capres): ?>
-                    <div class="col s12 m6 l4">
-                        <div class="card">
+                    <div class="col s12 m6 l4" style="margin: 0.5rem 0">
+                        <div class="card" style="height: 100%">
                             <div class="card-image">
                                 <?php if ($capres->photoExists()): ?>
                                     <img src="<?php echo $capres->getPhotoURL(); ?>">
@@ -57,10 +57,10 @@
         <div>
             <h3>Pilih Caleg</h3>
             <?php if (count($listCaleg) > 0): ?>
-                    <div class="row">
+                    <div class="row" style="display: flex; flex-wrap: wrap">
                         <?php foreach ($listCaleg as $caleg): ?>
-                            <div class="col s12 m4 l3">
-                                <div class="card">
+                            <div class="col s12 m4 l3" style="margin: 0.5rem 0">
+                                <div class="card" style="height: 100%">
                                     <div class="card-image">
                                         <?php if ($caleg->photoExists()): ?>
                                             <img src="<?php echo $caleg->getPhotoURL(); ?>">
