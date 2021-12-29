@@ -133,6 +133,10 @@ DROP VIEW IF EXISTS `v_sesi_listprodi`;
 CREATE TABLE `v_sesi_listprodi` (`id` int(11), `nama` varchar(100), `waktu_buka` bigint(20), `waktu_tutup` bigint(20), `prodi_id` int(11), `prodi_nama` varchar(50));
 
 
+DROP VIEW IF EXISTS `v_sesi_listprodi_inv`;
+CREATE TABLE `v_sesi_listprodi_inv` (`id` int(11), `nama` varchar(100), `waktu_buka` bigint(20), `waktu_tutup` bigint(20), `prodi_id` int(11), `prodi_nama` varchar(50));
+
+
 DROP TABLE IF EXISTS `v_caleg_pemilih`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `v_caleg_pemilih` AS select `caleg`.`id` AS `id`,`caleg`.`nama` AS `nama`,`prodi`.`id` AS `prodi_id`,`prodi`.`nama` AS `prodi_nama`,sum(`pemilih`.`token` is not null) AS `jumlah` from ((`caleg` left join `pemilih` on(`pemilih`.`idcaleg` = `caleg`.`id`)) left join `prodi` on(`prodi`.`id` = `caleg`.`idprodi`)) group by `caleg`.`id`,`caleg`.`nama`,`prodi`.`id`,`prodi`.`nama`;
 
@@ -161,6 +165,9 @@ DROP TABLE IF EXISTS `v_prodi_useraktif`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `v_prodi_useraktif` AS select `prodi`.`id` AS `id`,`prodi`.`nama` AS `nama`,sum(`mahasiswa`.`sso` is not null) AS `jumlah` from (`prodi` left join `mahasiswa` on(`mahasiswa`.`idprodi` = `prodi`.`id`)) group by `prodi`.`id`,`prodi`.`nama`;
 
 DROP TABLE IF EXISTS `v_sesi_listprodi`;
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `v_sesi_listprodi` AS select `sesi`.`id` AS `id`,`sesi`.`nama` AS `nama`,`sesi`.`waktu_buka` AS `waktu_buka`,`sesi`.`waktu_tutup` AS `waktu_tutup`,`prodi`.`id` AS `prodi_id`,`prodi`.`nama` AS `prodi_nama` from ((`sesi` join `sesi_prodi` on(`sesi_prodi`.`idsesi` = `sesi`.`id`)) join `prodi` on(`prodi`.`id` = `sesi_prodi`.`idprodi`));
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `v_sesi_listprodi` AS select `sesi`.`id` AS `id`,`sesi`.`nama` AS `nama`,`sesi`.`waktu_buka` AS `waktu_buka`,`sesi`.`waktu_tutup` AS `waktu_tutup`,`prodi`.`id` AS `prodi_id`,`prodi`.`nama` AS `prodi_nama` from (`sesi` join `prodi`) where exists(select 1 from `sesi_prodi` where `sesi_prodi`.`idsesi` = `sesi`.`id` and `sesi_prodi`.`idprodi` = `prodi`.`id` limit 1) order by `sesi`.`id`,`prodi`.`id`;
 
--- 2021-12-28 14:32:34
+DROP TABLE IF EXISTS `v_sesi_listprodi_inv`;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `v_sesi_listprodi_inv` AS select `sesi`.`id` AS `id`,`sesi`.`nama` AS `nama`,`sesi`.`waktu_buka` AS `waktu_buka`,`sesi`.`waktu_tutup` AS `waktu_tutup`,`prodi`.`id` AS `prodi_id`,`prodi`.`nama` AS `prodi_nama` from (`sesi` join `prodi`) where !exists(select 1 from `sesi_prodi` where `sesi_prodi`.`idsesi` = `sesi`.`id` and `sesi_prodi`.`idprodi` = `prodi`.`id` limit 1) order by `sesi`.`id`,`prodi`.`id`;
+
+-- 2021-12-29 16:31:25

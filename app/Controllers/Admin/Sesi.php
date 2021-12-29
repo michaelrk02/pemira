@@ -91,14 +91,16 @@ class Sesi extends AdminController {
 
             $actEdit = '<a class="btn" href="'.site_url('admin/sesi/edit').'?id='.$obj->id.'"><i class="fa fa-edit left"></i> EDIT</a>';
             $actDelete = '<a class="btn red" href="'.site_url('admin/sesi/delete').'?id='.$obj->id.'" onclick="return confirm(\'Apakah anda yakin?\')"><i class="fa fa-trash left"></i> DELETE</a>';
-            $actViewProdi = '<button type="button" class="waves-effect waves-light btn viewProdi" data-id="'.$obj->id.'"><i class="fa fa-list left"></i> LIHAT JADWAL</button>';
+            $actListJadwal = '<button type="button" class="waves-effect waves-light btn listJadwal" data-id="'.$obj->id.'"><i class="fa fa-list left"></i> LIHAT JADWAL</button>';
+            $actAddJadwal = '<button type="button" class="waves-effect waves-light btn addJadwal" data-id="'.$obj->id.'" data-nama="'.esc($obj->nama).'"><i class="fa fa-calendar-plus left"></i> TAMBAH JADWAL</button>';
+            $actDelJadwal = '<button type="button" class="waves-effect waves-light btn delJadwal" data-id="'.$obj->id.'" data-nama="'.esc($obj->nama).'"><i class="fa fa-calendar-minus"></i> HAPUS JADWAL</button>';
 
             $arr = [
                 'id' => $obj->id,
                 'nama' => $obj->nama,
                 'waktu_buka' => date('Y-m-d H:i', $obj->waktu_buka),
                 'waktu_tutup' => date('Y-m-d H:i', $obj->waktu_tutup),
-                'tindakan' => implode(' ', [$actEdit, $actDelete, '|', $actViewProdi])
+                'tindakan' => implode(' ', [$actEdit, $actDelete, '|', $actListJadwal, $actAddJadwal, $actDelJadwal])
             ];
 
             $data = $arr;
@@ -109,7 +111,31 @@ class Sesi extends AdminController {
         return $this->response->setBody(json_encode($result));
     }
 
-    public function viewProdi() {
+    public function listProdi() {
+        $this->response->setContentType('application/json');
+
+        if (!$this->adminLogin) {
+            return $this->response->setStatusCode(403);
+        }
+
+        $id = $this->request->getGet('id');
+        $action = $this->request->getGet('action');
+        $listProdi = [];
+        if (isset($id) && isset($action)) {
+            $sesiModel = model('App\Models\SesiModel');
+            if ($action === 'add') {
+                $listProdi = $sesiModel->viewProdi($id, TRUE);
+            } else if ($action === 'del') {
+                $listProdi = $sesiModel->viewProdi($id, FALSE);
+            }
+        } else {
+            return $this->response->setStatusCode(400);
+        }
+
+        return $this->response->setStatusCode(200)->setBody(json_encode($listProdi));
+    }
+
+    public function listJadwal() {
         $sesiModel = model('App\Models\SesiModel');
 
         $id = $this->request->getGet('id');
@@ -125,6 +151,50 @@ class Sesi extends AdminController {
         } else {
             echo 'Parameter tidak valid';
         }
+    }
+
+    public function addJadwal() {
+        if (!$this->adminLogin) {
+            return $this->response->setStatusCode(403);
+        }
+
+        $idsesi = $this->request->getGet('idsesi');
+        $idprodi = $this->request->getGet('idprodi');
+        if (isset($idsesi) && isset($idprodi)) {
+            $sesiModel = model('App\Models\SesiModel');
+
+            if ($sesiModel->findJadwal($idsesi, $idprodi) === NULL) {
+                $sesiModel->insertJadwal($idsesi, $idprodi);
+                return $this->response->setStatusCode(200);
+            } else {
+                return $this->response->setStatusCode(400);
+            }
+        } else {
+            return $this->response->setStatusCode(400);
+        }
+        return $this->response->setStatusCode(500);
+    }
+
+    public function delJadwal() {
+        if (!$this->adminLogin) {
+            return $this->response->setStatusCode(403);
+        }
+
+        $idsesi = $this->request->getGet('idsesi');
+        $idprodi = $this->request->getGet('idprodi');
+        if (isset($idsesi) && isset($idprodi)) {
+            $sesiModel = model('App\Models\SesiModel');
+
+            if ($sesiModel->findJadwal($idsesi, $idprodi) !== NULL) {
+                $sesiModel->deleteJadwal($idsesi, $idprodi);
+                return $this->response->setStatusCode(200);
+            } else {
+                return $this->response->setStatusCode(404);
+            }
+        } else {
+            return $this->response->setStatusCode(400);
+        }
+        return $this->response->setStatusCode(500);
     }
 
     protected function initEditor($createMode) {

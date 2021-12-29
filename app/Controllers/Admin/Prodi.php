@@ -91,14 +91,12 @@ class Prodi extends AdminController {
 
             $actEdit = '<a class="btn" href="'.site_url('admin/prodi/edit').'?id='.$obj->id.'"><i class="fa fa-edit left"></i> EDIT</a>';
             $actDelete = '<a class="btn red" href="'.site_url('admin/prodi/delete').'?id='.$obj->id.'" onclick="return confirm(\'Apakah anda yakin?\')"><i class="fa fa-trash left"></i> DELETE</a>';
-            $actViewSesi = '<button type="button" class="waves-effect waves-light btn listSesi" data-id="'.$obj->id.'"><i class="fa fa-calendar left"></i> LIHAT JADWAL</button>';
-            $actAddSesi = '<button type="button" class="waves-effect waves-light btn addSesi" data-id="'.$obj->id.'"><i class="fa fa-calendar-plus left"></i> TAMBAH JADWAL</button>';
-            $actDelSesi = '<button type="button" class="waves-effect waves-light btn delSesi" data-id="'.$obj->id.'"><i class="fa fa-calendar-minus"></i> HAPUS JADWAL</button>';
+            $actViewSesi = '<button type="button" class="waves-effect waves-light btn listJadwal" data-id="'.$obj->id.'"><i class="fa fa-calendar left"></i> LIHAT JADWAL</button>';
 
             $arr = [
                 'id' => $obj->id,
                 'nama' => $obj->nama,
-                'tindakan' => implode(' ', [$actEdit, $actDelete, '|', $actViewSesi, $actAddSesi, $actDelSesi])
+                'tindakan' => implode(' ', [$actEdit, $actDelete, '|', $actViewSesi])
             ];
 
             $data = $arr;
@@ -109,68 +107,22 @@ class Prodi extends AdminController {
         return $this->response->setBody(json_encode($result));
     }
 
-    public function listSesi() {
-        $this->response->setContentType('application/json');
-
-        if (!$this->adminLogin) {
-            return $this->response->setStatusCode(403);
-        }
+    public function listJadwal() {
+        $prodiModel = model('App\Models\ProdiModel');
 
         $id = $this->request->getGet('id');
-        $listSesi = [];
         if (isset($id)) {
-            $prodiModel = model('App\Models\ProdiModel');
-            $listSesi = $prodiModel->viewSesi($id);
-        } else {
-            $sesiModel = model('App\Models\SesiModel');
-            $listSesi = $sesiModel->findAll();
-        }
+            $viewSesi = $prodiModel->viewSesi($id);
 
-        return $this->response->setStatusCode(200)->setBody(json_encode($listSesi));
-    }
-
-    public function addSesi() {
-        if (!$this->adminLogin) {
-            return $this->response->setStatusCode(403);
-        }
-
-        $idprodi = $this->request->getGet('idprodi');
-        $idsesi = $this->request->getGet('idsesi');
-        if (isset($idprodi) && isset($idsesi)) {
-            $prodiModel = model('App\Models\ProdiModel');
-
-            if ($prodiModel->findSesi($idprodi, $idsesi) === NULL) {
-                $prodiModel->insertSesi($idprodi, $idsesi);
-                return $this->response->setStatusCode(200);
-            } else {
-                return $this->response->setStatusCode(403);
+            echo '<p>Sesi yang terjadwal:</p>';
+            echo '<ul class="browser-default">';
+            foreach ($viewSesi as $sesi) {
+                echo ' <li>'.htmlspecialchars($sesi->sesi_nama).'</li>';
             }
+            echo '</ul>';
         } else {
-            return $this->response->setStatusCode(400);
+            echo 'Parameter tidak valid';
         }
-        return $this->response->setStatusCode(500);
-    }
-
-    public function delSesi() {
-        if (!$this->adminLogin) {
-            return $this->response->setStatusCode(403);
-        }
-
-        $idprodi = $this->request->getGet('idprodi');
-        $idsesi = $this->request->getGet('idsesi');
-        if (isset($idprodi) && isset($idsesi)) {
-            $prodiModel = model('App\Models\ProdiModel');
-
-            if ($prodiModel->findSesi($idprodi, $idsesi) !== NULL) {
-                $prodiModel->deleteSesi($idprodi, $idsesi);
-                return $this->response->setStatusCode(200);
-            } else {
-                return $this->response->setStatusCode(404);
-            }
-        } else {
-            return $this->response->setStatusCode(400);
-        }
-        return $this->response->setStatusCode(500);
     }
 
     protected function initEditor($createMode) {
