@@ -43,30 +43,37 @@
                     <tr>
                         <td>Penggelembungan suara dengan memanfaatkan DPT yang nonaktif (umumnya memanfaatkan mahasiswa angkatan tua)</td>
                         <td>
-                            Cek status aktivasi SSO DPT tersebut terlebih dahulu.
-                            Setelah itu minta SSO yang valid kepada DPT yang bersangkutan (dicocokkan dengan cara mengirimkan suatu pesan ke SSO beliau kemudian beliau membacakan pesan yg telah dikirim).
-                            Apabila DPT tersebut bisa menerima dan membaca pesan tersebut, maka cek data mahasiswa dengan mencocokan username SSO tersebut.
-                            Jika data SSO pada website sama dengan yang diberikan tadi maka DPT terbukti berbohong dan mengada-ada (implikasi: DPT nonaktif tersebut mengklik link aktivasi dan membagikan kartu akses ke pihak yang melakukan kecurangan, atau pihak tersebut mendapat akses ke email SSO DPT, atau melakukan voting sendiri).
-                            Lalu jika data SSO pada website berbeda dari yang disampaikan maka suara tergolong tidak valid (implikasi: menggunakan SSO milik mahasiswa lain atau mahasiswa pada fakultas lain) dan tindak lanjutnya adalah mengganti data username SSO pada website sesuai dengan yang diberikan DPT, kemudian DPT tersebut melakukan aktivasi untuk mendapatkan kartu akses lalu masuk ke sistem kemudian mengunduh bukti pemilihan, lalu panitia mengurangi perolehan suara calon yang terpengaruh oleh kecurangan ini (yang tertera pada bukti pemilihan DPT tersebut).
+                            <p>Hal ini dapat terjadi apabila pihak yang melakukan kecurangan melakukan aktivasi dengan menggunakan NIM DPT yang nonaktif dan mengaitkannya dengan sembarang e-mail SSO (kemungkinan e-mail SSO milik mahasiswa fakultas lain).</p>
+                            <p>Prosedur pertama yang harus dilakukan adalah mencoba mengontak DPT yang nonaktif tersebut untuk diminta keterangan e-mail SSO nya</p>
+                            <p>Setelah itu, ubah data username SSO dari mahasiswa tersebut pada tab <b>Data Mahasiswa</b> sesuai dengan e-mail SSO yang diberikan tadi</p>
+                            <p>Kemudian, mahasiswa tersebut bisa diinstruksikan untuk melakukan aktivasi menggunakan e-mail SSO tersebut dan masuk ke dalam sistem menggunakan kartu akses yang telah diunduh, kemudian mengunduh bukti pemilihan dan mengirimkannya ke panitia</p>
+                            <p>Panitia dapat mengurangi perolehan suara dari calon yang terdampak oleh kecurangan ini</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Perampasan hak suara (status di website sudah memilih akan tetapi mahasiswa tersebut benar-benar belum memilih)</td>
+                        <td>
+                            <p>Hal ini dapat terjadi apabila terdapat mahasiswa lain yang memiliki kartu akses mahasiswa tersebut, atau memiliki akses ke e-mail SSO mahasiswa tersebut</p>
+                            <p>Prosedur pertama yang harus dilakukan adalah menginstruksikan mahasiswa tersebut untuk mengunduh bukti pemilihannya dan mengirimkan ke panitia</p>
+                            <p>Kemudian panitia dapat mengurangi perolehan suara dari calon yang terdampak oleh kecurangan ini</p>
                         </td>
                     </tr>
                     <tr>
                         <td>Manipulasi suara dengan mengganti pilihan oleh hacker atau pengembang web</td>
                         <td>
-                            Sistem sudah diusahakan aman dari serangan hacker.
-                            Cek pada bagian "Data Pemilih" pada penjelasan kolom "Valid".
-                            Mengganti pilihan capres dan caleg saja tidak cukup, melainkan juga butuh untuk mengganti signature pada tiap token yang diganti yang mana proses pembuatan signaturenya dirahasiakan oleh pengembang web.
-                            Untuk pengembang web sendiri tidak mungkin melakukan manipulasi karena sudah disumpah pada saat pelantikan perangkat PEMIRA dan juga bekerja secara profesional.
-                            Namun jika masih ragu-ragu dapat membuka kesempatan bagi seluruh mahasiswa yang berpartisipasi untuk mengunduh bukti pemilihan dan mengecek lagi.
-                            Apabila terdapat perbedaan dengan bukti sebelumnya, segera laporkan saja supaya panitia menganggap bukti pertama yang valid (nilai timestamp lebih kecil).
+                            <p>Sistem sudah diusahakan aman dari serangan hacker.</p>
+                            <p>Cek pada bagian "Data Pemilih" pada penjelasan kolom "Valid". Mengganti pilihan capres dan caleg saja tidak cukup, melainkan juga butuh untuk mengganti signature pada tiap token yang diganti yang mana proses pembuatan signaturenya dirahasiakan oleh pengembang web.</p>
+                            <p>Untuk pengembang web sendiri tidak mungkin melakukan manipulasi karena sudah disumpah pada saat pelantikan perangkat PEMIRA dan juga bekerja secara profesional.</p>
+                            <p>Namun jika masih ragu-ragu dapat membuka kesempatan bagi seluruh mahasiswa yang berpartisipasi untuk mengunduh bukti pemilihan dan mengecek lagi.</p>
+                            <p>Apabila terdapat perbedaan dengan bukti sebelumnya, segera laporkan saja supaya panitia menganggap bukti pertama yang valid (nilai timestamp lebih kecil).</p>
                         </td>
                     </tr>
                     <tr>
                         <td>Penghapusan suara oleh hacker atau pengembang web</td>
                         <td>
-                            Kurang lebih sama seperti bagian sebelumnya perihal disclaimer hacker dan pengembang webnya.
-                            Untuk prosedurnya, buka kesempatan bagi seluruh mahasiswa yang berpartisipasi yang telah memilih untuk masuk kembali ke sistem.
-                            Apabila statusnya adalah belum voting, maka mahasiswa tersebut berhak melakukan pemilihan (lagi), dan sekaligus membuka kesempatan lagi bagi yang belum menyuarakan haknya.
+                            <p>Kurang lebih sama seperti bagian sebelumnya perihal disclaimer hacker dan pengembang webnya.</p>
+                            <p>Untuk prosedurnya, buka kesempatan bagi seluruh mahasiswa yang berpartisipasi yang telah memilih untuk masuk kembali ke sistem.</p>
+                            <p>Apabila statusnya adalah belum voting, maka mahasiswa tersebut berhak melakukan pemilihan (lagi), dan sekaligus membuka kesempatan lagi bagi yang belum menyuarakan haknya.</p>
                         </td>
                     </tr>
                 </tbody>
