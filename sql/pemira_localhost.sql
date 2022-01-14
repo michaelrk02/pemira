@@ -34,7 +34,7 @@ CREATE TABLE `capres` (
 
 DROP TABLE IF EXISTS `mahasiswa`;
 CREATE TABLE `mahasiswa` (
-  `nim` char(8) NOT NULL,
+  `nim` char(32) NOT NULL,
   `nama` varchar(100) DEFAULT NULL,
   `idprodi` int(11) DEFAULT NULL,
   `angkatan` int(11) DEFAULT NULL,
@@ -102,7 +102,7 @@ CREATE TABLE `v_capres_pemilih` (`id` int(11), `nama` varchar(200), `idfoto` cha
 
 
 DROP VIEW IF EXISTS `v_mahasiswa_full`;
-CREATE TABLE `v_mahasiswa_full` (`nim` char(8), `nama` varchar(100), `prodi` varchar(50), `angkatan` int(11), `sso` varchar(100));
+CREATE TABLE `v_mahasiswa_full` (`nim` char(32), `nama` varchar(100), `prodi` varchar(50), `angkatan` int(11), `sso` varchar(100));
 
 
 DROP VIEW IF EXISTS `v_prodi_canvote`;
@@ -170,4 +170,4 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `v_sesi_listprodi` AS selec
 DROP TABLE IF EXISTS `v_sesi_listprodi_inv`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `v_sesi_listprodi_inv` AS select `sesi`.`id` AS `id`,`sesi`.`nama` AS `nama`,`sesi`.`waktu_buka` AS `waktu_buka`,`sesi`.`waktu_tutup` AS `waktu_tutup`,`prodi`.`id` AS `prodi_id`,`prodi`.`nama` AS `prodi_nama` from (`sesi` join `prodi`) where !exists(select 1 from `sesi_prodi` where `sesi_prodi`.`idsesi` = `sesi`.`id` and `sesi_prodi`.`idprodi` = `prodi`.`id` limit 1) order by `sesi`.`id`,`prodi`.`id`;
 
--- 2021-12-29 16:31:25
+-- 2022-01-14 11:48:36

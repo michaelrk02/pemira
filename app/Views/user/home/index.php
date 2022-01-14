@@ -48,7 +48,7 @@
                     <li>Klik pada tombol <b>MASUK</b> di atas</li>
                     <li>Masukkan NIM dan username SSO anda pada bagian <b>Belum Memiliki Kartu Akses?</b></li>
                     <li>Kemudian klik tombol <b>AKTIVASI</b></li>
-                    <li>Setelah itu, cek pada <b>inbox atau spam</b> email SSO UNS anda untuk mendapatkan link aktivasi</li>
+                    <li>Setelah itu, cek pada <b>inbox atau spam</b> email SSO institusi anda untuk mendapatkan link aktivasi</li>
                     <li>Jika sudah mendapatkan e-mail yang berisi link aktivasi, klik link tersebut</li>
                     <li>Setelah itu, anda dapat mengunduh kartu akses yang tertera pada webpage tersebut</li>
                 </ol>
