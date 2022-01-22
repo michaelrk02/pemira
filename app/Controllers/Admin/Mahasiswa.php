@@ -101,10 +101,10 @@ class Mahasiswa extends AdminController {
                     if (count($header) >= 4) {
                         $mapping = [];
                         foreach ($header as $i => $h) {
-                            if (trim($h) === 'NIM') { $mapping['NIM'] = $i; }
-                            if (trim($h) === 'Nama') { $mapping['Nama'] = $i; }
-                            if (trim($h) === 'IDProdi') { $mapping['IDProdi'] = $i; }
-                            if (trim($h) === 'Angkatan') { $mapping['Angkatan'] = $i; }
+                            if (strtolower(trim($h)) === 'nim') { $mapping['NIM'] = $i; }
+                            if (strtolower(trim($h)) === 'nama') { $mapping['Nama'] = $i; }
+                            if (strtolower(trim($h)) === 'idprodi') { $mapping['IDProdi'] = $i; }
+                            if (strtolower(trim($h)) === 'angkatan') { $mapping['Angkatan'] = $i; }
                         }
                         if (isset($mapping['NIM']) && isset($mapping['Nama']) && isset($mapping['IDProdi']) && isset($mapping['Angkatan'])) {
                             $mahasiswaModel = model('App\Models\MahasiswaModel');
