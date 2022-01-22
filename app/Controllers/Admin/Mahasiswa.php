@@ -93,24 +93,24 @@ class Mahasiswa extends AdminController {
                 if ($stream !== FALSE) {
                     $delimiter = ',';
                     $header = fgetcsv($stream, NULL, $delimiter);
-                    if (count($header) != 4) {
+                    if (count($header) < 4) {
                         fseek($stream, 0, SEEK_SET);
                         $delimiter = ';';
                         $header = fgetcsv($stream, NULL, $delimiter);
                     }
-                    if (count($header) == 4) {
+                    if (count($header) >= 4) {
                         $mapping = [];
                         foreach ($header as $i => $h) {
-                            if ($h === 'NIM') { $mapping['NIM'] = $i; }
-                            if ($h === 'Nama') { $mapping['Nama'] = $i; }
-                            if ($h === 'IDProdi') { $mapping['IDProdi'] = $i; }
-                            if ($h === 'Angkatan') { $mapping['Angkatan'] = $i; }
+                            if (trim($h) === 'NIM') { $mapping['NIM'] = $i; }
+                            if (trim($h) === 'Nama') { $mapping['Nama'] = $i; }
+                            if (trim($h) === 'IDProdi') { $mapping['IDProdi'] = $i; }
+                            if (trim($h) === 'Angkatan') { $mapping['Angkatan'] = $i; }
                         }
                         if (isset($mapping['NIM']) && isset($mapping['Nama']) && isset($mapping['IDProdi']) && isset($mapping['Angkatan'])) {
                             $mahasiswaModel = model('App\Models\MahasiswaModel');
 
                             while (($entry = fgetcsv($stream, NULL, $delimiter)) !== FALSE) {
-                                if (count($entry) == 4) {
+                                if (count($entry) >= 4) {
                                     $mahasiswa = new MahasiswaEntity();
                                     $mahasiswa->NIM = $entry[$mapping['NIM']];
                                     $mahasiswa->Nama = $entry[$mapping['Nama']];
