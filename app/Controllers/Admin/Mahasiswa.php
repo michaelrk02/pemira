@@ -91,7 +91,13 @@ class Mahasiswa extends AdminController {
 
                 $stream = fopen($file->getTempName(), 'r');
                 if ($stream !== FALSE) {
-                    $header = fgetcsv($stream);
+                    $delimiter = ',';
+                    $header = fgetcsv($stream, NULL, $delimiter);
+                    if (count($header) != 4) {
+                        fseek($stream, 0, SEEK_SET);
+                        $delimiter = ';';
+                        $header = fgetcsv($stream, NULL, $delimiter);
+                    }
                     if (count($header) == 4) {
                         $mapping = [];
                         foreach ($header as $i => $h) {
@@ -103,24 +109,26 @@ class Mahasiswa extends AdminController {
                         if (isset($mapping['NIM']) && isset($mapping['Nama']) && isset($mapping['IDProdi']) && isset($mapping['Angkatan'])) {
                             $mahasiswaModel = model('App\Models\MahasiswaModel');
 
-                            while (($entry = fgetcsv($stream)) !== FALSE) {
-                                $mahasiswa = new MahasiswaEntity();
-                                $mahasiswa->NIM = $entry[$mapping['NIM']];
-                                $mahasiswa->Nama = $entry[$mapping['Nama']];
-                                $mahasiswa->IDProdi = $entry[$mapping['IDProdi']];
-                                $mahasiswa->Angkatan = $entry[$mapping['Angkatan']];
-                                $mahasiswa->SSO = NULL;
-                                if ($mahasiswaModel->find($mahasiswa->NIM) === NULL) {
-                                    $mahasiswaModel->insert($mahasiswa);
-                                } else {
-                                    $mahasiswaModel->update($mahasiswa->NIM, $mahasiswa);
-                                }
+                            while (($entry = fgetcsv($stream, NULL, $delimiter)) !== FALSE) {
+                                if (count($entry) == 4) {
+                                    $mahasiswa = new MahasiswaEntity();
+                                    $mahasiswa->NIM = $entry[$mapping['NIM']];
+                                    $mahasiswa->Nama = $entry[$mapping['Nama']];
+                                    $mahasiswa->IDProdi = $entry[$mapping['IDProdi']];
+                                    $mahasiswa->Angkatan = $entry[$mapping['Angkatan']];
+                                    $mahasiswa->SSO = NULL;
+                                    if ($mahasiswaModel->find($mahasiswa->NIM) === NULL) {
+                                        $mahasiswaModel->insert($mahasiswa);
+                                    } else {
+                                        $mahasiswaModel->update($mahasiswa->NIM, $mahasiswa);
+                                    }
 
-                                if ($mahasiswaModel->error()['code'] == 0) {
-                                    $saved++;
-                                }
+                                    if ($mahasiswaModel->error()['code'] == 0) {
+                                        $saved++;
+                                    }
 
-                                $count++;
+                                    $count++;
+                                }
                             }
 
                             $succeeded = TRUE;
