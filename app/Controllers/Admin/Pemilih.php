@@ -62,8 +62,8 @@ class Pemilih extends AdminController {
             $obj = $data;
             $arr = [
                 'token' => $obj->token,
-                'normal' => ($obj->secret === $this->tokenSecretHash ? '<i class="fa fa-check green-text"></i>' : '<i class="fa fa-times red-text"></i>'),
-                'valid' => ($obj->signature === md5($obj->token.':'.$obj->idcapres.':'.$obj->idcaleg.':'.base64_encode($_ENV['pemira.token.secret'])) ? '<i class="fa fa-check green-text"></i>' : '<i class="fa fa-times red-text"></i>'),
+                'normal' => ($obj->secret === $this->tokenSecretHash ? '<i class="fa fa-check green-text"></i> Yes' : '<i class="fa fa-times red-text"></i> No'),
+                'valid' => ($obj->signature === md5($obj->token.':'.$obj->idcapres.':'.$obj->idcaleg.':'.base64_encode($_ENV['pemira.token.secret'])) ? '<i class="fa fa-check green-text"></i> Yes' : '<i class="fa fa-times red-text"></i> No'),
                 'prodi' => $obj->prodi,
                 'idcapres' => $obj->idcapres,
                 'idcaleg' => $obj->idcaleg
