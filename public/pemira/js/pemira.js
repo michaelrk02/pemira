@@ -12,9 +12,9 @@ function dismissToast(el) {
 }
 
 window.addEventListener('load', function() {
-    M.AutoInit();
-
-    $('select').formSelect();
+    window.setTimeout(function() {
+        M.AutoInit();
+    }, 500);
 
     var status = $('#status').html();
     if (status.length > 0) {
