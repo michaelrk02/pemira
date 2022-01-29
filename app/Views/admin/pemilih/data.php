@@ -48,6 +48,7 @@ function showTokenSecretHashUsage(e) {
 
 $(document).ready(function() {
     $('#data-pemilih').DataTable({
+        aLengthMenu: [10, 25, 50, 100, 250, 500, 1000, 5000],
         serverSide: true,
         ajax: {
             url: 'fetch',
@@ -74,7 +75,9 @@ $(document).ready(function() {
             {name: 'prodi', data: 'prodi', title: 'Prodi'},
             {name: 'idcapres', data: 'idcapres', title: 'ID Capres'},
             {name: 'idcaleg', data: 'idcaleg', title: 'ID Caleg'}
-        ]
+        ],
+        dom: 'lftirpB',
+        buttons: ['csv']
     });
 });
 </script>

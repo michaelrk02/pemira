@@ -19,7 +19,7 @@
 <script>
 $(document).ready(function() {
     var table = $('#data-mahasiswa').DataTable({
-        aLengthMenu: [10, 25, 50, 100, 250, 500, 1000],
+        aLengthMenu: [10, 25, 50, 100, 250, 500, 1000, 5000],
         serverSide: true,
         ajax: 'fetch',
         scrollX: true,
