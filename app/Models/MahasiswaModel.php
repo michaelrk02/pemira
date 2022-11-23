@@ -11,7 +11,7 @@ class MahasiswaModel extends Model {
 
     protected $returnType = 'App\Entities\Mahasiswa';
 
-    protected $allowedFields = ['nim', 'nama', 'idprodi', 'angkatan', 'sso'];
+    protected $allowedFields = ['nim', 'nama', 'idprodi', 'angkatan', 'sso', 'kode_akses', 'kode_akses_expire', 'qr_session_id'];
 
     public function findBySSO($sso) {
         return $this->where('sso', $sso)->first();

@@ -11,7 +11,10 @@ class Mahasiswa extends Entity {
         'Nama' => 'nama',
         'IDProdi' => 'idprodi',
         'Angkatan' => 'angkatan',
-        'SSO' => 'sso'
+        'SSO' => 'sso',
+        'KodeAkses' => 'kode_akses',
+        'KodeAksesExpire' => 'kode_akses_expire',
+        'QRSessionID' => 'qr_session_id'
     ];
 
     public $Prodi = '';

@@ -29,6 +29,10 @@
         <!-- PEMIRA -->
         <script src="<?php echo base_url('public/pemira/js/pemira.js'); ?>"></script>
 
+        <!-- QR-code generator & scanner -->
+        <script src="<?php echo base_url('public/qrcode/js/qrcode.min.js'); ?>"></script>
+        <script src="<?php echo base_url('public/qrcode/js/html5-qrcode.min.js'); ?>"></script>
+
         <!-- Additional styles -->
         <style>
             <?php if ($sidebarOnly): ?>

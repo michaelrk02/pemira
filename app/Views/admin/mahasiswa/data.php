@@ -14,6 +14,9 @@
                 <div id="table-buttons"></div>
             </div>
         </div>
+        <div style="margin: 1rem">
+            <a class="btn" href="<?php echo site_url('admin/mahasiswa/scan') ?>"><i class="fa fa-qrcode left"></i> SCAN MAHASISWA</a>
+        </div>
     </div>
 </div>
 <script>

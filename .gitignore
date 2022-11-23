@@ -19,3 +19,4 @@ writable/debugbar/*
 writable/**/*.db
 writable/**/*.sqlite
 
+/app/encryption_key.pem

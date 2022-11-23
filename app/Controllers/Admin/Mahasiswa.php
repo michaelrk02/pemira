@@ -15,6 +15,8 @@ class Mahasiswa extends AdminController {
 
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger) {
         parent::initController($request, $response, $logger);
+
+        helper('text');
     }
 
     public function index() {
@@ -171,6 +173,81 @@ class Mahasiswa extends AdminController {
         return redirect()->to('admin/mahasiswa/view');
     }
 
+    public function scan() {
+        if (!$this->adminLogin) {
+            return redirect()->to('admin/auth/login');
+        }
+
+        $this->initStatus();
+        echo $this->viewHeader('Scan Kode Akses', TRUE);
+        echo view('admin/mahasiswa/scan');
+        echo $this->viewFooter();
+    }
+
+    public function verifikasi() {
+        if (!$this->adminLogin) {
+            return redirect()->to('admin/auth/login');
+        }
+
+        $mahasiswaModel = model('App\Models\MahasiswaModel');
+        $prodiModel = model('App\Models\ProdiModel');
+
+        $token = $this->request->getGet('token');
+        $token = WebToken::fromString($token);
+
+        if (!isset($token)) {
+            die('Invalid token');
+        }
+
+        $nim = $token->payload['nim'];
+        $session = $token->payload['session'];
+
+        $mhs = $mahasiswaModel->find($token->payload['nim']);
+        if (!isset($mhs)) {
+            die('Mahasiswa dengan NIM '.$token->payload['nim'].' tidak ditemukan');
+        }
+
+        $mhs->Prodi = $prodiModel->find($mhs->IDProdi)->nama;
+
+        if ($this->request->getPost('submit') == 1) {
+            $mhs->QRSessionID = $session;
+            $mahasiswaModel->update($nim, $mhs);
+            $this->session->set('status', new Status('success', 'Berhasil melakukan verifikasi mahasiswa. Anda dapat menutup halaman ini'));
+        }
+
+        $this->initStatus();
+        echo $this->viewHeader('Verifikasi Mahasiswa', TRUE);
+        echo view('admin/mahasiswa/verifikasi', ['mhs' => $mhs, 'session' => $token->payload['session'], 'token' => $this->request->getGet('token')]);
+        echo $this->viewFooter();
+    }
+
+    public function code() {
+        if (!$this->adminLogin) {
+            return redirect()->to('admin/auth/login');
+        }
+
+        $mahasiswaModel = model('App\Models\MahasiswaModel');
+        $prodiModel = model('App\Models\ProdiModel');
+
+        $nim = $this->request->getGet('nim');
+        $mhs = $mahasiswaModel->find($nim);
+        $mhs->Prodi = $prodiModel->find($mhs->IDProdi)->Nama;
+
+        $code = NULL;
+        if ($this->request->getPost('submit') == 1) {
+            $code = random_string('numeric', 6);
+
+            $mhs->KodeAkses = sha1($code);
+            $mhs->KodeAksesExpire = date('Y-m-d H:i:s', time() + 3600);
+            $mahasiswaModel->update($nim, $mhs);
+        }
+
+        $this->initStatus();
+        echo $this->viewHeader('Generate Kode Akses', TRUE);
+        echo view('admin/mahasiswa/code', ['mhs' => $mhs, 'code' => $code]);
+        echo $this->viewFooter();
+    }
+
     public function fetch() {
         if (!$this->adminLogin) {
             return $this->response->setStatusCode(403);
@@ -195,6 +272,7 @@ class Mahasiswa extends AdminController {
             $mhs->Angkatan = $obj->angkatan;
             $mhs->SSO = $obj->sso;
 
+            $actCode = '<a class="btn" href="'.site_url('admin/mahasiswa/code').'?nim='.$obj->nim.'" target="_blank"><i class="fa fa-lock left"></i> KODE</a>';
             $actEdit = '<a class="btn" href="'.site_url('admin/mahasiswa/edit').'?nim='.$obj->nim.'"><i class="fa fa-edit left"></i> EDIT</a>';
             $actDelete = '<a class="btn red" href="'.site_url('admin/mahasiswa/delete').'?nim='.$obj->nim.'" onclick="return confirm(\'Apakah anda yakin?\')"><i class="fa fa-trash left"></i> DELETE</a>';
 
@@ -205,7 +283,7 @@ class Mahasiswa extends AdminController {
                 'angkatan' => $obj->angkatan,
                 'sso_aktif' => (($obj->sso !== NULL) && ($obj->sso !== '')) ? '<span><i class="fa fa-check green-text"></i> Yes</span>' : '<span><i class="fa fa-times red-text"></i> No</span>',
                 'sudah_memilih' => ($pemilihModel->find($mhs->getToken()) !== NULL) ? '<span><i class="fa fa-check green-text"></i> Yes</span>' : '<span><i class="fa fa-times red-text"></i> No</span>',
-                'tindakan' => implode(' ', [$actEdit, $actDelete])
+                'tindakan' => implode(' ', [$actCode, $actEdit, $actDelete])
             ];
 
             $data = $arr;

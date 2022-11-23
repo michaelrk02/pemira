@@ -130,6 +130,8 @@ app.sessionCookieName = 'pemira_session'
 
 pemira.admin.password = 'KopiNikmatNyamanDiLambung'
 
+pemira.access = 'sso'
+
 pemira.info.appname = 'PEMIRA'
 pemira.info.title = 'PEMIRA FMIPA UNS 2021'
 pemira.info.event = 'PEMILIHAN RAYA 2021'
