@@ -14,7 +14,8 @@ $(document).ready(function() {
             width: 300,
             height: 300
         },
-        formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE]
+        formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE],
+        videoConstraints: {facingMode: 'environment'}
     })
 
     scanner.render(function(text) {
