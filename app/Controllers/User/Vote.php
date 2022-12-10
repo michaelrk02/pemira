@@ -48,8 +48,8 @@ class Vote extends UserController {
             if ($idcaleg === '') { $idcaleg = NULL; }
 
             if (isset($idcapres) && ((!isset($idcaleg) && ($jmlCaleg == 0)) || (($jmlCaleg > 0) && isset($idcaleg)))) {
-                $caleg = $calegModel->find($idcaleg);
-                if ((($caleg->IDProdi === NULL) || ($caleg->IDProdi === '')) || ($caleg->IDProdi == $this->userLogin->IDProdi)) {
+                $caleg = isset($idcaleg) ? $calegModel->find($idcaleg) : NULL;
+                if (!isset($caleg) || (($caleg->IDProdi === NULL) || ($caleg->IDProdi === '')) || ($caleg->IDProdi == $this->userLogin->IDProdi)) {
                     $this->session->set('status', new Status('success', 'Pilihan berhasil disimpan. Terima kasih telah menggunakan hak pilih anda. Anda juga dapat mengunduh bukti pemilihan anda apabila diperlukan'));
 
                     $pemilih = new Pemilih();
