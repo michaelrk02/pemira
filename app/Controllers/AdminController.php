@@ -28,6 +28,7 @@ class AdminController extends BaseController {
             $this->menus[] = ['name' => 'Data Prodi', 'site' => 'admin/prodi/view'];
             $this->menus[] = ['name' => 'Data Sesi', 'site' => 'admin/sesi/view'];
             $this->menus[] = ['name' => 'Data Capres', 'site' => 'admin/capres/view'];
+            $this->menus[] = ['name' => 'Data Partai', 'site' => 'admin/partai/view'];
             $this->menus[] = ['name' => 'Data Caleg', 'site' => 'admin/caleg/view'];
             $this->menus[] = ['name' => 'Data Mahasiswa', 'site' => 'admin/mahasiswa/view'];
             $this->menus[] = ['name' => 'Resources', 'site' => 'admin/resource/view'];

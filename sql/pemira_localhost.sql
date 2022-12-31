@@ -1,8 +1,8 @@
--- MariaDB dump 10.19  Distrib 10.9.3-MariaDB, for Linux (x86_64)
+-- MariaDB dump 10.19  Distrib 10.9.4-MariaDB, for Linux (x86_64)
 --
 -- Host: localhost    Database: pemira
 -- ------------------------------------------------------
--- Server version	10.9.3-MariaDB
+-- Server version	10.9.4-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -31,7 +31,7 @@ CREATE TABLE `caleg` (
   PRIMARY KEY (`id`),
   KEY `idprodi` (`idprodi`),
   CONSTRAINT `caleg_ibfk_2` FOREIGN KEY (`idprodi`) REFERENCES `prodi` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -49,7 +49,7 @@ CREATE TABLE `capres` (
   `idfoto` char(255) DEFAULT NULL,
   `metadata` text DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -72,7 +72,22 @@ CREATE TABLE `mahasiswa` (
   UNIQUE KEY `sso` (`sso`),
   KEY `idprodi` (`idprodi`),
   CONSTRAINT `mahasiswa_ibfk_2` FOREIGN KEY (`idprodi`) REFERENCES `prodi` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `partai`
+--
+
+DROP TABLE IF EXISTS `partai`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `partai` (
+  `id` int(11) NOT NULL,
+  `nama` varchar(100) NOT NULL,
+  `idfoto` char(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -88,15 +103,18 @@ CREATE TABLE `pemilih` (
   `signature` char(32) DEFAULT NULL,
   `idprodi` int(11) DEFAULT NULL,
   `idcapres` int(11) DEFAULT NULL,
+  `idpartai` int(11) DEFAULT NULL,
   `idcaleg` int(11) DEFAULT NULL,
   PRIMARY KEY (`token`),
   KEY `idcapres` (`idcapres`),
   KEY `idprodi` (`idprodi`),
   KEY `idcaleg` (`idcaleg`),
+  KEY `idpartai` (`idpartai`),
   CONSTRAINT `pemilih_ibfk_4` FOREIGN KEY (`idcapres`) REFERENCES `capres` (`id`) ON UPDATE CASCADE,
   CONSTRAINT `pemilih_ibfk_5` FOREIGN KEY (`idprodi`) REFERENCES `prodi` (`id`) ON UPDATE CASCADE,
-  CONSTRAINT `pemilih_ibfk_6` FOREIGN KEY (`idcaleg`) REFERENCES `caleg` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  CONSTRAINT `pemilih_ibfk_6` FOREIGN KEY (`idcaleg`) REFERENCES `caleg` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `pemilih_ibfk_7` FOREIGN KEY (`idpartai`) REFERENCES `partai` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -110,7 +128,7 @@ CREATE TABLE `prodi` (
   `id` int(11) NOT NULL,
   `nama` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -126,7 +144,7 @@ CREATE TABLE `sesi` (
   `waktu_buka` bigint(20) DEFAULT NULL,
   `waktu_tutup` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -143,7 +161,7 @@ CREATE TABLE `sesi_prodi` (
   KEY `idsesi` (`idsesi`),
   CONSTRAINT `sesi_prodi_ibfk_5` FOREIGN KEY (`idprodi`) REFERENCES `prodi` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `sesi_prodi_ibfk_6` FOREIGN KEY (`idsesi`) REFERENCES `sesi` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -191,6 +209,21 @@ SET character_set_client = utf8;
   1 AS `prodi`,
   1 AS `angkatan`,
   1 AS `sso` */;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary table structure for view `v_partai_pemilih`
+--
+
+DROP TABLE IF EXISTS `v_partai_pemilih`;
+/*!50001 DROP VIEW IF EXISTS `v_partai_pemilih`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE VIEW `v_partai_pemilih` AS SELECT
+ 1 AS `id`,
+  1 AS `nama`,
+  1 AS `idfoto`,
+  1 AS `jumlah` */;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -375,6 +408,24 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
 --
+-- Final view structure for view `v_partai_pemilih`
+--
+
+/*!50001 DROP VIEW IF EXISTS `v_partai_pemilih`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013  SQL SECURITY DEFINER */
+/*!50001 VIEW `v_partai_pemilih` AS select `partai`.`id` AS `id`,`partai`.`nama` AS `nama`,`partai`.`idfoto` AS `idfoto`,sum(`pemilih`.`token` is not null) AS `jumlah` from (`partai` left join `pemilih` on(`pemilih`.`idpartai` = `partai`.`id`)) group by `partai`.`id`,`partai`.`nama` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
 -- Final view structure for view `v_prodi_canvote`
 --
 
@@ -527,4 +578,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-23 21:52:38
+-- Dump completed on 2022-12-31 14:22:33

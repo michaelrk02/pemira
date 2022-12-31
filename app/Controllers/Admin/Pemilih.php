@@ -38,6 +38,7 @@ class Pemilih extends AdminController {
             'tokenSecretHash' => $this->tokenSecretHash,
             'normal' => $pemilihModel->isNormal(),
             'idcapres' => $this->request->getGet('idcapres'),
+            'idpartai' => $this->request->getGet('idpartai'),
             'idcaleg' => $this->request->getGet('idcaleg'),
             'resetToken' => $resetToken
         ]);
@@ -55,17 +56,19 @@ class Pemilih extends AdminController {
         $start = $this->request->getGet('start');
         $length = $this->request->getGet('length');
         $idcapres = $this->request->getGet('idcapres');
+        $idpartai = $this->request->getGet('idpartai');
         $idcaleg = $this->request->getGet('idcaleg');
-        $result = $pemilihModel->fetch($draw, $start, $length, $idcapres, $idcaleg);
+        $result = $pemilihModel->fetch($draw, $start, $length, $idcapres, $idpartai, $idcaleg);
 
         foreach ($result['data'] as &$data) {
             $obj = $data;
             $arr = [
                 'token' => $obj->token,
                 'normal' => ($obj->secret === $this->tokenSecretHash ? '<i class="fa fa-check green-text"></i> Yes' : '<i class="fa fa-times red-text"></i> No'),
-                'valid' => ($obj->signature === md5($obj->token.':'.$obj->idcapres.':'.$obj->idcaleg.':'.base64_encode($_ENV['pemira.token.secret'])) ? '<i class="fa fa-check green-text"></i> Yes' : '<i class="fa fa-times red-text"></i> No'),
+                'valid' => ($obj->signature === md5($obj->token.':'.$obj->idcapres.':'.$obj->idpartai.':'.$obj->idcaleg.':'.base64_encode($_ENV['pemira.token.secret'])) ? '<i class="fa fa-check green-text"></i> Yes' : '<i class="fa fa-times red-text"></i> No'),
                 'prodi' => $obj->prodi,
                 'idcapres' => $obj->idcapres,
+                'idpartai' => $obj->idpartai,
                 'idcaleg' => $obj->idcaleg
             ];
             $data = $arr;

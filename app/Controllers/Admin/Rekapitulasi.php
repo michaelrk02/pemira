@@ -8,6 +8,7 @@ use Psr\Log\LoggerInterface;
 
 use App\Controllers\AdminController;
 use App\Entities\Capres;
+use App\Entities\Partai;
 use App\Libraries\Status;
 
 class Rekapitulasi extends AdminController {
@@ -39,6 +40,28 @@ class Rekapitulasi extends AdminController {
         echo view('admin/rekapitulasi/tabs');
         echo view('admin/rekapitulasi/capres', [
             'listCapres' => $listCapres
+        ]);
+        echo $this->viewFooter();
+    }
+
+    public function partai() {
+        if (!$this->adminLogin) {
+            return redirect()->to('admin/auth/login');
+        }
+
+        $partaiModel = model('App\Models\PartaiModel');
+
+        $listPartai = $partaiModel->viewTotalPemilih();
+        foreach ($listPartai as &$partai) {
+            $partai->obj = new Partai;
+            $partai->obj->ID = $partai->id;
+            $partai->obj->Nama = $partai->nama;
+        }
+
+        echo $this->viewHeader('Rekapitulasi Partai', TRUE);
+        echo view('admin/rekapitulasi/tabs');
+        echo view('admin/rekapitulasi/partai', [
+            'listPartai' => $listPartai
         ]);
         echo $this->viewFooter();
     }

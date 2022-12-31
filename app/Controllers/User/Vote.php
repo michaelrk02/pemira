@@ -36,18 +36,36 @@ class Vote extends UserController {
         }
 
         $capresModel = model('App\Models\CapresModel');
+        $partaiModel = model('App\Models\PartaiModel');
         $calegModel = model('App\Models\CalegModel');
 
         if ($this->request->getPost('submit') == 1) {
+            $jmlPartai = count($partaiModel->findAll());
             $jmlCaleg = count($calegModel->findByProdi($this->userLogin->IDProdi));
 
             $idcapres = $this->request->getPost('idcapres');
+            $idpartai = $this->request->getPost('idpartai');
             $idcaleg = $this->request->getPost('idcaleg');
 
             if ($idcapres === '') { $idcapres = NULL; }
+            if ($idpartai === '') { $idpartai = NULL; }
             if ($idcaleg === '') { $idcaleg = NULL; }
 
-            if (isset($idcapres) && ((!isset($idcaleg) && ($jmlCaleg == 0)) || (($jmlCaleg > 0) && isset($idcaleg)))) {
+            if (
+                isset($idcapres)
+                &&
+                (
+                    (!isset($idpartai) && ($jmlPartai == 0))
+                    ||
+                    (isset($idpartai) && ($jmlPartai > 0))
+                )
+                &&
+                (
+                    (!isset($idcaleg) && ($jmlCaleg == 0))
+                    ||
+                    (isset($idcaleg) && ($jmlCaleg > 0))
+                )
+            ) {
                 $caleg = isset($idcaleg) ? $calegModel->find($idcaleg) : NULL;
                 if (!isset($caleg) || (($caleg->IDProdi === NULL) || ($caleg->IDProdi === '')) || ($caleg->IDProdi == $this->userLogin->IDProdi)) {
                     $this->session->set('status', new Status('success', 'Pilihan berhasil disimpan. Terima kasih telah menggunakan hak pilih anda. Anda juga dapat mengunduh bukti pemilihan anda apabila diperlukan'));
@@ -55,9 +73,10 @@ class Vote extends UserController {
                     $pemilih = new Pemilih();
                     $pemilih->Token = $this->userLogin->getToken();
                     $pemilih->Secret = md5(base64_encode($_ENV['pemira.token.secret']));
-                    $pemilih->Signature = md5($pemilih->Token.':'.$idcapres.':'.$idcaleg.':'.base64_encode($_ENV['pemira.token.secret']));
+                    $pemilih->Signature = md5($pemilih->Token.':'.$idcapres.':'.$idpartai.':'.$idcaleg.':'.base64_encode($_ENV['pemira.token.secret']));
                     $pemilih->IDProdi = $this->userLogin->IDProdi;
                     $pemilih->IDCapres = $idcapres;
+                    $pemilih->IDPartai = $idpartai;
                     $pemilih->IDCaleg = $idcaleg;
                     $pemilihModel->insert($pemilih);
 
@@ -66,7 +85,7 @@ class Vote extends UserController {
                     $this->session->set('status', new Status('error', 'Anda tidak bisa memilih caleg di luar yang tersedia untuk prodi anda!'));
                 }
             } else {
-                $this->session->set('status', new Status('error', 'Anda harus memilih capres dan caleg (jika ada)!'));
+                $this->session->set('status', new Status('error', 'Anda harus memilih capres, partai (jika ada), dan caleg (jika ada)!'));
             }
         }
         $this->initStatus();
@@ -75,6 +94,7 @@ class Vote extends UserController {
         echo view('user/vote/index', [
             'login' => $this->userLogin,
             'listCapres' => $capresModel->findAll(),
+            'listPartai' => $partaiModel->findAll(),
             'listCaleg' => $calegModel->findByProdi($this->userLogin->IDProdi)
         ]);
         echo $this->viewFooter();
@@ -90,13 +110,15 @@ class Vote extends UserController {
         $pemilih = $pemilihModel->find($this->userLogin->getToken());
         if (isset($pemilih)) {
             $capresModel = model('App\Models\CapresModel');
+            $partaiModel = model('App\Models\PartaiModel');
             $calegModel = model('App\Models\CalegModel');
 
             $nim = $this->userLogin->NIM;
             $idcapres = $pemilih->IDCapres;
+            $idpartai = $pemilih->IDPartai;
             $idcaleg = $pemilih->IDCaleg;
             $timestamp = time();
-            $signature = md5($nim.':'.$idcapres.':'.$idcaleg.':'.$timestamp.':'.base64_encode($_ENV['pemira.token.secret']));
+            $signature = md5($nim.':'.$idcapres.':'.$idpartai.':'.$idcaleg.':'.$timestamp.':'.base64_encode($_ENV['pemira.token.secret']));
 
             $file = '';
             $file .= 'Simpan file ini sebagai bukti bahwa anda telah melakukan pemilihan yang valid'."\r\n";
@@ -107,6 +129,9 @@ class Vote extends UserController {
             $file .= "\r\n";
             $file .= 'NIM : '.$nim."\r\n";
             $file .= 'ID Capres : '.$idcapres.' ('.$capresModel->find($idcapres)->Nama.')'."\r\n";
+            if (($idpartai !== NULL) && ($idpartai !== '')) {
+                $file .= 'ID Partai : '.$idpartai.' ('.$partaiModel->find($idpartai)->Nama.')'."\r\n";
+            }
             if (($idcaleg !== NULL) && ($idcaleg !== '')) {
                 $file .= 'ID Caleg : '.$idcaleg.' ('.$calegModel->find($idcaleg)->Nama.')'."\r\n";
             }

@@ -11,7 +11,7 @@ class PemilihModel extends Model {
 
     protected $returnType = 'App\Entities\Pemilih';
 
-    protected $allowedFields = ['token', 'secret', 'signature', 'idprodi', 'idcapres', 'idcaleg'];
+    protected $allowedFields = ['token', 'secret', 'signature', 'idprodi', 'idcapres', 'idpartai', 'idcaleg'];
 
     public function getTotalPemilih() {
         $qb = $this->builder();
@@ -30,15 +30,16 @@ class PemilihModel extends Model {
         return $qb->get()->getRow()->jumlah == 0;
     }
 
-    public function fetch($draw, $start, $length, $idcapres, $idcaleg) {
+    public function fetch($draw, $start, $length, $idcapres, $idpartai, $idcaleg) {
         $result = [];
 
         $qb = $this->builder();
 
-        $qb->select('pemilih.token, pemilih.secret, pemilih.signature, prodi.nama prodi, pemilih.idcapres, pemilih.idcaleg', FALSE);
+        $qb->select('pemilih.token, pemilih.secret, pemilih.signature, prodi.nama prodi, pemilih.idcapres, pemilih.idpartai, pemilih.idcaleg', FALSE);
         $qb->join('prodi', 'prodi.id = pemilih.idprodi', 'INNER', FALSE);
 
         if (isset($idcapres) && ($idcapres !== '')) { $qb->where('pemilih.idcapres', $idcapres); }
+        if (isset($idpartai) && ($idpartai !== '')) { $qb->where('pemilih.idpartai', $idpartai); }
         if (isset($idcaleg) && ($idcaleg !== '')) { $qb->where('pemilih.idcaleg', $idcaleg); }
 
         $result['recordsTotal'] = $qb->countAllResults(FALSE);

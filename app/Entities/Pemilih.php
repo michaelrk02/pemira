@@ -12,6 +12,7 @@ class Pemilih extends Entity {
         'Signature' => 'signature',
         'IDProdi' => 'idprodi',
         'IDCapres' => 'idcapres',
+        'IDPartai' => 'idpartai',
         'IDCaleg' => 'idcaleg'
     ];
 

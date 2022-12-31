@@ -33,6 +33,7 @@ class Dashboard extends AdminController {
         $prodiModel = model('App\Models\ProdiModel');
         $sesiModel = model('App\Models\SesiModel');
         $capresModel = model('App\Models\CapresModel');
+        $partaiModel = model('App\Models\PartaiModel');
         $calegModel = model('App\Models\CalegModel');
         $mahasiswaModel = model('App\Models\MahasiswaModel');
         $pemilihModel = model('App\Models\PemilihModel');
@@ -58,6 +59,12 @@ class Dashboard extends AdminController {
                 'value' => $capresModel->builder()->countAll(),
                 'icon' => 'user-friends',
                 'url' => site_url('admin/capres/view')
+            ],
+            [
+                'name' => 'Partai',
+                'value' => $partaiModel->builder()->countAll(),
+                'icon' => 'flag',
+                'url' => site_url('admin/partai/view')
             ],
             [
                 'name' => 'Caleg',

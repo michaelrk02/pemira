@@ -15,6 +15,10 @@
                 <label for="input-idcapres">ID Capres</label>
             </div>
             <div class="input-field">
+                <input id="input-idpartai" type="number" name="idpartai" value="<?php echo $idpartai ?? ''; ?>">
+                <label for="input-idpartai">ID Partai</label>
+            </div>
+            <div class="input-field">
                 <input id="input-idcaleg" type="number" name="idcaleg" value="<?php echo $idcaleg ?? ''; ?>">
                 <label for="input-idcaleg">ID Caleg</label>
             </div>
@@ -54,6 +58,7 @@ $(document).ready(function() {
             url: 'fetch',
             data: {
                 idcapres: '<?php echo $idcapres ?? ''; ?>',
+                idpartai: '<?php echo $idpartai ?? ''; ?>',
                 idcaleg: '<?php echo $idcaleg ?? ''; ?>'
             }
         },
@@ -74,6 +79,7 @@ $(document).ready(function() {
             {name: 'valid', data: 'valid', title: 'Valid (*)'},
             {name: 'prodi', data: 'prodi', title: 'Prodi'},
             {name: 'idcapres', data: 'idcapres', title: 'ID Capres'},
+            {name: 'idpartai', data: 'idpartai', title: 'ID Partai'},
             {name: 'idcaleg', data: 'idcaleg', title: 'ID Caleg'}
         ],
         dom: 'lftirpB',
