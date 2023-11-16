@@ -10,7 +10,13 @@
                             </div>
                             <div class="col">
                                 <h5>Hubungi Kami</h5>
-                                <p><i style="margin-right: 0.5rem" class="fab fa-whatsapp"></i> <a href="https://wa.me/<?php echo $_ENV['pemira.info.cpno']; ?>">+<?php echo $_ENV['pemira.info.cpno']; ?> (<?php echo $_ENV['pemira.info.cpname']; ?>)</a></p>
+                                <?php
+                                $cpno = explode(',', $_ENV['pemira.info.cpno']);
+                                $cpname = explode(',', $_ENV['pemira.info.cpname']);
+                                ?>
+                                <?php foreach ($cpno as $i => $cp): ?>
+                                    <p><i style="margin-right: 0.5rem" class="fab fa-whatsapp"></i> <a href="https://wa.me/<?php echo $cp; ?>">+<?php echo $cp; ?> (<?php echo esc($cpname[$i]); ?>)</a></p>
+                                <?php endforeach; ?>
                                 <p><i style="margin-right: 0.5rem" class="fab fa-instagram"></i> <a href="https://instagram.com/<?php echo $_ENV['pemira.info.ig']; ?>"><?php echo $_ENV['pemira.info.ig']; ?></a></p>
                                 <p><i style="margin-right: 0.5rem" class="fa fa-envelope"></i> <a href="mailto:<?php echo $_ENV['pemira.info.email']; ?>"><?php echo $_ENV['pemira.info.email']; ?></a></p>
                             </div>
